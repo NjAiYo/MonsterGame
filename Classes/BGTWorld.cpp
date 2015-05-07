@@ -23,6 +23,7 @@ BGTWorld::BGTWorld()
 ,currentWaveIndex(-1)
 ,currentWave(NULL)
 ,gameBgSprite(NULL)
+,qteCharacter(nullptr)
 {
     
 }
@@ -37,6 +38,7 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
     if (!Node::init()) {
         return false;
     }
+    Size size = Director::getInstance()->getWinSize();
     waveManager = WaveManager::getInstance();
     gameScene = gs;
     entityManager = GameEntityManager::getInstance();
@@ -51,9 +53,16 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
     monsterLayer = Layer::create();
     battlefieldLayer->addChild(monsterLayer);
     
+    qteLayer = new QTELayer();
+    qteLayer->initWithWorld(this);
+    addChild(qteLayer,999999);
+    qteLayer->setVisible(false);
+    qteLayer->release();
+    
+    
     weaponLayer = Layer::create();
     addChild(weaponLayer);
-    
+    inQTEMode = false;
     wall = new BGTWall();
     wall->initWithWorld(this);
     bgLayer->addChild(wall,1);
@@ -73,7 +82,7 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
     float x2 = wallPosition.x + cosf(M_PI*110.0f/180.0f)*wall->getWidth()/2;
     float y2 = wallPosition.y - sinf(M_PI*110.0f/180.0f)*wall->getWidth()/2;
     wall->bottomPosition = Vec2(x2,y2);
-    
+    bottomPositionYForMonster = wall->bottomPosition.y - 150;
     auto draw = DrawNode::create();
     addChild(draw, 10);
     draw->drawLine(Vec2(x1,y1), Vec2(x2, y2), Color4F(0.0, 1.0, 0.0, 1.0));
@@ -104,8 +113,10 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
     weapons.pushBack(pistol);
     entityManager->registerEntity(knife);
     entityManager->registerEntity(pistol);
+    
+    
 
-    Size size = Director::getInstance()->getWinSize();
+    
     uiLayer = Layer::create();
     addChild(uiLayer);
     waveTip = Label::create("一大波怪物正在靠近", "Arial", 120*scaleFactory);
@@ -115,6 +126,51 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
     waveTip->setVisible(false);
     
     return true;
+}
+
+bool BGTWorld::isQTEMode()
+{
+    return inQTEMode;
+}
+
+void BGTWorld::enterQTEMode(Character* m)
+{
+    inQTEMode = true;
+    qteCharacter = m;
+    qteLayer->setMonsterType(m->getType());
+    
+
+    for(Character *monster : monsterPool)
+    {
+        if (!monster->isVisible()) {// || monster==m
+            continue;
+        }
+        monster->pauseAnimation();
+    }
+    gameScene->hideHUD();
+    qteLayer->qteBegin();
+    qteLayer->setVisible(true);
+}
+
+void BGTWorld::exitQTEMode(bool playerWin)
+{
+    inQTEMode = false;
+    qteLayer->setVisible(false);
+    for(Character *monster : monsterPool)
+    {
+        if (!monster->isVisible()) {
+            continue;
+        }
+        monster->resumeAnimation();
+    }
+    if (playerWin) {
+        qteCharacter->die();
+    }else{
+        wall->takeDamage(20);
+    }
+    
+    gameScene->showHUD();
+
 }
 
 void BGTWorld::onEnter()
@@ -130,6 +186,10 @@ void BGTWorld::onEnterTransitionDidFinish()
 void BGTWorld::onExit()
 {
     Node::onExit();
+}
+
+void BGTWorld::launchCurrentSkill(){
+    
 }
 
 void BGTWorld::onExitTransitionDidStart()
@@ -204,6 +264,16 @@ void BGTWorld::shake( float d, float strength )
     this->runAction(shake);
 }
 
+void BGTWorld::toggleToGun()
+{
+    currentWeapon = pistol;
+}
+
+void BGTWorld::toggleToKnife()
+{
+    currentWeapon = knife;
+}
+
 Character* BGTWorld::getIdleEnemyByTypeFromPoolForInit(int type){
     Character *enemy = NULL;
     for (Character *monster : monsterPool) {
@@ -245,6 +315,16 @@ Character* BGTWorld::getIdleEnemyByTypeFromPool(int type){
     return enemy;
 }
 
+bool BGTWorld::isUseKnife()
+{
+     return currentWeapon==knife;
+}
+
+Weapon* BGTWorld::getCurrentWeapon()
+{
+    return currentWeapon;
+}
+
 void BGTWorld::toggleWeapon()
 {
     if (currentWeapon == knife) {
@@ -252,11 +332,6 @@ void BGTWorld::toggleWeapon()
     }else{
         currentWeapon = knife;
     }
-}
-
-void BGTWorld::wallDie()
-{
-    endGame(false);
 }
 
 BGTWall* BGTWorld::getWall()
@@ -366,8 +441,12 @@ void BGTWorld::pauseGame(){
     }
 }
 
+
 void BGTWorld::update(float dt)
 {
+    if (inQTEMode) {
+        return;
+    }
     timePast += dt;
     if (nextWaveOutTimeLeft > 0) {
         //log("nextWaveOutTimeLeft:%f",nextWaveOutTimeLeft);
@@ -392,12 +471,13 @@ void BGTWorld::update(float dt)
             if (unit->outed) {
                 continue;
             }
-            if (unit->outTime <= timePast) {
+            if (unit->outTime <= (timePast-1)) {
                 Character *monster = getIdleEnemyByTypeFromPool(unit->outType);
+                float y = bottomPositionYForMonster+unit->outPosition.y;
                 monster->reset();
-                monster->setPosition(Vec2(size.width+unit->outPosition.x+50, wall->bottomPosition.y+unit->outPosition.y));
-                monster->setFloor(wall->bottomPosition.y+unit->outPosition.y);
-                monster->setLocalZOrder(9999-(wall->bottomPosition.y+unit->outPosition.y));
+                monster->setPosition(Vec2(size.width+unit->outPosition.x+50, y));
+                monster->setFloor(y);
+                monster->setLocalZOrder(9999-y);
                 monster->setVisible(true);
                 monster->move();
                 unit->outed = true;
@@ -406,10 +486,14 @@ void BGTWorld::update(float dt)
                     //这一波所有的怪物都出击了,
                     nextWaveOutTimeLeft = waveGapTime;
                 }
-                log("put monster to field:type=%d,x=%f,y=%f",unit->outType,monster->getPositionX(),monster->getPositionY());
+                log("put monster to field:type=%d,x=%f,y=%f,time=%f",unit->outType,unit->outPosition.x,unit->outPosition.y,unit->outTime);
+                std::sort(monsterPool.begin(), monsterPool.end(), [](Node* a, Node* b){
+                    return a->getLocalZOrder() >= b->getLocalZOrder();
+                });
             }
         }
     }
+
     for(Character *monster : monsterPool)
     {
         if (!monster->isVisible()) {
@@ -419,29 +503,49 @@ void BGTWorld::update(float dt)
     }
     currentWeapon->update(dt);
     wall->update(dt);
+    if (wall->getLife() <= 0) {
+        endGame(false);
+    }
     dispatcher->dispatchDelayedMessages();
 }
 
+
+
 bool BGTWorld::onTouchBegan(Touch* touch, Event* event)
 {
-    currentWeapon->onTouchBegan(touch, event);
-    
+    if (inQTEMode) {
+        qteLayer->onTouchBegan(touch, event);
+    }else{
+        currentWeapon->onTouchBegan(touch, event);
+    }
 
     return true;
 }
 
 void BGTWorld::onTouchMoved(Touch* touch, Event* event)
 {
-    currentWeapon->onTouchMoved(touch, event);
+    if (inQTEMode) {
+        qteLayer->onTouchMoved(touch, event);
+    }else{
+        currentWeapon->onTouchMoved(touch, event);
+    }
 
 }
 
 void BGTWorld::onTouchEnded(Touch* touch, Event* event)
 {
-    currentWeapon->onTouchEnded(touch, event);
+    if (inQTEMode) {
+        qteLayer->onTouchEnded(touch, event);
+    }else{
+        currentWeapon->onTouchEnded(touch, event);
+    }
 }
 
 void BGTWorld::onTouchCancelled(Touch *touch, Event *unused_event)
 {
-    currentWeapon->onTouchCancelled(touch, unused_event);
+    if (inQTEMode) {
+        qteLayer->onTouchCancelled(touch, unused_event);
+    }else{
+        currentWeapon->onTouchCancelled(touch, unused_event);
+    }
 }

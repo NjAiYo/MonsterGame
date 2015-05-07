@@ -17,8 +17,9 @@ class MonsterData : public cocos2d::Ref
 
 public:
     unsigned int level,life,moveSpeed,exp,damage,defense,type,attackRange;
-    std::string name;
-    float attackSpeed,baoji,shanbi;
+    std::string name,description;
+    float attackSpeed,baoji,shanbi,gedang,baoshang;
+    bool canQTE;
     Rect hitRect;
     Point anchorPoint;
     

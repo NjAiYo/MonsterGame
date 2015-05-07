@@ -14,7 +14,7 @@
 
 void DizzyState::enter(Character* agent)
 {
-    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, "dizzy", true);
+    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, DizzyAnimationName, true);
     agent->getSkeletonNode()->setTrackCompleteListener(entry, [] (int trackIndex,int loopCount) {
         //log("attack complete!");
 

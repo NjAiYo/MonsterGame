@@ -12,7 +12,7 @@
 void StandUpState::enter(Character* agent)
 {
     //agent->playAnimation(0,"standup", false);
-    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, "up", false);
+    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, PourUpAnimationName, false);
     agent->getSkeletonNode()->setTrackCompleteListener(entry, [=] (int trackIndex,int loopCount) {
         //log("attack complete!");
         agent->move();

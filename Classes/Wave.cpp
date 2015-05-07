@@ -36,7 +36,7 @@ void Wave::generateUnitsDataForBattle()
             }
             
             if (troop->positionMode == TROOP_POSITION_MODE_FIXED) {
-                unit->outPosition = Vec2(unit->x,unit->y);
+                unit->outPosition = Vec2(unit->x * scaleFactory,unit->y * scaleFactory);
             }else{
                 unit->outPosition = Vec2(CCRANDOM_0_1()*fieldHeight * scaleFactory,CCRANDOM_0_1()*fieldHeight * scaleFactory);
             }

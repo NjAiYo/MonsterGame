@@ -78,13 +78,11 @@
 		F105A8971AF1F60C0044CCEE /* Character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A88D1AF1F60C0044CCEE /* Character.cpp */; };
 		F105A8981AF1F60C0044CCEE /* GameEntityManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A88F1AF1F60C0044CCEE /* GameEntityManager.cpp */; };
 		F105A8991AF1F60C0044CCEE /* MessageDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A8911AF1F60C0044CCEE /* MessageDispatcher.cpp */; };
-		F105A89A1AF1F60C0044CCEE /* Enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A8931AF1F60C0044CCEE /* Enemy.cpp */; };
 		F105A8B71AF1F61C0044CCEE /* MoveState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A89E1AF1F61C0044CCEE /* MoveState.cpp */; };
 		F105A8B81AF1F61C0044CCEE /* StandState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A8A01AF1F61C0044CCEE /* StandState.cpp */; };
 		F105A8B91AF1F61C0044CCEE /* AttackState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A8A21AF1F61C0044CCEE /* AttackState.cpp */; };
 		F105A8BA1AF1F61C0044CCEE /* FallDownState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A8A41AF1F61C0044CCEE /* FallDownState.cpp */; };
 		F105A8BB1AF1F61C0044CCEE /* DizzyState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A8A61AF1F61C0044CCEE /* DizzyState.cpp */; };
-		F105A8BC1AF1F61C0044CCEE /* InjureState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A8A81AF1F61C0044CCEE /* InjureState.cpp */; };
 		F105A8BD1AF1F61C0044CCEE /* StandUpState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A8AA1AF1F61C0044CCEE /* StandUpState.cpp */; };
 		F105A8BE1AF1F61C0044CCEE /* StiffState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A8AC1AF1F61C0044CCEE /* StiffState.cpp */; };
 		F105A8BF1AF1F61C0044CCEE /* RollBackState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A8AE1AF1F61C0044CCEE /* RollBackState.cpp */; };
@@ -159,12 +157,22 @@
 		F105A9531AF1F6C40044CCEE /* uibgm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F105A90E1AF1F6C40044CCEE /* uibgm.mp3 */; };
 		F105A9541AF1F6C40044CCEE /* wpupgrade.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F105A90F1AF1F6C40044CCEE /* wpupgrade.mp3 */; };
 		F105A9551AF1F6C40044CCEE /* monster0.json in Resources */ = {isa = PBXBuildFile; fileRef = F105A9111AF1F6C40044CCEE /* monster0.json */; };
-		F105A9561AF1F6C40044CCEE /* skeleton.json in Resources */ = {isa = PBXBuildFile; fileRef = F105A9121AF1F6C40044CCEE /* skeleton.json */; };
 		F105A9571AF1F6C40044CCEE /* steak.png in Resources */ = {isa = PBXBuildFile; fileRef = F105A9131AF1F6C40044CCEE /* steak.png */; };
 		F105A95C1AF1F6CD0044CCEE /* res in Resources */ = {isa = PBXBuildFile; fileRef = F105A9581AF1F6CD0044CCEE /* res */; };
 		F105A95D1AF1F6CD0044CCEE /* resHD in Resources */ = {isa = PBXBuildFile; fileRef = F105A9591AF1F6CD0044CCEE /* resHD */; };
 		F105A95E1AF1F6CD0044CCEE /* resIpad in Resources */ = {isa = PBXBuildFile; fileRef = F105A95A1AF1F6CD0044CCEE /* resIpad */; };
 		F105A95F1AF1F6CD0044CCEE /* resIpadHD in Resources */ = {isa = PBXBuildFile; fileRef = F105A95B1AF1F6CD0044CCEE /* resIpadHD */; };
+		F105A9631AF214870044CCEE /* monster3.json in Resources */ = {isa = PBXBuildFile; fileRef = F105A9621AF214870044CCEE /* monster3.json */; };
+		F105A9651AF2167B0044CCEE /* monster2.json in Resources */ = {isa = PBXBuildFile; fileRef = F105A9641AF2167B0044CCEE /* monster2.json */; };
+		F105A9671AF22A8D0044CCEE /* monster1.json in Resources */ = {isa = PBXBuildFile; fileRef = F105A9661AF22A8D0044CCEE /* monster1.json */; };
+		F105A96D1AF2362D0044CCEE /* liemoren.json in Resources */ = {isa = PBXBuildFile; fileRef = F105A96C1AF2362D0044CCEE /* liemoren.json */; };
+		F111643D1AF9B9CF001C6582 /* QTELayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F111643B1AF9B9CF001C6582 /* QTELayer.cpp */; };
+		F11164401AF9D396001C6582 /* gameSceneCountDownLabel.fnt in Resources */ = {isa = PBXBuildFile; fileRef = F111643E1AF9D396001C6582 /* gameSceneCountDownLabel.fnt */; };
+		F11164411AF9D396001C6582 /* gameSceneCountDownLabel.png in Resources */ = {isa = PBXBuildFile; fileRef = F111643F1AF9D396001C6582 /* gameSceneCountDownLabel.png */; };
+		F19C337E1AF75DF600367A31 /* QTEMonster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F19C337C1AF75DF600367A31 /* QTEMonster.cpp */; };
+		F19C33811AF75E3900367A31 /* DefenseState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F19C337F1AF75E3900367A31 /* DefenseState.cpp */; };
+		F19C33841AF770CE00367A31 /* gameSceneMissLabel.fnt in Resources */ = {isa = PBXBuildFile; fileRef = F19C33821AF770CE00367A31 /* gameSceneMissLabel.fnt */; };
+		F19C33851AF770CE00367A31 /* gameSceneMissLabel.png in Resources */ = {isa = PBXBuildFile; fileRef = F19C33831AF770CE00367A31 /* gameSceneMissLabel.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -299,8 +307,6 @@
 		F105A8901AF1F60C0044CCEE /* GameEntityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEntityManager.h; sourceTree = "<group>"; };
 		F105A8911AF1F60C0044CCEE /* MessageDispatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageDispatcher.cpp; sourceTree = "<group>"; };
 		F105A8921AF1F60C0044CCEE /* MessageDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDispatcher.h; sourceTree = "<group>"; };
-		F105A8931AF1F60C0044CCEE /* Enemy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Enemy.cpp; sourceTree = "<group>"; };
-		F105A8941AF1F60C0044CCEE /* Enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enemy.h; sourceTree = "<group>"; };
 		F105A89C1AF1F61C0044CCEE /* State.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = State.h; sourceTree = "<group>"; };
 		F105A89D1AF1F61C0044CCEE /* StateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateMachine.h; sourceTree = "<group>"; };
 		F105A89E1AF1F61C0044CCEE /* MoveState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MoveState.cpp; sourceTree = "<group>"; };
@@ -313,8 +319,6 @@
 		F105A8A51AF1F61C0044CCEE /* FallDownState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FallDownState.h; sourceTree = "<group>"; };
 		F105A8A61AF1F61C0044CCEE /* DizzyState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DizzyState.cpp; sourceTree = "<group>"; };
 		F105A8A71AF1F61C0044CCEE /* DizzyState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DizzyState.h; sourceTree = "<group>"; };
-		F105A8A81AF1F61C0044CCEE /* InjureState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InjureState.cpp; sourceTree = "<group>"; };
-		F105A8A91AF1F61C0044CCEE /* InjureState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InjureState.h; sourceTree = "<group>"; };
 		F105A8AA1AF1F61C0044CCEE /* StandUpState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StandUpState.cpp; sourceTree = "<group>"; };
 		F105A8AB1AF1F61C0044CCEE /* StandUpState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandUpState.h; sourceTree = "<group>"; };
 		F105A8AC1AF1F61C0044CCEE /* StiffState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StiffState.cpp; sourceTree = "<group>"; };
@@ -399,12 +403,25 @@
 		F105A90E1AF1F6C40044CCEE /* uibgm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = uibgm.mp3; sourceTree = "<group>"; };
 		F105A90F1AF1F6C40044CCEE /* wpupgrade.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = wpupgrade.mp3; sourceTree = "<group>"; };
 		F105A9111AF1F6C40044CCEE /* monster0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = monster0.json; sourceTree = "<group>"; };
-		F105A9121AF1F6C40044CCEE /* skeleton.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skeleton.json; sourceTree = "<group>"; };
 		F105A9131AF1F6C40044CCEE /* steak.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = steak.png; sourceTree = "<group>"; };
 		F105A9581AF1F6CD0044CCEE /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		F105A9591AF1F6CD0044CCEE /* resHD */ = {isa = PBXFileReference; lastKnownFileType = folder; path = resHD; sourceTree = "<group>"; };
 		F105A95A1AF1F6CD0044CCEE /* resIpad */ = {isa = PBXFileReference; lastKnownFileType = folder; path = resIpad; sourceTree = "<group>"; };
 		F105A95B1AF1F6CD0044CCEE /* resIpadHD */ = {isa = PBXFileReference; lastKnownFileType = folder; path = resIpadHD; sourceTree = "<group>"; };
+		F105A9621AF214870044CCEE /* monster3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = monster3.json; sourceTree = "<group>"; };
+		F105A9641AF2167B0044CCEE /* monster2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = monster2.json; sourceTree = "<group>"; };
+		F105A9661AF22A8D0044CCEE /* monster1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = monster1.json; sourceTree = "<group>"; };
+		F105A96C1AF2362D0044CCEE /* liemoren.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = liemoren.json; sourceTree = "<group>"; };
+		F111643B1AF9B9CF001C6582 /* QTELayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QTELayer.cpp; sourceTree = "<group>"; };
+		F111643C1AF9B9CF001C6582 /* QTELayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QTELayer.h; sourceTree = "<group>"; };
+		F111643E1AF9D396001C6582 /* gameSceneCountDownLabel.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gameSceneCountDownLabel.fnt; sourceTree = "<group>"; };
+		F111643F1AF9D396001C6582 /* gameSceneCountDownLabel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameSceneCountDownLabel.png; sourceTree = "<group>"; };
+		F19C337C1AF75DF600367A31 /* QTEMonster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QTEMonster.cpp; sourceTree = "<group>"; };
+		F19C337D1AF75DF600367A31 /* QTEMonster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QTEMonster.h; sourceTree = "<group>"; };
+		F19C337F1AF75E3900367A31 /* DefenseState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DefenseState.cpp; sourceTree = "<group>"; };
+		F19C33801AF75E3900367A31 /* DefenseState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefenseState.h; sourceTree = "<group>"; };
+		F19C33821AF770CE00367A31 /* gameSceneMissLabel.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gameSceneMissLabel.fnt; sourceTree = "<group>"; };
+		F19C33831AF770CE00367A31 /* gameSceneMissLabel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameSceneMissLabel.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -676,6 +693,8 @@
 				F105A87C1AF1F5BB0044CCEE /* UILayer.h */,
 				F105A87D1AF1F5BB0044CCEE /* BGTWorld.cpp */,
 				F105A87E1AF1F5BB0044CCEE /* BGTWorld.h */,
+				F111643B1AF9B9CF001C6582 /* QTELayer.cpp */,
+				F111643C1AF9B9CF001C6582 /* QTELayer.h */,
 			);
 			name = layers;
 			sourceTree = "<group>";
@@ -704,8 +723,8 @@
 				F105A8901AF1F60C0044CCEE /* GameEntityManager.h */,
 				F105A8911AF1F60C0044CCEE /* MessageDispatcher.cpp */,
 				F105A8921AF1F60C0044CCEE /* MessageDispatcher.h */,
-				F105A8931AF1F60C0044CCEE /* Enemy.cpp */,
-				F105A8941AF1F60C0044CCEE /* Enemy.h */,
+				F19C337C1AF75DF600367A31 /* QTEMonster.cpp */,
+				F19C337D1AF75DF600367A31 /* QTEMonster.h */,
 			);
 			name = entities;
 			sourceTree = "<group>";
@@ -725,8 +744,6 @@
 				F105A8A51AF1F61C0044CCEE /* FallDownState.h */,
 				F105A8A61AF1F61C0044CCEE /* DizzyState.cpp */,
 				F105A8A71AF1F61C0044CCEE /* DizzyState.h */,
-				F105A8A81AF1F61C0044CCEE /* InjureState.cpp */,
-				F105A8A91AF1F61C0044CCEE /* InjureState.h */,
 				F105A8AA1AF1F61C0044CCEE /* StandUpState.cpp */,
 				F105A8AB1AF1F61C0044CCEE /* StandUpState.h */,
 				F105A8AC1AF1F61C0044CCEE /* StiffState.cpp */,
@@ -740,6 +757,8 @@
 				F105A8B41AF1F61C0044CCEE /* WeaponState.h */,
 				F105A8B51AF1F61C0044CCEE /* FlowState.cpp */,
 				F105A8B61AF1F61C0044CCEE /* FlowState.h */,
+				F19C337F1AF75E3900367A31 /* DefenseState.cpp */,
+				F19C33801AF75E3900367A31 /* DefenseState.h */,
 			);
 			name = states;
 			sourceTree = "<group>";
@@ -760,6 +779,10 @@
 		F105A8CD1AF1F6C40044CCEE /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				F111643E1AF9D396001C6582 /* gameSceneCountDownLabel.fnt */,
+				F111643F1AF9D396001C6582 /* gameSceneCountDownLabel.png */,
+				F19C33821AF770CE00367A31 /* gameSceneMissLabel.fnt */,
+				F19C33831AF770CE00367A31 /* gameSceneMissLabel.png */,
 				F105A8CE1AF1F6C40044CCEE /* gameSceneBaoJiLabel.fnt */,
 				F105A8CF1AF1F6C40044CCEE /* gameSceneBaoJiLabel.png */,
 				F105A8D01AF1F6C40044CCEE /* gameSceneCoinLabel.fnt */,
@@ -837,8 +860,11 @@
 		F105A9101AF1F6C40044CCEE /* spine */ = {
 			isa = PBXGroup;
 			children = (
+				F105A96C1AF2362D0044CCEE /* liemoren.json */,
+				F105A9641AF2167B0044CCEE /* monster2.json */,
+				F105A9661AF22A8D0044CCEE /* monster1.json */,
+				F105A9621AF214870044CCEE /* monster3.json */,
 				F105A9111AF1F6C40044CCEE /* monster0.json */,
-				F105A9121AF1F6C40044CCEE /* skeleton.json */,
 			);
 			path = spine;
 			sourceTree = "<group>";
@@ -891,7 +917,7 @@
 				LastUpgradeCheck = 0500;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = MDDB52YB8L;
+						DevelopmentTeam = 3M4J8XJ489;
 					};
 				};
 			};
@@ -946,7 +972,9 @@
 				F105A92B1AF1F6C40044CCEE /* boss1_fssw.mp3 in Resources */,
 				F105A95F1AF1F6CD0044CCEE /* resIpadHD in Resources */,
 				F105A94A1AF1F6C40044CCEE /* gold.mp3 in Resources */,
+				F105A9671AF22A8D0044CCEE /* monster1.json in Resources */,
 				F105A9501AF1F6C40044CCEE /* sdq.mp3 in Resources */,
+				F105A96D1AF2362D0044CCEE /* liemoren.json in Resources */,
 				F105A9531AF1F6C40044CCEE /* uibgm.mp3 in Resources */,
 				F105A9271AF1F6C40044CCEE /* boss1_daduan1.mp3 in Resources */,
 				F105A9291AF1F6C40044CCEE /* boss1_dead.mp3 in Resources */,
@@ -958,6 +986,7 @@
 				F105A95D1AF1F6CD0044CCEE /* resHD in Resources */,
 				F105A93E1AF1F6C40044CCEE /* dao_1.mp3 in Resources */,
 				F105A9491AF1F6C40044CCEE /* game_win.mp3 in Resources */,
+				F19C33841AF770CE00367A31 /* gameSceneMissLabel.fnt in Resources */,
 				F105A93C1AF1F6C40044CCEE /* d_js.mp3 in Resources */,
 				F105A9191AF1F6C40044CCEE /* gameSceneComboLabel.png in Resources */,
 				F105A9451AF1F6C40044CCEE /* dybz.mp3 in Resources */,
@@ -995,10 +1024,14 @@
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				F105A93B1AF1F6C40044CCEE /* d_hs.mp3 in Resources */,
 				F105A9471AF1F6C40044CCEE /* fireball.mp3 in Resources */,
+				F11164411AF9D396001C6582 /* gameSceneCountDownLabel.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
+				F19C33851AF770CE00367A31 /* gameSceneMissLabel.png in Resources */,
+				F105A9631AF214870044CCEE /* monster3.json in Resources */,
 				F105A9301AF1F6C40044CCEE /* boss2_daduan.mp3 in Resources */,
 				F105A9251AF1F6C40044CCEE /* bgm_2.mp3 in Resources */,
+				F105A9651AF2167B0044CCEE /* monster2.json in Resources */,
 				F105A91F1AF1F6C40044CCEE /* gameSceneLevelLabel.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				F105A91A1AF1F6C40044CCEE /* gameSceneJiaLifeLabel.fnt in Resources */,
@@ -1021,13 +1054,13 @@
 				F105A9421AF1F6C40044CCEE /* door1.mp3 in Resources */,
 				F105A94F1AF1F6C40044CCEE /* reload.mp3 in Resources */,
 				50EF629717ECD46A001EB2F8 /* Icon-58.png in Resources */,
-				F105A9561AF1F6C40044CCEE /* skeleton.json in Resources */,
 				F105A92C1AF1F6C40044CCEE /* boss1_sy.mp3 in Resources */,
 				F105A91B1AF1F6C40044CCEE /* gameSceneJiaLifeLabel.png in Resources */,
 				F105A9181AF1F6C40044CCEE /* gameSceneComboLabel.fnt in Resources */,
 				F105A9141AF1F6C40044CCEE /* gameSceneBaoJiLabel.fnt in Resources */,
 				F105A95C1AF1F6CD0044CCEE /* res in Resources */,
 				F105A9161AF1F6C40044CCEE /* gameSceneCoinLabel.fnt in Resources */,
+				F11164401AF9D396001C6582 /* gameSceneCountDownLabel.fnt in Resources */,
 				F105A92A1AF1F6C40044CCEE /* boss1_fs.mp3 in Resources */,
 				F105A92D1AF1F6C40044CCEE /* boss1_xx.mp3 in Resources */,
 				F105A9221AF1F6C40044CCEE /* levels.json in Resources */,
@@ -1063,6 +1096,7 @@
 				F105A8991AF1F60C0044CCEE /* MessageDispatcher.cpp in Sources */,
 				F105A8BD1AF1F61C0044CCEE /* StandUpState.cpp in Sources */,
 				F105A85C1AF1F5690044CCEE /* MonsterData.cpp in Sources */,
+				F19C337E1AF75DF600367A31 /* QTEMonster.cpp in Sources */,
 				F105A8871AF1F5CC0044CCEE /* GameManager.cpp in Sources */,
 				F105A8861AF1F5CC0044CCEE /* UserData.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
@@ -1072,21 +1106,21 @@
 				F105A8801AF1F5BB0044CCEE /* BGTWorld.cpp in Sources */,
 				F105A8B91AF1F61C0044CCEE /* AttackState.cpp in Sources */,
 				F105A8B81AF1F61C0044CCEE /* StandState.cpp in Sources */,
-				F105A89A1AF1F60C0044CCEE /* Enemy.cpp in Sources */,
 				F105A8711AF1F5990044CCEE /* MenuScene.cpp in Sources */,
 				F105A8C21AF1F61C0044CCEE /* FlowState.cpp in Sources */,
 				F105A85E1AF1F5690044CCEE /* WaveManager.cpp in Sources */,
-				F105A8BC1AF1F61C0044CCEE /* InjureState.cpp in Sources */,
 				F105A8601AF1F5690044CCEE /* Unit.cpp in Sources */,
 				F105A84E1AF1F5580044CCEE /* Player.cpp in Sources */,
 				F105A8781AF1F5AA0044CCEE /* BGTTile.cpp in Sources */,
 				F105A8C01AF1F61C0044CCEE /* DieState.cpp in Sources */,
 				F105A8CB1AF1F62E0044CCEE /* Pistol.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				F111643D1AF9B9CF001C6582 /* QTELayer.cpp in Sources */,
 				F105A84A1AF1F5440044CCEE /* CCShake.cpp in Sources */,
 				F105A8BA1AF1F61C0044CCEE /* FallDownState.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				F105A8B71AF1F61C0044CCEE /* MoveState.cpp in Sources */,
+				F19C33811AF75E3900367A31 /* DefenseState.cpp in Sources */,
 				F105A8CA1AF1F62E0044CCEE /* Weapon.cpp in Sources */,
 				F105A8C11AF1F61C0044CCEE /* LieDownState.cpp in Sources */,
 				F105A8971AF1F60C0044CCEE /* Character.cpp in Sources */,

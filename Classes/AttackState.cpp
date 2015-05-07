@@ -18,15 +18,25 @@ void AttackState::attack(Character* agent)
 {
     attacking = true;
     attackNum++;
-    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, "attack", false);
+    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, AttackAnimationName, false);
     agent->getSkeletonNode()->setTrackCompleteListener(entry, [=] (int trackIndex,int loopCount) {
         //log("attack complete!");
         BGTWall *wall = agent->getWorld()->getWall();
         float damage = agent->getDamage();
+        MonsterData *data = agent->getMonsterData();
+        MessageType t = Msg_WallDamaged;
+        if (data->baoji > 0) {
+            float value = CCRANDOM_0_1();
+            if (value <= data->baoji) {
+                //暴击
+                t = Msg_WallBaoDamaged;
+                damage *= 2;
+            }
+        }
         MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
                                                           agent->getID(),           //sender ID
                                                           wall->getID(),           //receiver ID
-                                                          Msg_WallDamaged,        //msg
+                                                          t,        //msg
                                                           &damage);
         attacking = false;
 
@@ -37,16 +47,26 @@ void AttackState::bigAttack(Character* agent)
 {
     attacking = true;
     attackNum++;
-    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, "bigattack", false);
+    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, Attack2AnimationName, false);
     agent->getSkeletonNode()->setTrackCompleteListener(entry, [=] (int trackIndex,int loopCount) {
         //log("attack complete!");
         
         BGTWall *wall = agent->getWorld()->getWall();
-        float damage = agent->getDamage()*1.3;
+        float damage = agent->getDamage()*1.0;
+        MonsterData *data = agent->getMonsterData();
+        MessageType t = Msg_WallDamaged;
+        if (data->baoji > 0) {
+            float value = CCRANDOM_0_1();
+            if (value <= data->baoji) {
+                //暴击
+                t = Msg_WallBaoDamaged;
+                damage *= 2;
+            }
+        }
         MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
                                                           agent->getID(),           //sender ID
                                                           wall->getID(),           //receiver ID
-                                                          Msg_WallDamaged,        //msg
+                                                          t,        //msg
                                                           &damage);
         attacking = false;
     });

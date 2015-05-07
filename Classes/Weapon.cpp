@@ -8,5 +8,5 @@
 
 #include "Weapon.h"
 
-
+int Weapon::m_attackID = 0;
 

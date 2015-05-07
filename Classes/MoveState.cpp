@@ -17,15 +17,18 @@
 
 void MoveState::enter(Character* agent)
 {
-    agent->getSkeletonNode()->setTimeScale(1.0);
+    if (agent->getType() < 3) {
+        agent->getSkeletonNode()->setTimeScale(1.5);
+    }else{
+        agent->getSkeletonNode()->setTimeScale(1.0);
+    }
     agent->getSkeletonNode()->setToSetupPose();
     agent->getSkeletonNode()->setBonesToSetupPose();
     agent->getSkeletonNode()->setSlotsToSetupPose();
-    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, "walk", true);
+    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, WalkAnimationName, true);
     agent->getSkeletonNode()->setTrackStartListener(entry, [] (int trackIndex) {
         //log("move start!");
     });
-
 }
 
 void MoveState::execute(Character* agent,float dt)
@@ -50,17 +53,34 @@ void MoveState::execute(Character* agent,float dt)
 
 void MoveState::exit(Character* agent)
 {
-    
+    agent->getSkeletonNode()->setTimeScale(1.0);
 }
 
 bool MoveState::onMessage(Character* agent, const Telegram& msg)
 {
     switch (msg.msg) {
         case Msg_AttackedByWeapon:{//被玩家的武器攻击到
-            log("Character::Msg_AttackedByWeapon");
             Weapon *weapon = (Weapon*)GameEntityManager::getInstance()->getEntityFromID(msg.sender);
-            agent->takeDamage(weapon->getDamage());
+            //TODO::miss
             
+            MonsterData *data = agent->getMonsterData();
+            if (data->shanbi > 0) {
+                float value = CCRANDOM_0_1();
+                if (value <= data->shanbi) {
+                    //闪避
+                    
+                    return false;
+                }
+            }
+            if (data->gedang > 0) {
+                float value = CCRANDOM_0_1();
+                if (value <= data->gedang) {
+                    //格挡
+                    agent->defense();
+                    return false;
+                }
+            }
+            agent->takeDamage(weapon->getDamage());
             if (agent->getLife() <= 0) {
                 agent->die();
                 return false;

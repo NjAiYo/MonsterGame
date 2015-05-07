@@ -46,9 +46,9 @@ bool WaveManager::init()
     
     for (int i=0; i < arrayNotes.size();i++)
     {
-        log("add monster");
         MonsterData *data = MonsterData::create();
         data->name = arrayNotes[i]["name"].asString();
+        data->description = arrayNotes[i]["description"].asString();
         data->life = arrayNotes[i]["life"].asInt();
         data->type = arrayNotes[i]["type"].asInt();
         data->attackSpeed = arrayNotes[i]["attackSpeed"].asFloat();
@@ -59,7 +59,12 @@ bool WaveManager::init()
         data->exp = arrayNotes[i]["ep"].asInt();
         data->level = arrayNotes[i]["level"].asInt();
         data->baoji = arrayNotes[i]["baoji"].asFloat();
+        data->baoshang = arrayNotes[i]["baoshang"].asFloat();
+        data->gedang = arrayNotes[i]["gedang"].asFloat();
         data->shanbi = arrayNotes[i]["shanbi"].asFloat();
+        data->canQTE = arrayNotes[i]["canQTE"].asBool();
+        
+        log("add monster:%s,damage=%d",data->name.c_str(),data->damage);
         
         Json::Value hitRectObj=arrayNotes[i]["hitRect"];
         data->hitRect = Rect(hitRectObj["x"].asInt(),hitRectObj["y"].asInt(),hitRectObj["width"].asInt(),hitRectObj["height"].asInt());

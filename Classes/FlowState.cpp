@@ -15,7 +15,7 @@
 void FlowState::enter(Character* agent)
 {
     //agent->playAnimation(0,"Injured", false);
-    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, "die", false);
+    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, FloatAnimationName, false);
     //agent->getSkeletonNode()->addAnimation(0, "laydown", true);
     agent->getSkeletonNode()->setTrackCompleteListener(entry, [=] (int trackIndex,int loopCount) {
         //log("attack complete!");
@@ -58,7 +58,7 @@ bool FlowState::onMessage(Character* agent, const Telegram& msg)
             Weapon *weapon = (Weapon*)GameEntityManager::getInstance()->getEntityFromID(msg.sender);
             agent->takeDamage(weapon->getDamage());
 
-            spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, "Injured", false);
+            spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, FloatHurtAnimationName, false);
             agent->getSkeletonNode()->setTrackCompleteListener(entry, [=] (int trackIndex,int loopCount) {
                 //agent->getSkeletonNode()->addAnimation(0, "laydown", true);
             });

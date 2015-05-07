@@ -19,7 +19,12 @@ Character::Character()
 ,floor(0)
 ,paused(false)
 ,currentTimeScale(1)
-,monsterData(NULL)
+,characterScaleFactor(1)
+,showLifeBarTime(0)
+,monsterData(nullptr)
+,hitPolygon(nullptr)
+,hitRectNode(nullptr)
+,lastAttackedId(-1)
 {
 
 }
@@ -31,7 +36,6 @@ Character::~Character()
     attackState->release();
     fallDownState->release();
     dizzyState->release();
-    injureState->release();
     standUpState->release();
     stiffState->release();
     rollBackState->release();
@@ -39,9 +43,12 @@ Character::~Character()
     moveState->release();
     lieDownState->release();
     flowState->release();
+    defenseState->release();
     if (monsterData) {
         monsterData->release();
     }
+    
+    CC_SAFE_DELETE_ARRAY(hitPolygon);
 }
 
 bool Character::initWithWorldAndType(BGTWorld *w,CharacterType t)
@@ -49,7 +56,9 @@ bool Character::initWithWorldAndType(BGTWorld *w,CharacterType t)
     if (!GameEntity::initWithWorld(w)) {
         return false;
     }
-    
+    characterScaleFactor = 1;
+    lastAttackedId = -1;
+    currentTimeScale = 1;
     lifeBar = Sprite::createWithSpriteFrameName("lifeBarFrame.png");
     lifeBar->setPosition(0,0);
     addChild(lifeBar);
@@ -73,7 +82,6 @@ bool Character::initWithWorldAndType(BGTWorld *w,CharacterType t)
     attackState = new AttackState();
     fallDownState = new FallDownState();
     dizzyState = new DizzyState();
-    injureState = new InjureState();
     standUpState = new StandUpState();
     stiffState = new StiffState();
     rollBackState = new RollBackState();
@@ -81,17 +89,84 @@ bool Character::initWithWorldAndType(BGTWorld *w,CharacterType t)
     moveState = new MoveState();
     lieDownState = new LieDownState();
     flowState = new FlowState();
+    defenseState = new DefenseState();
+    
+    
+    hitRectNode = DrawNode::create();
+    addChild(hitRectNode,100000);
+    
     
     wall = world->getWall();
     setType(t);
     reset();
     
-//    hitRectNode = DrawNode::create();
-//    addChild(hitRectNode,100000);
     
     
 
+    
+    for (int i = 0; i < 3; i++) {
+        Label *label = Label::createWithBMFont("gameSceneKouLifeLabel.fnt", "-0");
+        addChild(label);
+        label->setVisible(false);
+        damageLabels.pushBack(label);
+        
+        label = Label::createWithBMFont("gameSceneBaoJiLabel.fnt", "暴击\n0");
+        addChild(label);
+        label->setVisible(false);
+        baoDamageLabels.pushBack(label);
+        
+        label = Label::createWithBMFont("gameSceneMissLabel.fnt", "Miss!");
+        addChild(label);
+        label->setVisible(false);
+        missLabels.pushBack(label);
+    }
+
     return true;
+}
+
+Label* Character::getMissLabelFromPool()
+{
+    for (int i = 0; i < missLabels.size(); i++) {
+        Label *label = missLabels.at(i);
+        if (!label->isVisible()) {
+            return label;
+        }
+    }
+    Label *label = Label::createWithBMFont("gameSceneMissLabel.fnt", "Miss!");
+    addChild(label);
+    label->setVisible(false);
+    missLabels.pushBack(label);
+    return label;
+}
+
+Label* Character::getDamageLabelFromPool()
+{
+    for (int i = 0; i < damageLabels.size(); i++) {
+        Label *label = damageLabels.at(i);
+        if (!label->isVisible()) {
+            return label;
+        }
+    }
+    Label *label = Label::createWithBMFont("gameSceneKouLifeLabel.fnt", "-0");
+    addChild(label);
+    label->setVisible(false);
+    damageLabels.pushBack(label);
+    return label;
+}
+
+Label* Character::getBaoDamageLabelFromPool()
+{
+    for (int i = 0; i < baoDamageLabels.size(); i++) {
+        Label *label = baoDamageLabels.at(i);
+        if (!label->isVisible()) {
+            return label;
+        }
+    }
+    Label *label = Label::createWithBMFont("gameSceneBaoJiLabel.fnt", "暴击\n0");
+    addChild(label);
+    label->setVisible(false);
+    baoDamageLabels.pushBack(label);
+    return label;
 }
 
 float Character::getFloor()
@@ -117,7 +192,6 @@ void Character::standup()
 void Character::move()
 {
     m_pStateMachine->changeState(moveState);
-
 }
 
 //for animation
@@ -129,11 +203,59 @@ void Character::move()
 //    skeletonNode->setAnimation(trackIndex, animationName, loop);
 //}
 
-Rect Character::getRect()
+float Character::getCharacterScaleFactor()
 {
-    //spAttachment *boundingBox = skeletonNode->getAttachment("bodyBound", "bodyBound");
+    return characterScaleFactor;
+}
+
+Rect Character::getBoundingBox()
+{
+    AppDelegate *app = (AppDelegate*)Application::getInstance();
+    float scaleFactory = app->scaleFactory;
     Rect rect = skeletonNode->getBoundingBox();
-    return Rect(getPositionX()+rect.origin.x, getPositionY()+rect.origin.y, rect.size.width, rect.size.height);
+    return Rect(getPositionX()+rect.origin.x*scaleFactory*characterScaleFactor, getPositionY()+rect.origin.y*scaleFactory*characterScaleFactor, rect.size.width*scaleFactory*characterScaleFactor, rect.size.height*scaleFactory*characterScaleFactor);
+}
+
+spBoundingBoxAttachment* Character::getHittestPolygon()
+{
+    spAttachment *boundingBox = skeletonNode->getAttachment("hitBox", "hitBox");
+    spBoundingBoxAttachment *ba = (spBoundingBoxAttachment*)boundingBox;
+    return ba;
+//    AppDelegate *app = (AppDelegate*)Application::getInstance();
+//    float scaleFactory = app->scaleFactory;
+//    float minX=99999;
+//    float minY=99999;
+//    float maxX = -99999;
+//    float maxY = -99999;
+//    
+//    for(int i = 0;i < ba->verticesCount; i+=2){
+//        if (i % 2==0) {
+//            float x = ba->vertices[i];
+//            float y = ba->vertices[i+1];
+//            if (x <= minX) {
+//                minX = x;
+//            }
+//            if (y <= minY) {
+//                minY = y;
+//            }
+//            if (x >= maxX){
+//                maxX = x;
+//            }
+//            if (y >= maxY) {
+//                maxY = y;
+//            }
+//        }
+//    }
+//    log("scaleFactory:%f,characterScaleFactor:%f",scaleFactory,characterScaleFactor);
+//    
+//    return Rect(getPositionX()+minX*scaleFactory*characterScaleFactor, getPositionY()+minY*scaleFactory*characterScaleFactor, (maxX-minX)*scaleFactory*characterScaleFactor, (maxY-minY)*scaleFactory*characterScaleFactor);
+    
+    
+    
+//    Rect rect = skeletonNode->getBoundingBox();
+//    return Rect(getPositionX()+rect.origin.x, getPositionY()+rect.origin.y, rect.size.width, rect.size.height);
+    
+    
 //    //hitRectNode->drawRect(rect.origin, Vec2(rect.origin.x+rect.size.width,rect.origin.y+rect.size.height), Color4F(0, 1, 0, 1));
 //    //log("getRect");
 //    if (m_pStateMachine->isInState(*lieDownState)||m_pStateMachine->isInState(*flowState)||m_pStateMachine->isInState(*injureState)||m_pStateMachine->isInState(*dieState)) {
@@ -163,12 +285,24 @@ SkeletonAnimation* Character::getSkeletonNode()
 void Character::reset()
 {
     paused = false;
+    characterScaleFactor = 1;
+    lastAttackedId = -1;
+    currentTimeScale = 1;
+    if(skeletonNode){
+        skeletonNode->setTimeScale(currentTimeScale);
+    }
     setDirection(CharacterDirectionLeft);
     life = monsterData->life;
     progressBar->setPercentage(100 *(life/(float)monsterData->life));
     lifeBar->setVisible(false);
+   
     m_pStateMachine->setCurrentState(standState);
     m_pStateMachine->changeState(standState);
+//    CallFunc *func = CallFunc::create([=](){
+//        m_pStateMachine->setCurrentState(standState);
+//        m_pStateMachine->changeState(standState);
+//    });
+//    this->runAction(Sequence::create(DelayTime::create(CCRANDOM_0_1()*0.1),func, NULL));
 }
 
 bool Character::handleMessage(const Telegram& msg)
@@ -179,13 +313,23 @@ bool Character::handleMessage(const Telegram& msg)
 void Character::update(float dt)
 {
     if (!paused) {
+        showLifeBarTime-=dt;
+        if (showLifeBarTime<0) {
+            showLifeBarTime = 0;
+        }
         m_pStateMachine->update(dt);
+        lifeBar->setVisible(showLifeBarTime>0);
     }
 }
 
 StateMachine<Character>* Character::getFSM()
 {
     return m_pStateMachine;
+}
+
+bool Character::isDefenseState()
+{
+    return m_pStateMachine->isInState(*defenseState);
 }
 
 bool Character::isFlowState()
@@ -218,11 +362,6 @@ bool Character::isDizzyState()
     return m_pStateMachine->isInState(*dizzyState);
 }
 
-bool Character::isInjureState()
-{
-    return m_pStateMachine->isInState(*injureState);
-}
-
 bool Character::isStandUpState()
 {
     return m_pStateMachine->isInState(*standUpState);
@@ -246,6 +385,11 @@ bool Character::isLieDownState()
 bool Character::isDieState()
 {
     return m_pStateMachine->isInState(*dieState);
+}
+
+void Character::defense()
+{
+    m_pStateMachine->changeState(defenseState);
 }
 
 void Character::dizzy()
@@ -288,6 +432,9 @@ void Character::takeDamage(float value)
     if (life <= 0 || value <= 0) {
         return;
     }
+    showLifeBarTime += 1.5;
+    if(showLifeBarTime>1.5)
+        showLifeBarTime = 1.5;
     life -= value;
     if (life <= 0) {
         life = 0;
@@ -318,7 +465,15 @@ void Character::resumeAnimation()
 
 void Character::setDirection(CharacterDirection d)
 {
+    AppDelegate *app = (AppDelegate*)Application::getInstance();
+    float scaleFactory = app->scaleFactory;
     direction = d;
+
+//    if (getType() <= 2) {
+//        characterScaleFactor = 0.22;
+//    }else if(getType() == 3){
+//        characterScaleFactor = 0.25;
+//    }
     switch (direction) {
             //        case kUp:
             //            self.rotation = -90;
@@ -327,10 +482,10 @@ void Character::setDirection(CharacterDirection d)
             //            self.rotation = 90;
             //            break;
         case CharacterDirectionLeft:
-            skeletonNode->setScaleX(1);
+            skeletonNode->setScaleX(1*scaleFactory*characterScaleFactor);
             break;
         case CharacterDirectionRight:
-            skeletonNode->setScaleX(-1);
+            skeletonNode->setScaleX(-1*scaleFactory*characterScaleFactor);
             break;
         default:
             break;
@@ -352,9 +507,60 @@ State<Character>* Character::getState()
     return m_pStateMachine->currentState();
 }
 
+bool Character::hittestPoint(Vec2 p)
+{
+    AppDelegate *app = (AppDelegate*)Application::getInstance();
+    float scaleFactory = app->scaleFactory;
+    
+    //Size visibleSize = Director::getInstance()->getVisibleSize();
+    
+    Vec2 pos = this->convertToNodeSpace(p);
+
+//    spBone *bodybone = skeletonNode->findBone("body");
+//    spAttachment *ata = skeletonNode->getAttachment("hitBox", "hitBox");
+//    spBoundingBoxAttachment *boundingAttachment = (spBoundingBoxAttachment*)ata;
+//
+//    spPolygon *boundingPolygon = spPolygon_create(boundingAttachment->verticesCount);
+//    for (int i = 0; i<boundingAttachment->verticesCount; i++) {
+//        boundingPolygon->vertices[i]=boundingAttachment->vertices[i];
+//        boundingPolygon->count+=1;
+//    }
+//    spBoundingBoxAttachment_computeWorldVertices(boundingAttachment, bodybone, boundingPolygon->vertices);
+//    
+//    for (int i = 0; i<boundingPolygon->count; i++) {
+//        boundingPolygon->vertices[i]=boundingPolygon->vertices[i]*scaleFactory*characterScaleFactor;
+//    }
+//    
+//    bool clicked = spPolygon_containsPoint(boundingPolygon, pos.x, pos.y);
+////    if(clicked){
+////        int pCount = boundingPolygon->count/2;
+////        CC_SAFE_DELETE_ARRAY(hitPolygon);
+////        hitPolygon = new Vec2[pCount];
+////        for (int i = 0; i < pCount; i++) {
+////            hitPolygon[i] = Vec2(boundingPolygon->vertices[i*2],boundingPolygon->vertices[i*2+1]);
+////        }
+////        hitRectNode->drawPolygon(hitPolygon, pCount, Color4F(0, 255, 0, 255), 2, Color4F(0, 255, 0, 150));
+////    }
+//    spPolygon_dispose(boundingPolygon);
+//    return clicked;
+    
+
+
+    bool hit = false;
+    spSkeletonBounds* bounds = spSkeletonBounds_create();
+    spSkeletonBounds_update(bounds, skeletonNode->getSkeleton(), true);
+    spBoundingBoxAttachment *ba = spSkeletonBounds_containsPoint(bounds, pos.x, pos.y);
+    if (ba) {
+        hit = true;
+    }
+    //spSkeletonData_dispose(skeletonData);
+    spSkeletonBounds_dispose(bounds);
+    //spAtlas_dispose(atlas);
+    return hit;
+}
+
 void Character::setType(CharacterType d)
 {
-    
     AppDelegate *app = (AppDelegate*)Application::getInstance();
     float scaleFactory = app->scaleFactory;
     
@@ -376,34 +582,29 @@ void Character::setType(CharacterType d)
     spAtlas* atlas = spAtlas_createFromFile(name, 0);
     char name1[256] = {0};
     sprintf(name1, "monster%d.json", d);
-    skeletonNode = SkeletonAnimation::createWithFile(name1, atlas, 0.45f * scaleFactory);
+    skeletonNode = SkeletonAnimation::createWithFile(name1, atlas);
     skeletonNode->setPosition(0, 0);
-    addChild(skeletonNode);
 
-    Rect rect = skeletonNode->getBoundingBox();
-    lifeBar->setPositionY(monsterData->hitRect.size.height+70);
+//    if (d <= 2) {
+//        characterScaleFactor = 0.22;
+//    }else if(d == 3){
+//        characterScaleFactor = 0.25;
+//    }
+    skeletonNode->setScale(1.0*scaleFactory*characterScaleFactor);
+    addChild(skeletonNode);
     
+
+//    spAttachment *lifeBarBox = skeletonNode->getAttachment("lifeBar", "lifeBar");
+//    spBoundingBoxAttachment *ba = (spBoundingBoxAttachment*)lifeBarBox;
+//    lifeBar->setPositionY(ba->vertices[1]*scaleFactory*characterScaleFactor);
+    spBone *rootbone = skeletonNode->findBone("root");
+    spBone *bone = skeletonNode->findBone("lifeBar");
+    lifeBar->setPositionY(bone->y*rootbone->scaleX*scaleFactory*characterScaleFactor);
+    log("rootbone->scaleX:%f,bone->y:%f,bone->worldY:%f",rootbone->scaleX,bone->y,bone->worldY);
+
     
     //skeletonNode->setDebugBonesEnabled(true);
-//    switch (d) {
-//        case CharacterTypeSmallZombie:{
-//
-////            attackRange = 250.0f * scaleFactory;
-////            moveSpeed = 120.0f * scaleFactory;
-////            soldierWidth = 457.0f * 0.45f * scaleFactory;
-////            soldierHeight = 748.0f * 0.45f * scaleFactory;
-//        }
-//            break;
-//            
-//        default:
-//            break;
-//    }
-    
-    //skeletonNode->setAnimation(0, "walk", true);
-    //        spine::SkeletonAnimation *skeletonNode = SkeletonAnimation::createWithFile("hero.json", "hero.atlas", 0.6f);
-    //        skeletonNode->setAnimation(0, "daiji", true);
 
-    //skeletonNode->setAnimation(0, "stand", true);
     
     
 //    skeletonNode->setAnimationListener(this, animationStateEvent_selector(Character::animationStateEvent));

@@ -58,6 +58,26 @@ USING_NS_CC;
 //第一波出完后（waveGapTime秒后出怪，如果最后一个怪被打死还没出，马上出）
 #define waveGapTime 15
 
+#define StandAnimationName "wait"
+#define HurtAnimationName "hurt"
+#define AttackAnimationName "attack"
+#define Attack2AnimationName "attack_02"
+#define ChargeAnimationName "charge"
+#define ChargeEndAnimationName "charge_end"
+#define DieAnimationName "die"
+#define Die2AnimationName "die_02"
+#define DizzyAnimationName "dizzy"
+#define FloatAnimationName "floating"
+#define FloatHurtAnimationName "floating_hurt"
+#define PourAnimationName "pour"
+#define PourHurtAnimationName "pour_hurt"
+#define PourUpAnimationName "pour_up"
+#define RepelAnimationName "repel"
+#define SkillAnimationName "skill"
+#define WalkAnimationName "walk"
+#define StatusAnimationName "status"
+#define DefenseAnimationName "defense"
+#define DefenseEndAnimationName "defense_end"
 
 typedef enum {
     TROOP_TIME_MODE_FIXED = 0,
@@ -77,6 +97,8 @@ typedef enum {
 
 typedef enum {
     Msg_WallDamaged,
+    Msg_WallBaoDamaged,
+    Msg_QTEDamaged,
     Msg_AttackedByWeapon,
     Msg_MoveToPosition,
     Msg_MoveToWall,
@@ -90,7 +112,7 @@ typedef enum {
     CharacterTypeSmallZombie=0,//小僵尸
     CharacterTypeSmallGhost=1,//小幽灵
     CharacterTypeSmallWuTouYong=2,//无头俑
-    CharacterTypeBigZombie=2,//大僵尸
+    CharacterTypeBigZombie=3,//大僵尸
 } CharacterType;
 
 typedef enum {
@@ -229,7 +251,7 @@ intersectCircleLine(const Vec2 c, const float r, const Vec2 a1, const Vec2 a2) {
  *   intersectLineLine
  *
  *****/
-static inline float
+static inline bool
 intersectLineLine(const Vec2 a1, const Vec2 a2, const Vec2 b1, const Vec2 b2) {
     float ua_t = (b2.x - b1.x) * (a1.y - b1.y) - (b2.y - b1.y) * (a1.x - b1.x);
     float ub_t = (a2.x - a1.x) * (a1.y - b1.y) - (a2.y - a1.y) * (a1.x - b1.x);
@@ -265,6 +287,30 @@ intersectLineLine(const Vec2 a1, const Vec2 a2, const Vec2 b1, const Vec2 b2) {
     return false;
 }
 
+static inline bool
+pointInPolygon (Vec2 p, float* ptPolygon, int nCount)
+{
+    int nCross = 0;
+    for (int i = 0; i < nCount-1; i+=2){
+        Vec2 p1 = Vec2(ptPolygon[i],ptPolygon[i+1]);
+        Vec2 p2 = Vec2(ptPolygon[(i+2) % nCount],ptPolygon[(i+3) % nCount]);
+//        Vec2 p2 = ptPolygon[(i + 1) % nCount];
+        // 求解 y=p.y 与 p1p2 的交点
+        if ( p1.y == p2.y ) // p1p2 与 y=p0.y平行
+            continue;
+        if ( p.y < fminf(p1.y, p2.y) ) // 交点在p1p2延长线上
+            continue;
+        if ( p.y >= fmaxf(p1.y, p2.y) ) // 交点在p1p2延长线上
+            continue;
+        // 求交点的 X 坐标 --------------------------------------------------------------
+        double x = (double)(p.y - p1.y) * (double)(p2.x - p1.x) / (double)(p2.y - p1.y) + p1.x;
+        if ( x > p.x )
+            nCross++; // 只统计单边交点
+    }
+    // 单边交点为偶数，点在多边形之外 ---
+    return (nCross % 2 == 1);
+}
+
 /*****
  *
  *   intersectLineRectangle,r1=bottomLeft,r2=topRight
@@ -284,6 +330,27 @@ intersectLineRectangle(const Vec2 a1, const Vec2 a2,const Vec2 r1,const Vec2 r2)
 
     return (inter1 || inter2 || inter3 || inter4);
 }
+
+/*****
+ *
+ *   intersectLinePolygon
+ *
+ *****/
+static inline bool
+intersectLinePolygon(const Vec2 a1, const Vec2 a2, Vec2* points,int pointsCount) {
+    int result = 0;
+    
+    for ( int i = 0; i < pointsCount; i++ ) {
+        Vec2 b1 = points[i];
+        Vec2 b2 = points[(i+1) % pointsCount];
+        bool inter = intersectLineLine(a1, a2, b1, b2);
+        if(inter){
+            result++;
+        }
+    }
+    return result > 0;
+};
+
 
 // THIS IS THE FUNCTION THAT WORKS WITH KEITH'S FUNCTION TO CALCULATE THE DISTANCE OFF OF A LINE
 // returns an object containing the distance point c is from line ab (obj.dist), and the point of intersection (obj.poi)

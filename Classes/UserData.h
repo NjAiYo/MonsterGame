@@ -10,14 +10,14 @@
 #define __BGT__UserData__
 
 #include "cocos2d.h"
-#include "sqlite3.h"
+//#include "sqlite3.h"
 
 USING_NS_CC;
 
 class UserData : public cocos2d::Ref
 {
 private:
-    sqlite3 *pDB;
+    //sqlite3 *pDB;
     
 public:
     

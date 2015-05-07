@@ -36,6 +36,7 @@ bool Knife::initWithWorld(BGTWorld *w)
         xuliTotalTime = 500;//2秒
         xuliTimePast = 0;
         origDamage = 10;
+        durability = 100;
         damage = origDamage;
         isXuliDamage = false;
         return true;
@@ -84,6 +85,7 @@ bool Knife::isXuliStateDamage()
 
 bool Knife::onTouchBegan(Touch* touch, Event* event)
 {
+    Weapon::m_attackID++;
     //CCLOG("Paddle::onTouchBegan id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
     //log("Knife::onTouchBegan");
     Vec2 pos = touch->getLocation();
@@ -110,6 +112,7 @@ void Knife::onTouchMoved(Touch* touch, Event* event)
     // in each touchXXX method.
     
     //CCLOG("Paddle::onTouchMoved id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
+
     Vec2 delta = touch->getDelta();
     Vec2 lastPos = touch->getPreviousLocation();
     Vec2 pos = touch->getLocation();
@@ -144,7 +147,9 @@ void Knife::onTouchMoved(Touch* touch, Event* event)
     
     streak->setPosition(pos);
     //刀的判断
-    dist = pos.distanceSquared(startTouchPosition);
+//    log("dist1:%f",dist);
+//    dist = pos.distance(startTouchPosition);
+//    log("dist2:%f",dist);
     if (dist > 50) {
         float dx = pos.x - lastPos.x;
         float dy = pos.y - lastPos.y;
@@ -166,14 +171,16 @@ void Knife::onTouchMoved(Touch* touch, Event* event)
             //往左划
             direction = KnifeAttackDirectionLeft;
         }
+        
         //hit test monster
         for (Character *agent : world->getMonsters()) {
             if (!agent->isVisible() || agent->isDieState()) {
                 continue;
             }
-            Rect rect = agent->getRect();
-            bool hit = intersectLineRectangle(lastPos, pos, rect.origin, Vec2(rect.getMaxX(),rect.getMaxY()));
+            bool hit = agent->hittestPoint(pos);
             if (hit) {
+                log("hit");
+                startTouchPosition = pos;
                 MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
                                                                   getID(),           //sender ID
                                                                   agent->getID(),           //receiver ID
@@ -183,8 +190,10 @@ void Knife::onTouchMoved(Touch* touch, Event* event)
                     xuliing = false;
                     xuliLayer->setVisible(false);
                 }
+                break;
             }
         }
+        
     }
 }
 
@@ -219,4 +228,9 @@ void Knife::onTouchCancelled(Touch *touch, Event *unused_event)
     isXuliDamage = false;
     
     Vec2 pos = touch->getLocation();
+}
+
+bool Knife::hittestPoint(Vec2 p)
+{
+    return false;
 }

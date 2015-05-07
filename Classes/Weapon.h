@@ -25,6 +25,8 @@ protected:
     bool xuliing;
     double xuliTotalTime;
     double xuliTimePast;
+    int durability;//耐久度
+    static int  m_attackID;//玩家一次攻击的id
 public:
     virtual void setDamage(float v){ damage = v; };
     virtual float getDamage(){ return damage; };

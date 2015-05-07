@@ -41,9 +41,14 @@ private:
     void restartCallback(Ref* sender);
     void nextLevelCallback(Ref* sender);
     void pauseCallback(Ref* sender);
+    void skillCallback(Ref* sender);
     void resumeCallback(Ref* sender);
+    Vec2 frontIconPosition,backIconPosition;
+    float frontScale,backScale;
+    Color3B frontTint,backTint;
     
-    
+    void toggleToGun();
+    void toggleToKnife();
 public:
     
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
@@ -51,6 +56,9 @@ public:
     UILayer();
     // implement the "static create()" method manually
     CREATE_FUNC(UILayer);
+    
+    void hideHUD();
+    void showHUD();
     
     void gameEnd(bool isWin);
     void gameStart();

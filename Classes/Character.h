@@ -18,7 +18,6 @@
 #include "AttackState.h"
 #include "FallDownState.h"
 #include "DizzyState.h"
-#include "InjureState.h"
 #include "StandUpState.h"
 #include "StiffState.h"
 #include "RollBackState.h"
@@ -26,6 +25,7 @@
 #include "MoveState.h"
 #include "MessageDispatcher.h"
 #include "LieDownState.h"
+#include "DefenseState.h"
 #include "FlowState.h"
 #include "MonsterData.h"
 
@@ -41,7 +41,8 @@ class Character : public GameEntity
 {
 protected:
     //for debug
-//    DrawNode *hitRectNode;
+    DrawNode *hitRectNode;
+    
     Sprite *lifeBar;
     ProgressTimer *progressBar;
     //states
@@ -49,7 +50,6 @@ protected:
     AttackState *attackState;
     FallDownState *fallDownState;
     DizzyState *dizzyState;
-    InjureState *injureState;
     StandUpState *standUpState;
     StiffState *stiffState;
     RollBackState *rollBackState;
@@ -57,6 +57,7 @@ protected:
     MoveState *moveState;
     LieDownState *lieDownState;
     FlowState *flowState;
+    DefenseState *defenseState;
     
     MessageDispatcher *dispatcher;
     
@@ -64,6 +65,7 @@ protected:
     //CharacterState state;
     spine::SkeletonAnimation *skeletonNode;
     MonsterData *monsterData;
+    
 //    CharacterType type;
     float life;
 //    //用于碰撞检测
@@ -82,8 +84,19 @@ protected:
 //    //攻击范围，远程兵就是射程
 //    float attackRange;
     
+    Vector<Label*> missLabels;
+    Vector<Label*> damageLabels;
+    Vector<Label*> baoDamageLabels;
+    
+    Label* getDamageLabelFromPool();
+    Label* getBaoDamageLabelFromPool();
+    Label* getMissLabelFromPool();
+    
     bool  isRemoteSoldier;
     bool paused;
+    
+    float showLifeBarTime;
+    float characterScaleFactor;
     
     BGTWall *wall;
     
@@ -92,6 +105,8 @@ protected:
     
     float floor;
     float currentTimeScale;
+    
+    Vec2 *hitPolygon;
     
     void animationStateEvent (int trackIndex, spEventType type, spEvent* event, int loopCount);
 public:
@@ -102,14 +117,21 @@ public:
     bool  handleMessage(const Telegram& msg);
     void update(float dt);
     
-    Rect getRect();
+    int lastAttackedId;
+    
+    spBoundingBoxAttachment* getHittestPolygon();
     
     StateMachine<Character>* getFSM();
     
     SkeletonAnimation* getSkeletonNode();
     
+    float getCharacterScaleFactor();
+    Rect getBoundingBox();
+    
     void pauseAnimation();
     void resumeAnimation();
+    
+    bool hittestPoint(Vec2 p);
     
     float getFloor();
     void setFloor(float f);
@@ -121,16 +143,17 @@ public:
     bool isAttackState();
     bool isFallDownState();
     bool isDizzyState();
-    bool isInjureState();
     bool isStandUpState();
     bool isStiffState();
     bool isRollBackState();
     bool isDieState();
     bool isLieDownState();
     bool isFlowState();
+    bool isDefenseState();
     
     virtual void reset();
     
+    virtual void defense();
     virtual void move();
     virtual void attack();
     virtual void falldown();

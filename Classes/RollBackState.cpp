@@ -15,7 +15,7 @@ void RollBackState::enter(Character* agent)
     backforce = 600;
     friction = 0.92;
     //agent->playAnimation(0,"rollback", true);
-    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, "stiff", false);
+    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, RepelAnimationName, false);
     agent->getSkeletonNode()->setTrackCompleteListener(entry, [=] (int trackIndex,int loopCount) {
         //log("attack complete!");
         

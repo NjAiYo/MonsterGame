@@ -18,7 +18,7 @@ void StiffState::enter(Character* agent)
     attacked = false;
     //agent->playAnimation(0,"stiff", true);
     //agent->getSkeletonNode()->setTimeScale(0.5);
-    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, "stiff", false);
+    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, HurtAnimationName, false);
     agent->getSkeletonNode()->setTrackCompleteListener(entry, [=] (int trackIndex,int loopCount) {
         canMove = true;
     });
@@ -26,7 +26,10 @@ void StiffState::enter(Character* agent)
 
 void StiffState::execute(Character* agent,float dt)
 {
-    if (canMove && !attacked) {
+//    if (canMove && !attacked) {
+//        agent->move();
+//    }
+    if (canMove) {
         agent->move();
     }
     if (attacked && millisecondNow() - startTime >= 200) {

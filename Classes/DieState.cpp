@@ -12,10 +12,9 @@
 
 void DieState::enter(Character* agent)
 {
-    log("DieState");
     deadTime = 0;
     //agent->playAnimation(0,"die", true);
-    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, "die", false);
+    spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, DieAnimationName, false);
     agent->getSkeletonNode()->setTrackCompleteListener(entry, [=] (int trackIndex,int loopCount) {
         //log("attack complete!");
         //agent->move();

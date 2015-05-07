@@ -25,15 +25,26 @@ private:
     float width;
     
     ProgressTimer *lifeBar;
+    
+    Vector<Label*> damageLabels;
+    Vector<Label*> baoDamageLabels;
+    
+    Label* getDamageLabelFromPool();
+    Label* getBaoDamageLabelFromPool();
+    
+    bool died;
 public:
     
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool initWithWorld(BGTWorld *world);
     BGTWall();
 
+    bool hittestPoint(Vec2 p);
     bool handleMessage(const Telegram& msg);
     void update(float dt);
     void takeDamage(float value);
+    
+    float calculateDamage(float sourceDamage);
     
     float getLife();
     float getTotalLife();

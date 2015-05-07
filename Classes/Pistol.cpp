@@ -17,7 +17,7 @@ bool Pistol::initWithWorld(BGTWorld *w)
 {
     if (Weapon::initWithWorld(w)) {
         type = WeaponTypePistol;
-        
+        durability = 100;
         shotInteval = 250;
         canShot = true;
         xuliTotalTime = 500;//2秒
@@ -25,6 +25,8 @@ bool Pistol::initWithWorld(BGTWorld *w)
         origDamage = 10;
         damage = origDamage;
         isXuliDamage = false;
+        hitRectNode = DrawNode::create();
+        addChild(hitRectNode,100000);
         return true;
     }
     return false;
@@ -46,36 +48,41 @@ void Pistol::update(float dt)
     }
 }
 
+bool Pistol::hittestPoint(Vec2 p)
+{
+    return false;
+}
+
 bool Pistol::onTouchBegan(Touch* touch, Event* event)
 {
-    log("Pistol::onTouchBegan");
-    if (!canShot) {
-        return true;
-    }
+    Weapon::m_attackID++;
+    //log("Pistol::onTouchBegan");
+//    if (!canShot) {
+//        return true;
+//    }
     lastShotTime = millisecondNow();
     Vec2 pos = touch->getLocation();
     CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("jq.mp3");
     canShot = false;
-    
+//    for (Character *agent : world->getMonsters()) {
+//        log("agent->z:%d",agent->getLocalZOrder());
+//    }
     //hit test monster
     for (Character *agent : world->getMonsters()) {
         if (!agent->isVisible() || agent->isDieState()) {
             continue;
         }
-        Rect rect = agent->getRect();
-        bool hit = false;
-        if (pos.x < rect.origin.x || pos.y < rect.origin.y || pos.x > rect.origin.x+rect.size.width || pos.y > rect.origin.y+rect.size.height) {
-            hit = false;
-        }else{
-            hit = true;
-        }
+        bool hit = agent->hittestPoint(pos);
+        
         if (hit) {
             MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
                                                               getID(),           //sender ID
                                                               agent->getID(),           //receiver ID
                                                               Msg_AttackedByWeapon,        //msg
                                                               NULL);
+            break;
         }
+        
     }
     return true;
 }

@@ -11,6 +11,8 @@
 
 #include "cocos2d.h"
 #include "WaveManager.h"
+#include "QTEMonster.h"
+#include "QTELayer.h"
 
 class MessageDispatcher;
 class BGTWall;
@@ -28,6 +30,8 @@ class GameScene;
 class BGTWorld : public Node
 {
 private:
+    
+    
     int currentLevelIndex,currentWaveIndex;
     Sprite *gameBgSprite;
     Label *waveTip;
@@ -60,8 +64,20 @@ private:
     Character* getIdleEnemyByTypeFromPool(int type);
     //这一波过去的时间
     float timePast;
+    
+    float bottomPositionYForMonster;
     bool showedNextWaveUI;
+    bool inQTEMode;
+    QTELayer *qteLayer;
+    
+    Character *qteCharacter;
 public:
+    void enterQTEMode(Character* monster);
+    void exitQTEMode(bool playerWin);
+    bool isQTEMode();
+    
+    void launchCurrentSkill();
+    
     void reset();
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool initWithGameScene(GameScene *gs);
@@ -73,11 +89,15 @@ public:
     void update(float dt);
     
     void toggleWeapon();
+    Weapon* getCurrentWeapon();
+    bool isUseKnife();
     
-    void wallDie();
     void showNextWaveUI();
     void resumeGame();
     void pauseGame();
+    
+    void toggleToGun();
+    void toggleToKnife();
     
     //当一个怪物死亡时，这个函数会被怪物对象调用
     void monsterDied(Character* monster);

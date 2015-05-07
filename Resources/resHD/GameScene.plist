@@ -46,7 +46,7 @@
             <key>gunBt.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{418,44},{200,200}}</string>
+                <string>{{418,108},{200,200}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -59,7 +59,7 @@
             <key>knifeBt.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,246},{200,200}}</string>
+                <string>{{2,108},{200,200}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -111,7 +111,7 @@
             <key>pauseBt.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{662,884},{64,63}}</string>
+                <string>{{2,310},{64,63}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -134,6 +134,45 @@
                 <key>sourceSize</key>
                 <string>{414,414}</string>
             </dict>
+            <key>qteBar.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{362,44},{500,30}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{500,30}}</string>
+                <key>sourceSize</key>
+                <string>{500,30}</string>
+            </dict>
+            <key>qteBarFrame.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{362,76},{500,30}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{500,30}}</string>
+                <key>sourceSize</key>
+                <string>{500,30}</string>
+            </dict>
+            <key>qteMark.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{55,966},{30,26}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{30,26}}</string>
+                <key>sourceSize</key>
+                <string>{30,26}</string>
+            </dict>
             <key>restartButton.png</key>
             <dict>
                 <key>frame</key>
@@ -150,7 +189,7 @@
             <key>resumeButton.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{204,44},{189,189}}</string>
+                <string>{{418,310},{189,189}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -163,7 +202,7 @@
             <key>skillBt.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,44},{200,200}}</string>
+                <string>{{204,108},{200,200}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -209,7 +248,7 @@
             <key>size</key>
             <string>{1024,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:672129ba9c51af0d2a8a1076bf7d659c:c6dbace9787b913efe32eb24b07e983b:e04ef45b5450afcfff0870e6b113eff6$</string>
+            <string>$TexturePacker:SmartUpdate:38eaee25910c1c7d1772fe6a4d59245a:65e59f25451a873b00d3141eb71d88ca:e04ef45b5450afcfff0870e6b113eff6$</string>
             <key>textureFileName</key>
             <string>GameScene.pvr.ccz</string>
         </dict>

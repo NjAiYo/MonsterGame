@@ -64,7 +64,6 @@ bool GameScene::initWithLevel(unsigned int level)
     return true;
 }
 
-
 void GameScene::onEnterTransitionDidFinish()
 {
     Layer::onEnterTransitionDidFinish();
@@ -79,7 +78,6 @@ void GameScene::onExitTransitionDidStart()
 void GameScene::onEnter()
 {
     Layer::onEnter();
-    
     // Register Touch Event
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -94,6 +92,16 @@ void GameScene::onEnter()
 void GameScene::onExit()
 {
     Layer::onExit();
+}
+
+void GameScene::hideHUD()
+{
+    uiLayer->setVisible(false);
+}
+
+void GameScene::showHUD()
+{
+    uiLayer->setVisible(true);
 }
 
 BGTWorld* GameScene::getWorld()
@@ -153,12 +161,31 @@ void GameScene::resumeGame()
 
 void GameScene::gameEnd(bool isWin)
 {
-    state = GameStateEnded;
     uiLayer->gameEnd(isWin);
+    state = GameStateEnded;
 }
+
+//void GameScene::onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event)
+//{
+//    c = 0;
+//}
+//
+//void GameScene::onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event)
+//{
+//    log("onTouchMoved:%d",c++);
+//}
+//
+//void GameScene::onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event)
+//{
+//}
+//
+//void GameScene::onTouchesCancelled(const std::vector<Touch*>&touches, Event *unused_event)
+//{
+//}
 
 bool GameScene::onTouchBegan(Touch* touch, Event* event)
 {
+    //c = 0;
     if (state == GameStateGaming) {
         world->onTouchBegan(touch,event);
     }
@@ -167,6 +194,7 @@ bool GameScene::onTouchBegan(Touch* touch, Event* event)
 
 void GameScene::onTouchMoved(Touch* touch, Event* event)
 {
+        //log("onTouchMoved:%d",c++);
     if (state == GameStateGaming) {
         world->onTouchMoved(touch,event);
     }
@@ -189,7 +217,7 @@ void GameScene::onTouchCancelled(Touch *touch, Event *unused_event)
 void GameScene::update(float dt)
 {
     if (state == GameStateGaming) {
-        world->update(dt);
         uiLayer->update(dt);
+        world->update(dt);
     }
 }

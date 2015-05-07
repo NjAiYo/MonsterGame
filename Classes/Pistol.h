@@ -21,10 +21,13 @@ private:
     double shotInteval;
     bool canShot;
     double lastShotTime;
+    
+    //for debug
+    DrawNode *hitRectNode;
 public:
     
     bool initWithWorld(BGTWorld *w);
-    
+    bool hittestPoint(Vec2 p);
     //all subclasses can communicate using messages.
     bool  handleMessage(const Telegram& msg);
     //all entities must implement an update function

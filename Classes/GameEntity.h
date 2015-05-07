@@ -45,6 +45,8 @@ public:
     
     virtual bool initWithWorld(BGTWorld *w);
     
+    virtual bool hittestPoint(Vec2 p)=0;
+    
     //all subclasses can communicate using messages.
     virtual bool  handleMessage(const Telegram& msg)=0;
     //all entities must implement an update function

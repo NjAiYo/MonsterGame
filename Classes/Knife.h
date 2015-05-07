@@ -26,10 +26,10 @@ private:
     Layer *xuliLayer;
 
     ProgressTimer *xuliBar;
-
+    
 public:
     bool initWithWorld(BGTWorld *w);
-    
+    bool hittestPoint(Vec2 p);
     bool isXuliStateDamage();
     
     //all subclasses can communicate using messages.

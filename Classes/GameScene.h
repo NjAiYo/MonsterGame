@@ -26,7 +26,7 @@ private:
     
     Vector<Node*> pausedNodes;
     
-    
+    int c;
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createSceneWithLevel(unsigned int level);
@@ -39,6 +39,9 @@ public:
     BGTWorld* getWorld();
     
     void createWorld();
+    
+    void hideHUD();
+    void showHUD();
     
     void startGame();
     void restartGame();
@@ -59,6 +62,14 @@ public:
     void onTouchMoved(Touch* touch, Event* event);
     void onTouchEnded(Touch* touch, Event* event);
     void onTouchCancelled(Touch *touch, Event *unused_event);
+    
+//    virtual void onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event);
+//
+//    virtual void onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event);
+//
+//    virtual void onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event);
+//
+//    virtual void onTouchesCancelled(const std::vector<Touch*>&touches, Event *unused_event);
     
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);

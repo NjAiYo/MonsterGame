@@ -45,7 +45,7 @@ bool LieDownState::onMessage(Character* agent, const Telegram& msg)
                 agent->die();
                 return false;
             }
-            spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, "Injured", false);
+            spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, PourHurtAnimationName, false);
             agent->getSkeletonNode()->setTrackCompleteListener(entry, [=] (int trackIndex,int loopCount) {
                 //agent->getSkeletonNode()->setAnimation(0, "laydown", true);
             });

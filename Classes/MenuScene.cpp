@@ -62,15 +62,15 @@ bool MenuScene::init()
     float scaleFactory = app->scaleFactory;
     
     
-    spAtlas* atlas = spAtlas_createFromFile("hero.atlas", 0);
-    SkeletonAnimation *skeletonNode = SkeletonAnimation::createWithFile("hero.json", atlas);
+    spAtlas* atlas = spAtlas_createFromFile("liemoren.atlas", 0);
+    SkeletonAnimation *skeletonNode = SkeletonAnimation::createWithFile("liemoren.json", atlas);
     //skeletonNode->setAnimation(0, "walk", true);
     //        spine::SkeletonAnimation *skeletonNode = SkeletonAnimation::createWithFile("hero.json", "hero.atlas", 0.6f);
-    skeletonNode->setAnimation(0, "daiji", true);
+    
     skeletonNode->setPosition(size.width/2, 10);
-    //skeletonNode->setScale(1.0);
+    skeletonNode->setScale(1.0*scaleFactory);
     addChild(skeletonNode);
-
+    skeletonNode->setAnimation(0, "daiji", true);
     return true;
 }
 
