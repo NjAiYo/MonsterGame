@@ -70,11 +70,12 @@ public:
     virtual void scrollViewDidZoom(extension::ScrollView* view);
 	void draw(Renderer *renderer, const Mat4& transform, uint32_t flags);
     
-    void playCallback(Ref* sender);
 	//标示大全
 #define DROPBTN 0
 #define BAGBTN 1
 #define BAGCLOSEBTN 2
+#define MISSION 200
+#define HERO 201
 };
 
 #endif // __HELLOWORLD_SCENE_H__
