@@ -7,9 +7,8 @@
 //
 
 #include "LoadScene.h"
-#include "MenuScene.h"
 #include <SimpleAudioEngine.h>
-
+#include "Gamepanel.h"
 using namespace spine;
 
 Scene* LoadScene::createScene()
@@ -65,5 +64,5 @@ void LoadScene::imageLoaded(Texture2D* image)
     imagesLoaded++;
     //mathProgressBar->setPercentage(imagesLoaded/total * 100);
     if( total == imagesLoaded )
-        Director::getInstance()->replaceScene(MenuScene::createScene());
+        Director::getInstance()->replaceScene(Gamepanel::createScene());
 }
