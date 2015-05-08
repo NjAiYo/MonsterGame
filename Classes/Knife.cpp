@@ -8,7 +8,6 @@
 
 #include "Knife.h"
 #include "BGTWorld.h"
-#include "Character.h"
 #include "MessageDispatcher.h"
 #include "AppDelegate.h"
 #include <SimpleAudioEngine.h>
@@ -16,7 +15,7 @@
 bool Knife::initWithWorld(BGTWorld *w)
 {
     if (Weapon::initWithWorld(w)) {
-        
+        lastHitCharacter = nullptr;
         streak = MotionStreak::create(0.5f, 50, 30, Color3B::WHITE, "steak.png");
         //    streak = MotionStreak::create(0.5f, 1, 10, Color3B::RED, "steak.png");
         streak->setPosition(Vec2(-1000,-1000)); // …Ë÷√ÕœŒ≤streakµƒŒª÷√
@@ -35,7 +34,7 @@ bool Knife::initWithWorld(BGTWorld *w)
         xuliLayer->addChild(xuliBar);
         xuliTotalTime = 500;//2秒
         xuliTimePast = 0;
-        origDamage = 1;
+        origDamage = 10;
         durability = 100;
         damage = origDamage;
         isXuliDamage = false;
@@ -90,7 +89,7 @@ bool Knife::onTouchBegan(Touch* touch, Event* event)
     //log("Knife::onTouchBegan");
     Vec2 pos = touch->getLocation();
     //this->getChildByTag(111)->setPosition(Vec2(t->getLocation().x,t->getLocation().y));
-    
+    lastHitCharacter = nullptr;
     isXuliDamage = false;
     streak->setPosition(pos);
     
@@ -147,12 +146,11 @@ void Knife::onTouchMoved(Touch* touch, Event* event)
     
     streak->setPosition(pos);
     //刀的判断
-//    log("dist1:%f",dist);
 //    dist = pos.distance(startTouchPosition);
-//    log("dist2:%f",dist);
-    if (dist > 50) {
-        float dx = pos.x - lastPos.x;
-        float dy = pos.y - lastPos.y;
+
+    //if (dist > 50) {
+        dx = pos.x - lastPos.x;
+        dy = pos.y - lastPos.y;
         float angle2 = atan2f(dy, dx)*180/M_PI;
         //log("angle1:%f,angle2:%f",angle1,angle2);
         
@@ -174,7 +172,7 @@ void Knife::onTouchMoved(Touch* touch, Event* event)
         
         //hit test monster
         for (Character *agent : world->getMonsters()) {
-            if (!agent->isVisible() || agent->isDieState()) {
+            if (!agent->isVisible() || agent->isDieState() || agent == lastHitCharacter) {
                 continue;
             }
             bool hit = agent->hittestPoint(pos);
@@ -200,11 +198,13 @@ void Knife::onTouchMoved(Touch* touch, Event* event)
                     xuliLayer->setVisible(false);
                 }
                 isXuliDamage = false;
-                break;
+                lastHitCharacter = agent;
+                return;
             }
         }
-        
-    }
+    //}
+    //如果没有碰到任何怪
+    lastHitCharacter = nullptr;
 }
 
 void Knife::onTouchEnded(Touch* touch, Event* event)

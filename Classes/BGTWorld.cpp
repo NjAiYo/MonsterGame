@@ -125,6 +125,9 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
     waveTip->setPosition(size.width/2+size.width, size.height/2);
     waveTip->setVisible(false);
     
+    
+    enegy = 0;
+    maxEnegy = 100;
     return true;
 }
 
@@ -344,10 +347,17 @@ Vector<Character*> BGTWorld::getMonsters()
     return monsterPool;
 }
 
+float BGTWorld::getEnegy()
+{
+    return enegy;
+}
+
 void BGTWorld::reset()
 {
     currentWaveIndex = -1;
     timePast = 0;
+    enegy = 0;
+    maxEnegy = 100;
     totalKilledNum = 0;
     waveEnemyNumLeftToBeOut = 0;
     waveKilledNum = 0;
@@ -395,6 +405,10 @@ void BGTWorld::nextWave(){
 
 void BGTWorld::monsterDied(Character* monster)
 {
+    enegy += 5;
+    if (enegy > 100) {
+        enegy = 100;
+    }
     totalKilledNum++;
     waveKilledNum++;
     if(waveKilledNum >= currentWave->getAllUnits().size()){

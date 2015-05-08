@@ -278,6 +278,7 @@ void UILayer::gameEnd(bool isWin)
 void UILayer::update(float dt)
 {
     lifeProgressBar->setPercentage(gameScene->getWorld()->getWall()->getLife()/gameScene->getWorld()->getWall()->getTotalLife()*100);
+    enegyProgressBar->setPercentage(gameScene->getWorld()->getEnegy());
 }
 
 void UILayer::toggleToKnife(){

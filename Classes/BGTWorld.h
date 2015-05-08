@@ -30,8 +30,6 @@ class GameScene;
 class BGTWorld : public Node
 {
 private:
-    
-    
     int currentLevelIndex,currentWaveIndex;
     Sprite *gameBgSprite;
     Label *waveTip;
@@ -71,10 +69,14 @@ private:
     QTELayer *qteLayer;
     
     Character *qteCharacter;
+    float enegy;
+    float maxEnegy;
 public:
     void enterQTEMode(Character* monster);
     void exitQTEMode(bool playerWin);
     bool isQTEMode();
+    
+    float getEnegy();
     
     void launchCurrentSkill();
     

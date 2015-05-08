@@ -11,7 +11,7 @@
 
 #include "cocos2d.h"
 #include "Weapon.h"
-
+#include "Character.h"
 
 USING_NS_CC;
 
@@ -26,7 +26,7 @@ private:
     Layer *xuliLayer;
 
     ProgressTimer *xuliBar;
-    
+    Character *lastHitCharacter;
 public:
     bool initWithWorld(BGTWorld *w);
     bool hittestPoint(Vec2 p);
