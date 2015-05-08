@@ -36,47 +36,40 @@ void LieDownState::exit(Character* agent)
 
 bool LieDownState::onMessage(Character* agent, const Telegram& msg)
 {
-    switch (msg.msg) {
-        case Msg_AttackedByWeapon:{//被玩家的武器攻击到
-            log("Character::Msg_AttackedByWeapon");
-            Weapon *weapon = (Weapon*)GameEntityManager::getInstance()->getEntityFromID(msg.sender);
-            agent->takeDamage(weapon->getDamage());
-            if (agent->getLife() <= 0) {
-                agent->die();
-                return false;
-            }
-            spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, PourHurtAnimationName, false);
-            agent->getSkeletonNode()->setTrackCompleteListener(entry, [=] (int trackIndex,int loopCount) {
-                //agent->getSkeletonNode()->setAnimation(0, "laydown", true);
-            });
-            switch (weapon->getType()) {
-                case WeaponTypeKnife:{
-                    Knife *knife = (Knife*)weapon;
-                    
-                    
-
-                    if (knife->isXuliStateDamage()) {
-                        KnifeAttackDirection direction = *(KnifeAttackDirection*)msg.extraInfo;
-                        if (direction == KnifeAttackDirectionUp) {
-                            agent->flowup();
-                        }else if (direction == KnifeAttackDirectionDown) {
-                            //agent->falldown();
-                        }else{
-                            //agent->stiff();
-                        }
-                    }
-                    
-                }
-                    break;
-                case WeaponTypePistol:
-                    break;
-                default:
-                    break;
-            }
+    if(msg.msg == Msg_AttackedByXuLiWeapon || msg.msg == Msg_AttackedByWeapon){
+        log("Character::Msg_AttackedByWeapon");
+        Weapon *weapon = (Weapon*)GameEntityManager::getInstance()->getEntityFromID(msg.sender);
+        agent->takeDamage(weapon->getDamage());
+        if (agent->getLife() <= 0) {
+            agent->die();
+            return false;
         }
-            break;
-        default:
-            break;
+        spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, PourHurtAnimationName, false);
+        agent->getSkeletonNode()->setTrackCompleteListener(entry, [=] (int trackIndex,int loopCount) {
+            //agent->getSkeletonNode()->setAnimation(0, "laydown", true);
+        });
+        switch (weapon->getType()) {
+            case WeaponTypeKnife:{
+                //Knife *knife = (Knife*)weapon;
+                
+                if (msg.msg == Msg_AttackedByXuLiWeapon) {
+                    KnifeAttackDirection direction = *(KnifeAttackDirection*)msg.extraInfo;
+                    if (direction == KnifeAttackDirectionUp) {
+                        agent->flowup();
+                    }else if (direction == KnifeAttackDirectionDown) {
+                        //agent->falldown();
+                    }else{
+                        //agent->stiff();
+                    }
+                }
+                
+            }
+                break;
+            case WeaponTypePistol:
+                break;
+            default:
+                break;
+        }
     }
     return false;
 }

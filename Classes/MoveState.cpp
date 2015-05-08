@@ -58,64 +58,59 @@ void MoveState::exit(Character* agent)
 
 bool MoveState::onMessage(Character* agent, const Telegram& msg)
 {
-    switch (msg.msg) {
-        case Msg_AttackedByWeapon:{//被玩家的武器攻击到
-            Weapon *weapon = (Weapon*)GameEntityManager::getInstance()->getEntityFromID(msg.sender);
-            //TODO::miss
-            
-            MonsterData *data = agent->getMonsterData();
-            if (data->shanbi > 0) {
-                float value = CCRANDOM_0_1();
-                if (value <= data->shanbi) {
-                    //闪避
-                    
-                    return false;
-                }
-            }
-            if (data->gedang > 0) {
-                float value = CCRANDOM_0_1();
-                if (value <= data->gedang) {
-                    //格挡
-                    agent->defense();
-                    return false;
-                }
-            }
-            agent->takeDamage(weapon->getDamage());
-            if (agent->getLife() <= 0) {
-                agent->die();
+    if(msg.msg == Msg_AttackedByXuLiWeapon || msg.msg == Msg_AttackedByWeapon){
+        Weapon *weapon = (Weapon*)GameEntityManager::getInstance()->getEntityFromID(msg.sender);
+        //TODO::miss
+        
+        MonsterData *data = agent->getMonsterData();
+        if (data->shanbi > 0) {
+            float value = CCRANDOM_0_1();
+            if (value <= data->shanbi) {
+                //闪避
+                
                 return false;
             }
-            switch (weapon->getType()) {
-                case WeaponTypeKnife:{
-                    Knife *knife = (Knife*)weapon;
-                    
-                    KnifeAttackDirection direction = *(KnifeAttackDirection*)msg.extraInfo;
-                    if (knife->isXuliStateDamage()) {
-                        if (direction == KnifeAttackDirectionUp) {
-                            agent->flowup();
-                        }else if (direction == KnifeAttackDirectionDown) {
-                            agent->falldown();
-                        }else if (direction == KnifeAttackDirectionRight) {
-                            agent->rollback();
-                        }else{
-                            agent->stiff();
-                        }
+        }
+        if (data->gedang > 0) {
+            float value = CCRANDOM_0_1();
+            if (value <= data->gedang) {
+                //格挡
+                agent->defense();
+                return false;
+            }
+        }
+        agent->takeDamage(weapon->getDamage());
+        if (agent->getLife() <= 0) {
+            agent->die();
+            return false;
+        }
+        switch (weapon->getType()) {
+            case WeaponTypeKnife:{
+                //Knife *knife = (Knife*)weapon;
+                
+                KnifeAttackDirection direction = *(KnifeAttackDirection*)msg.extraInfo;
+                if (msg.msg == Msg_AttackedByXuLiWeapon) {
+                    if (direction == KnifeAttackDirectionUp) {
+                        agent->flowup();
+                    }else if (direction == KnifeAttackDirectionDown) {
+                        agent->falldown();
+                    }else if (direction == KnifeAttackDirectionRight) {
+                        agent->rollback();
                     }else{
                         agent->stiff();
                     }
-                    
-                }
-                    break;
-                case WeaponTypePistol:
+                }else{
                     agent->stiff();
-                    break;
-                default:
-                    break;
+                }
+                
             }
+                break;
+            case WeaponTypePistol:
+                agent->stiff();
+                break;
+            default:
+                break;
         }
-            break;
-        default:
-            break;
     }
     return false;
 }

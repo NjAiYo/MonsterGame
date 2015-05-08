@@ -134,6 +134,8 @@ void QTELayer::hitQteMonster()
         percentage = 100;
     }
     progressBar->setPercentage(percentage);
+    float rate = progressBar->getPercentage() / 100.0f;
+    qteMark->setPosition(bar->getContentSize().width*rate,bar->getContentSize().height);
     if(percentage == 100){
         //player win
         qteMonster->die();
@@ -149,6 +151,8 @@ void QTELayer::qteAttacked()
         percentage = 0;
     }
     progressBar->setPercentage(percentage);
+    float rate = progressBar->getPercentage() / 100.0f;
+    qteMark->setPosition(bar->getContentSize().width*rate,bar->getContentSize().height);
     if(percentage == 0){
         //player failed
         qteMonster->stand();

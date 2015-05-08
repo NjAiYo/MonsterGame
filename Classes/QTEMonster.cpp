@@ -15,6 +15,7 @@
 QTEMonster::QTEMonster()
 :type((CharacterType)99999)
 ,characterScaleFactor(1)
+,skeletonNode(nullptr)
 {
     
 }

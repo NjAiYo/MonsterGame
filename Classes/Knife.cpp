@@ -35,7 +35,7 @@ bool Knife::initWithWorld(BGTWorld *w)
         xuliLayer->addChild(xuliBar);
         xuliTotalTime = 500;//2秒
         xuliTimePast = 0;
-        origDamage = 10;
+        origDamage = 1;
         durability = 100;
         damage = origDamage;
         isXuliDamage = false;
@@ -63,14 +63,14 @@ void Knife::update(float dt)
             xuliBar->setPosition(startTouchPosition);
             touchedForXuLi = false;
         }
-        
     }
     if (xuliing) {
-        isXuliDamage = true;
+        //isXuliDamage = true;
         xuliTimePast += dt*1000;
         double percentage = xuliTimePast / xuliTotalTime;
-        if (percentage > 1) {
+        if (percentage >= 1) {
             percentage = 1;
+            isXuliDamage = true;
         }
         xuliBar->setPercentage(percentage*100);
         origDamage = 10;
@@ -78,10 +78,10 @@ void Knife::update(float dt)
     }
 }
 
-bool Knife::isXuliStateDamage()
-{
-    return isXuliDamage;
-}
+//bool Knife::isXuliStateDamage()
+//{
+//    return isXuliDamage;
+//}
 
 bool Knife::onTouchBegan(Touch* touch, Event* event)
 {
@@ -91,7 +91,7 @@ bool Knife::onTouchBegan(Touch* touch, Event* event)
     Vec2 pos = touch->getLocation();
     //this->getChildByTag(111)->setPosition(Vec2(t->getLocation().x,t->getLocation().y));
     
-    //star->setPosition(pos);
+    isXuliDamage = false;
     streak->setPosition(pos);
     
     streak->reset();
@@ -181,15 +181,25 @@ void Knife::onTouchMoved(Touch* touch, Event* event)
             if (hit) {
                 log("hit");
                 startTouchPosition = pos;
-                MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
-                                                                  getID(),           //sender ID
-                                                                  agent->getID(),           //receiver ID
-                                                                  Msg_AttackedByWeapon,        //msg
-                                                                  &direction);
+                if (isXuliDamage) {
+                    MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
+                                                                      getID(),           //sender ID
+                                                                      agent->getID(),           //receiver ID
+                                                                      Msg_AttackedByXuLiWeapon,        //msg
+                                                                      &direction);
+                }else{
+                    MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
+                                                                      getID(),           //sender ID
+                                                                      agent->getID(),           //receiver ID
+                                                                      Msg_AttackedByWeapon,        //msg
+                                                                      &direction);
+                }
+                
                 if (xuliing) {
                     xuliing = false;
                     xuliLayer->setVisible(false);
                 }
+                isXuliDamage = false;
                 break;
             }
         }

@@ -99,6 +99,7 @@ typedef enum {
     Msg_WallDamaged,
     Msg_WallBaoDamaged,
     Msg_QTEDamaged,
+    Msg_AttackedByXuLiWeapon,
     Msg_AttackedByWeapon,
     Msg_MoveToPosition,
     Msg_MoveToWall,
