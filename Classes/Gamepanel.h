@@ -5,9 +5,7 @@
 #include "Item.h"
 #include "Mymenu.h"
 #include "cocos-ext.h"
-#include "spine\spine.h"
-#include "spine\spine-cocos2dx.h"
-using namespace spine;
+
 USING_NS_CC;
 class Gamepanel : public cocos2d::Layer,public extension::ScrollViewDelegate
 {
@@ -29,7 +27,7 @@ public:
 	MenuItemImage *Shop;
 	MenuItemImage *Store;
 	MenuItemImage *Mission;
-	SkeletonAnimation* Heroskeleton;
+
 	DrawNode *drawnode;
 	//快捷菜单相关变量及方法
 	int barY,barFlag;
@@ -71,6 +69,8 @@ public:
     virtual void scrollViewDidScroll(extension::ScrollView* view);
     virtual void scrollViewDidZoom(extension::ScrollView* view);
 	void draw(Renderer *renderer, const Mat4& transform, uint32_t flags);
+    
+    void playCallback(Ref* sender);
 	//标示大全
 #define DROPBTN 0
 #define BAGBTN 1

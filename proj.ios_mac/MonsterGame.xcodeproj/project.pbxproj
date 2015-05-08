@@ -140,7 +140,6 @@
 		F105A8611AF1F5690044CCEE /* Wave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A85A1AF1F5690044CCEE /* Wave.cpp */; };
 		F105A8661AF1F57D0044CCEE /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A8651AF1F57D0044CCEE /* jsoncpp.cpp */; };
 		F105A8701AF1F5990044CCEE /* LoadScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A86A1AF1F5990044CCEE /* LoadScene.cpp */; };
-		F105A8711AF1F5990044CCEE /* MenuScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A86C1AF1F5990044CCEE /* MenuScene.cpp */; };
 		F105A8721AF1F5990044CCEE /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A86E1AF1F5990044CCEE /* GameScene.cpp */; };
 		F105A8781AF1F5AA0044CCEE /* BGTTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A8741AF1F5AA0044CCEE /* BGTTile.cpp */; };
 		F105A8791AF1F5AA0044CCEE /* BGTMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F105A8761AF1F5AA0044CCEE /* BGTMap.cpp */; };
@@ -441,8 +440,6 @@
 		F105A8681AF1F5830044CCEE /* Telegram.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Telegram.h; sourceTree = "<group>"; };
 		F105A86A1AF1F5990044CCEE /* LoadScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoadScene.cpp; sourceTree = "<group>"; };
 		F105A86B1AF1F5990044CCEE /* LoadScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadScene.h; sourceTree = "<group>"; };
-		F105A86C1AF1F5990044CCEE /* MenuScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuScene.cpp; sourceTree = "<group>"; };
-		F105A86D1AF1F5990044CCEE /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
 		F105A86E1AF1F5990044CCEE /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
 		F105A86F1AF1F5990044CCEE /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		F105A8741AF1F5AA0044CCEE /* BGTTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BGTTile.cpp; sourceTree = "<group>"; };
@@ -944,8 +941,6 @@
 			children = (
 				F105A86A1AF1F5990044CCEE /* LoadScene.cpp */,
 				F105A86B1AF1F5990044CCEE /* LoadScene.h */,
-				F105A86C1AF1F5990044CCEE /* MenuScene.cpp */,
-				F105A86D1AF1F5990044CCEE /* MenuScene.h */,
 				F105A86E1AF1F5990044CCEE /* GameScene.cpp */,
 				F105A86F1AF1F5990044CCEE /* GameScene.h */,
 			);
@@ -1449,7 +1444,6 @@
 				F105A8801AF1F5BB0044CCEE /* BGTWorld.cpp in Sources */,
 				F105A8B91AF1F61C0044CCEE /* AttackState.cpp in Sources */,
 				F105A8B81AF1F61C0044CCEE /* StandState.cpp in Sources */,
-				F105A8711AF1F5990044CCEE /* MenuScene.cpp in Sources */,
 				DEDFB1441AFC9AA8001FC0C0 /* Item.cpp in Sources */,
 				F105A8C21AF1F61C0044CCEE /* FlowState.cpp in Sources */,
 				DEDFB13F1AFC9AA8001FC0C0 /* CsvData.cpp in Sources */,

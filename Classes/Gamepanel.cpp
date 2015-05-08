@@ -3,6 +3,8 @@
 #include "ItemCreator.h"
 #include "ItemData.h"
 #include "Item.h"
+#include "AppDelegate.h"
+#include "GameScene.h"
 USING_NS_CC;
 USING_NS_CC_EXT;
 using namespace std;
@@ -81,12 +83,18 @@ bool Gamepanel::init()
 	moneypic->setPosition(ccp(800,600));
 	this->addChild(moneypic,1);
 
-	moneylab= Label::createWithTTF("0", "fonts/Marker Felt.ttf", 30); 
+	moneylab= Label::create("0", "Arial", 30);
     moneylab->setPosition(ccp(750,600));
     this->addChild(moneylab, 1);
 
 	initMainFace();
     return true;
+}
+
+void Gamepanel::playCallback(Ref* sender)
+{
+    Director::getInstance()->replaceScene(TransitionFade::create(1, GameScene::createSceneWithLevel(0)));
+    //    Director::getInstance()->replaceScene(TransitionSlideInT::create(1, GameScene::createSceneWithLevel(0)));
 }
 
 void Gamepanel::initMainFace()
@@ -95,20 +103,41 @@ void Gamepanel::initMainFace()
 	MainFaceBg->setPosition(Vec2(visibleSize.width/2,visibleSize.height/2));
 	this->addChild(MainFaceBg);
 
-	Heroskeleton = SkeletonAnimation::createWithFile("spineboy.json", "spineboy.atlas", 0.3f);
-	Heroskeleton->setStartListener( [this] (int trackIndex) {
-		spTrackEntry* entry = spAnimationState_getCurrent(Heroskeleton->getState(), trackIndex);
-		const char* animationName = (entry && entry->animation) ? entry->animation->name : 0;	
-	});
-	Heroskeleton->setEndListener( [] (int trackIndex) {
-	});
-	Heroskeleton->setCompleteListener( [this] (int trackIndex, int loopCount) {	
-	});
-	Heroskeleton->setEventListener( [] (int trackIndex, spEvent* event) {
-	});
-	Heroskeleton->setAnimation(0, "walk", true);
-	Heroskeleton->setPosition(Point(visibleSize.width / 2, visibleSize.height / 2-200));
-	addChild(Heroskeleton);
+    ZipUtils::setPvrEncryptionKeyPart(0,0xf858f36b);
+    ZipUtils::setPvrEncryptionKeyPart(1,0xcc54eed0);
+    ZipUtils::setPvrEncryptionKeyPart(2,0xdbf1274e);
+    ZipUtils::setPvrEncryptionKeyPart(3,0xf3d29164);
+    
+    
+    SpriteFrameCache *ccsfc = SpriteFrameCache::getInstance();
+    ccsfc->addSpriteFramesWithFile("MainMenuScene.plist");
+    
+    Size size = Director::getInstance()->getWinSize();
+    Sprite *sprite = Sprite::createWithSpriteFrameName("playButton.png");
+    Sprite *sprite1 = Sprite::createWithSpriteFrameName("playButton.png");
+    sprite1->setScale(1.1);
+    Size spriteSize = sprite->getContentSize();
+    sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
+    
+    MenuItemSprite *playItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(Gamepanel::playCallback, this));
+    
+    Menu *playMenu = Menu::create(playItem,NULL);
+    playMenu->setPosition(size.width/2,size.height/2);
+    addChild(playMenu, 1);
+    
+    AppDelegate *app = (AppDelegate*)Application::getInstance();
+    float scaleFactory = app->scaleFactory;
+    
+    
+    spAtlas* atlas = spAtlas_createFromFile("liemoren.atlas", 0);
+    SkeletonAnimation *skeletonNode = SkeletonAnimation::createWithFile("liemoren.json", atlas);
+    //skeletonNode->setAnimation(0, "walk", true);
+    //        spine::SkeletonAnimation *skeletonNode = SkeletonAnimation::createWithFile("hero.json", "hero.atlas", 0.6f);
+    
+    skeletonNode->setPosition(size.width/2, 10);
+    skeletonNode->setScale(1.0*scaleFactory);
+    addChild(skeletonNode);
+    skeletonNode->setAnimation(0, "daiji", true);
 	
 	Jewel=MenuItemImage::create("uimainface/11.png","uimainface/11.png",CC_CALLBACK_1(Gamepanel::allbuttoncallback,this));
 	Jewel->setPosition(Vec2(900,600));
@@ -125,9 +154,9 @@ void Gamepanel::initMainFace()
 	Forge=MenuItemImage::create("uimainface/3.png","uimainface/3.png",CC_CALLBACK_1(Gamepanel::allbuttoncallback,this));
 	Forge->setPosition(Vec2(250,280));
 	addChild(Forge);
-	Shop=MenuItemImage::create("uimainface/3.png","uimainface/3.png",CC_CALLBACK_1(Gamepanel::allbuttoncallback,this));
-	Forge->setPosition(Vec2(250,280));
-	addChild(Forge);
+//	Shop=MenuItemImage::create("uimainface/3.png","uimainface/3.png",CC_CALLBACK_1(Gamepanel::allbuttoncallback,this));
+//	Forge->setPosition(Vec2(250,280));
+//	addChild(Forge);
 }
 
 
