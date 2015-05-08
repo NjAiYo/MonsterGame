@@ -27,6 +27,8 @@ private:
 
     ProgressTimer *xuliBar;
     Character *lastHitCharacter;
+    float hitDistance;
+    int hittime;
 public:
     bool initWithWorld(BGTWorld *w);
     bool hittestPoint(Vec2 p);

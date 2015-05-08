@@ -85,7 +85,7 @@ void Knife::update(float dt)
 bool Knife::onTouchBegan(Touch* touch, Event* event)
 {
     Weapon::m_attackID++;
-    //CCLOG("Paddle::onTouchBegan id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
+    CCLOG("Paddle::onTouchBegan id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
     //log("Knife::onTouchBegan");
     Vec2 pos = touch->getLocation();
     //this->getChildByTag(111)->setPosition(Vec2(t->getLocation().x,t->getLocation().y));
@@ -97,6 +97,7 @@ bool Knife::onTouchBegan(Touch* touch, Event* event)
     startTouchPosition = pos;
     touchedForXuLi = true;
     currentTouchTime = millisecondNow();
+    hitDistance = 301;
     return true;
 }
 
@@ -115,6 +116,12 @@ void Knife::onTouchMoved(Touch* touch, Event* event)
     Vec2 delta = touch->getDelta();
     Vec2 lastPos = touch->getPreviousLocation();
     Vec2 pos = touch->getLocation();
+    
+    float ddx = pos.x - lastPos.x;
+    float ddy = pos.y - lastPos.y;
+    float moveDistance = sqrtf(ddx*ddx+ddy*ddy);
+    log("moveDistance:%f",moveDistance);
+    //float moveDistance = pos.distance(lastPos);
     
     float dx = pos.x - startTouchPosition.x;
     float dy = pos.y - startTouchPosition.y;
@@ -172,39 +179,52 @@ void Knife::onTouchMoved(Touch* touch, Event* event)
         
         //hit test monster
         for (Character *agent : world->getMonsters()) {
-            if (!agent->isVisible() || agent->isDieState() || agent == lastHitCharacter) {
+            if (!agent->isVisible() || agent->isDieState()) {
                 continue;
             }
             bool hit = agent->hittestPoint(pos);
             if (hit) {
-                log("hit");
-                startTouchPosition = pos;
-                if (isXuliDamage) {
-                    MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
-                                                                      getID(),           //sender ID
-                                                                      agent->getID(),           //receiver ID
-                                                                      Msg_AttackedByXuLiWeapon,        //msg
-                                                                      &direction);
+                log("hit:%d",agent->getID());
+                //startTouchPosition = pos;
+                if (agent != lastHitCharacter) {
+                    hitDistance = 301;
                 }else{
-                    MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
-                                                                      getID(),           //sender ID
-                                                                      agent->getID(),           //receiver ID
-                                                                      Msg_AttackedByWeapon,        //msg
-                                                                      &direction);
+                    hitDistance+=moveDistance;
                 }
                 
-                if (xuliing) {
-                    xuliing = false;
-                    xuliLayer->setVisible(false);
-                }
-                isXuliDamage = false;
                 lastHitCharacter = agent;
+                if (hitDistance > 300) {
+                    hitDistance = 0;
+                    log("damage hit:%d,%f",agent->getID(),moveDistance);
+                    if (isXuliDamage) {
+                        MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
+                                                                          getID(),           //sender ID
+                                                                          agent->getID(),           //receiver ID
+                                                                          Msg_AttackedByXuLiWeapon,        //msg
+                                                                          &direction);
+                    }else{
+                        MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
+                                                                          getID(),           //sender ID
+                                                                          agent->getID(),           //receiver ID
+                                                                          Msg_AttackedByWeapon,        //msg
+                                                                          &direction);
+                    }
+                    
+                    if (xuliing) {
+                        xuliing = false;
+                        xuliLayer->setVisible(false);
+                    }
+                    isXuliDamage = false;
+                    
+                }
                 return;
             }
         }
     //}
     //如果没有碰到任何怪
     lastHitCharacter = nullptr;
+    hitDistance = 301;
+    log("not hit");
 }
 
 void Knife::onTouchEnded(Touch* touch, Event* event)
