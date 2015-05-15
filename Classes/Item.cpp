@@ -858,7 +858,7 @@ void Item::showsellpanel()
 		sellall->setTag(6);
 		menuB->addChild(sellall);
 
-		sellnumlab=Label::createWithTTF("0", "fonts/Marker Felt.ttf", 20); 
+		sellnumlab=Label::create("0", "Arial", 20);
 		sellnumlab->setPosition(ccp(Director::getInstance()->getVisibleSize().width/2, Director::getInstance()->getVisibleSize().height/2));
 		
 		Gamepanel::gamepanel->itemsellshow->addChild(mask);

@@ -7,9 +7,10 @@
 #include "deprecated/CCString.h"
 
 #include <vector>
-
+#include "cocos2d.h"
 using namespace std;
-
+USING_NS_CC;
+#include "AppDelegate.h"
 NS_CC_BEGIN
 
 enum 
@@ -20,7 +21,7 @@ enum
 //
 //CCMenu
 //
-
+float scaleFactory;
 Mymenu::~Mymenu()
 {
     CCLOGINFO("In the destructor of Menu. %p", this);
@@ -143,6 +144,8 @@ bool Mymenu::initWithArray(const Vector<MenuItem*>& arrayOfItems)
         
         _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
         
+        AppDelegate *app = (AppDelegate*)Application::getInstance();
+        scaleFactory = app->scaleFactory;
         return true;
     }
     return false;
@@ -246,7 +249,7 @@ void Mymenu::onTouchEnded(Touch* touch, Event* event)
     {
         _selectedItem->unselected();
 		if(thepoint==convertToWorldSpace(_selectedItem->getPosition()))
-			if(convertToWorldSpace(_selectedItem->getPosition()).y<500)
+			if(convertToWorldSpace(_selectedItem->getPosition()).y<871&&convertToWorldSpace(_selectedItem->getPosition()).y>371)
         _selectedItem->activate();
     }
     _state = Mymenu::State::WAITING;

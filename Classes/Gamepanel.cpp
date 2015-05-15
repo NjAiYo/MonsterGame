@@ -15,6 +15,7 @@ int Gamepanel::LayerSwitch_B=0;
 int Gamepanel::LayerSwitch_C=0;
 int Gamepanel::LayerSwitch_D=0;
 float scaleFactory=1.0;
+int templine=0;
 Scene* Gamepanel::createScene()
 {
     auto scene = Scene::create();
@@ -179,9 +180,9 @@ void Gamepanel::showbag()
 	if(Bagopen==0)
 	{
 		bagbg=Sprite::create("bagbg.png");
-		bagbg->setPosition(Vec2(visibleSize.width/2+100,visibleSize.height - bagbg->getContentSize().height));
+		bagbg->setPosition(Vec2(1652*scaleFactory,621*scaleFactory));
 		this->addChild(bagbg,1);
-		bagclose->setPosition(Vec2(visibleSize.width/2+280,visibleSize.height - bagbg->getContentSize().height+200));
+		bagclose->setPosition(Vec2(1652*scaleFactory+250,621*scaleFactory+250));
 		bagclose->setVisible(true);
 		initbag();
 	}
@@ -199,10 +200,19 @@ void Gamepanel::initbag()
 	continerLayer = Layer::create();
     continerLayer->setAnchorPoint(Vec2(0,0));
     continerLayer->setPosition(Vec2(0,0));
-	scrollView->setPosition(ccp(visibleSize.width/2-50,visibleSize.height/2-250));
+	scrollView->setPosition(ccp(1402*scaleFactory,360*scaleFactory));
+    if(ItemData::getInstance()->Allbagitemvec.size()<=20)
+    {
+       continerLayer->setContentSize(Size(500*scaleFactory, 500*scaleFactory));
+    }
+    else
+    {
+        templine=(ItemData::getInstance()->Allbagitemvec.size()-20)/5%5==0?(ItemData::getInstance()->Allbagitemvec.size()-20)/5:(ItemData::getInstance()->Allbagitemvec.size()-20)/5+1;
+        continerLayer->setContentSize(Size(500*scaleFactory,(500+templine*100)*scaleFactory));
+        continerLayer->setPosition(Vec2(0,-templine*40));
+    }
+    scrollView->setViewSize(Size(500*scaleFactory, 500*scaleFactory));
     
-    scrollView->setViewSize(Size(360*scaleFactory, 400*scaleFactory));
-    continerLayer->setContentSize(Size(400*scaleFactory, 400*scaleFactory));
 	scrollView->setContentSize(continerLayer->getContentSize());
     scrollView->setContainer(continerLayer);
     
@@ -222,10 +232,10 @@ void Gamepanel::initbag()
 
 	for(int i=0;i<ItemData::getInstance()->Allbagitemvec.size();i++)
 	{
-		int x=i%4*80*scaleFactory+40*scaleFactory;
-		int y=330*scaleFactory-i/4*80*scaleFactory;
+		int x=i%5*80*scaleFactory+80*scaleFactory;
+		int y=450*scaleFactory-i/5*80*scaleFactory;
 		Item *tempbgt=ItemData::getInstance()->Allbagitemvec.at(i);
-		tempbgt->pic->setPosition(ccp(x,y));
+		tempbgt->pic->setPosition(ccp(x,y+templine*100));
 		menuitem->addChild(tempbgt->pic);
 		log(tempbgt->id.c_str());
 	}
@@ -233,10 +243,14 @@ void Gamepanel::initbag()
 void Gamepanel::additem()
 {
 	ItemCreator::getInstance()->createItem_unique(1,0,5);
-	ItemCreator::getInstance()->createItem_normal("cl001");
-	ItemCreator::getInstance()->createItem_normal("soul001");
-	ItemCreator::getInstance()->createItem_normal("xhp001");
-	ItemCreator::getInstance()->createItem_normal("wq001");
+    ItemCreator::getInstance()->createItem_unique(1,0,5);
+    ItemCreator::getInstance()->createItem_unique(1,0,5);
+    ItemCreator::getInstance()->createItem_unique(1,0,5);
+    ItemCreator::getInstance()->createItem_unique(1,0,5);
+	//ItemCreator::getInstance()->createItem_normal("cl001");
+	//ItemCreator::getInstance()->createItem_normal("soul001");
+	//ItemCreator::getInstance()->createItem_normal("xhp001");
+	//ItemCreator::getInstance()->createItem_normal("wq001");
 }
 
 void Gamepanel::deleteitem()
