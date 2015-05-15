@@ -13,6 +13,9 @@
 #include "BGTWall.h"
 
 UILayer::UILayer()
+:hitCount(0)
+,leftTime(0)
+,mostHitRecord(0)
 {
     
 }
@@ -29,8 +32,32 @@ bool UILayer::initWithGameScene(GameScene *gs)
     AppDelegate *app = (AppDelegate*)Application::getInstance();
     float scaleFactory = app->scaleFactory;
     
+    hitCount = 0;
+    mostHitRecord = 0;
+    leftTime = 0;
+    
+    comboLayer = Layer::create();
+    addChild(comboLayer);
     
     
+    comboLabel = Label::createWithBMFont("gameSceneComboLabel.fnt", "0");
+    comboLayer->addChild(comboLabel);
+    comboLabel->setPosition(size.width-400, size.height-270);
+    comboLabel->setScale(scaleFactory);
+    
+    comboBar = Sprite::createWithSpriteFrameName("wallLifeBarFrame.png");
+    comboBar->setPosition(size.width-400,size.height-200);
+    comboLayer->addChild(comboBar);
+    
+    comboProgressBar = ProgressTimer::create(Sprite::createWithSpriteFrameName("wallLifeBar.png"));
+    comboProgressBar->setType(ProgressTimer::Type::BAR);
+    comboProgressBar->setMidpoint(Vec2(0,1));
+    comboProgressBar->setBarChangeRate(Vec2(1, 0));
+    comboProgressBar->setPercentage(100);
+    comboProgressBar->setPosition(comboBar->getContentSize().width/2,comboBar->getContentSize().height/2);
+    comboBar->addChild(comboProgressBar);
+    
+    comboLayer->setPosition(600,0);
     
     hudLayer = Layer::create();
     addChild(hudLayer);
@@ -216,7 +243,42 @@ bool UILayer::initWithGameScene(GameScene *gs)
     menu->setPosition(size.width/2,size.height/2);
     failedLayer->addChild(menu, 1);
     
+    _eventDispatcher->addCustomEventListener("MonsterHitted", CC_CALLBACK_1(UILayer::monsterHittedHandler,this));
+//    _eventDispatcher->addCustomEventListener("MonsterHitted", [=](EventCustom* event){
+//        monsterHittedHandler(event);
+//    });
     return true;
+}
+
+void UILayer::monsterHittedHandler(EventCustom* event)
+{
+    log("monster hit");
+    if (hitCount == 0 || leftTime > 0) {
+        leftTime = COMBO_HIT_DURATION;
+        hitCount++;
+        mostHitRecord = MAX(mostHitRecord, hitCount);
+    }
+    if (hitCount == 2) {
+        //show combo ui
+        showComboUI();
+    }else if(hitCount > 1){
+        //update combo number
+        
+    }
+    comboLabel->setString(String::createWithFormat("%d",hitCount)->getCString());
+}
+
+void UILayer::hideComboUI()
+{
+    auto action = EaseExponentialIn::create(MoveBy::create(0.3, Vec2(600,0)));
+    comboLayer->runAction(action);
+}
+
+void UILayer::showComboUI()
+{
+    log("showComboUI");
+    auto action = EaseExponentialOut::create(MoveBy::create(0.3, Vec2(-600,0)));
+    comboLayer->runAction(action);
 }
 
 void UILayer::hideHUD()
@@ -277,8 +339,23 @@ void UILayer::gameEnd(bool isWin)
 
 void UILayer::update(float dt)
 {
+    if (leftTime > 0) {
+        leftTime -= dt;
+        if (leftTime <= 0) {
+            leftTime = 0;
+            hitCount = 0;
+            if (comboLayer->getPositionX() <= 0) {
+                hideComboUI();
+            }
+        }
+        comboProgressBar->setPercentage((leftTime/COMBO_HIT_DURATION)*100);
+    }
+    
+
     lifeProgressBar->setPercentage(gameScene->getWorld()->getWall()->getLife()/gameScene->getWorld()->getWall()->getTotalLife()*100);
     enegyProgressBar->setPercentage(gameScene->getWorld()->getEnegy());
+    
+    
 }
 
 void UILayer::toggleToKnife(){

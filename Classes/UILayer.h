@@ -27,8 +27,12 @@ private:
     LayerColor *failedLayer;
     LayerColor *pausedLayer;
     Label *scorelabel;
+    Layer *comboLayer;
     Label *playerLevelLabel;
     Label *coinLabel;
+    Label *comboLabel;
+    Sprite *comboBar;
+    ProgressTimer *comboProgressBar;
     
     GameManager *gameManager;
     Player *player;
@@ -47,8 +51,18 @@ private:
     float frontScale,backScale;
     Color3B frontTint,backTint;
     
+    void monsterHittedHandler(EventCustom* event);
+    
     void toggleToGun();
     void toggleToKnife();
+    
+    unsigned int  hitCount;
+    float leftTime;
+    
+    void hideComboUI();
+    void showComboUI();
+    
+    unsigned int mostHitRecord;
 public:
     
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone

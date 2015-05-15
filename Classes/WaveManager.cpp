@@ -64,6 +64,11 @@ bool WaveManager::init()
         data->shanbi = arrayNotes[i]["shanbi"].asFloat();
         data->canQTE = arrayNotes[i]["canQTE"].asBool();
         
+        Json::Value dropItems = arrayNotes[i]["dropItems"];
+        for(int j = 0; j < dropItems.size(); j++){
+            data->dropItems.push_back(dropItems[j].asString());
+        }
+        
         log("add monster:%s,damage=%d",data->name.c_str(),data->damage);
         
         Json::Value hitRectObj=arrayNotes[i]["hitRect"];

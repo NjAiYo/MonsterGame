@@ -307,6 +307,11 @@ void Character::reset()
 
 bool Character::handleMessage(const Telegram& msg)
 {
+    if (msg.msg == Msg_AttackedByXuLiWeapon || msg.msg == Msg_AttackedByWeapon) {
+        EventCustom event("MonsterHitted");
+        event.setUserData(this);
+        _eventDispatcher->dispatchEvent(&event);
+    }
     return m_pStateMachine->handleMessage(msg);
 }
 

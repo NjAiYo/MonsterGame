@@ -16,7 +16,7 @@ USING_NS_CC;
 class Player : public cocos2d::Ref
 {
 public:
-    unsigned int id,level,score,money;
+    unsigned int id,level,score,money,lucky;
     std::string name;
     float exp,enegy;
     

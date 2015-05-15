@@ -32,7 +32,7 @@ void DieState::enter(Character* agent)
 void DieState::execute(Character* agent,float dt)
 {
     deadTime += dt;
-    if (deadTime >= 1.0) {
+    if (deadTime >= 2.5) {
         agent->setVisible(false);
         //agent->runAction(FadeOut::create(1.0));
     }

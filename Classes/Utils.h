@@ -55,6 +55,8 @@ USING_NS_CC;
 
 #define expBarWidthOfUI 180
 
+#define  COMBO_HIT_DURATION 0.5
+
 //第一波出完后（waveGapTime秒后出怪，如果最后一个怪被打死还没出，马上出）
 #define waveGapTime 15
 
