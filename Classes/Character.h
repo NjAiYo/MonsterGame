@@ -165,6 +165,7 @@ public:
     virtual void liedown();
     virtual void die();
     
+
     virtual void takeDamage(float damage);
     
     virtual void setDirection(CharacterDirection d);

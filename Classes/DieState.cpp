@@ -27,6 +27,9 @@ void DieState::enter(Character* agent)
         //agent->move();
     });
     //CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("dao_1.mp3");
+    EventCustom event("MonsterDied");
+    event.setUserData(agent);
+    agent->getEventDispatcher()->dispatchEvent(&event);
 }
 
 void DieState::execute(Character* agent,float dt)

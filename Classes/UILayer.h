@@ -52,7 +52,7 @@ private:
     Color3B frontTint,backTint;
     
     void monsterHittedHandler(EventCustom* event);
-    
+    void monsterShanbiHandler(EventCustom* event);
     void toggleToGun();
     void toggleToKnife();
     

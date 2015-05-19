@@ -128,7 +128,72 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
     
     enegy = 0;
     maxEnegy = 100;
+    
+    _eventDispatcher->addCustomEventListener("MonsterDied", CC_CALLBACK_1(BGTWorld::monsterDiedHandler,this));
     return true;
+}
+
+void BGTWorld::monsterDiedHandler(EventCustom* event)
+{
+    Character *monster = (Character*)event->getUserData();
+    int lucky = (lucky / 20)*0.01;
+    
+    float rate = 0.5 + lucky;
+    float value = CCRANDOM_0_1();
+    if (value <= rate) {
+        //drop coins
+        value = CCRANDOM_0_1();
+        if (value <= 0.5) {
+            //small
+        }else if(value <= 0.8){
+            //middle
+        }else{
+            //big
+        }
+    }
+    
+    rate = 0.3 + lucky;
+    value = CCRANDOM_0_1();
+    if (value <= rate) {
+        //drop 补给品
+        value = CCRANDOM_0_1();
+        if (value <= 0.3) {
+            //life ball
+        }else if(value <= 0.5){
+            //enegy ball
+        }else{
+            //bullets
+        }
+    }
+    
+    rate = 0.2 + lucky;
+    value = CCRANDOM_0_1();
+    if (value <= rate) {
+        //drop
+//        value = CCRANDOM_0_1();
+//        if (value <= 0.7) {
+//            //材料
+//        }else{
+//            //装备
+//            value = CCRANDOM_0_1();
+//            if (value <= 0.25) {
+//                //枪
+//                
+//            }else if(value <= 0.5){
+//                //刀
+//                
+//            }else if(value <= 0.75){
+//                //戒指
+//                
+//            }else{
+//                //项链
+//                
+//            }
+//            float v = -4 + floorf(CCRANDOM_0_1() * 9);
+//            int dropLevel = (int)v + monster->getMonsterData()->level;
+//            
+//        }
+    }
 }
 
 bool BGTWorld::isQTEMode()

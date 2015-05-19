@@ -247,6 +247,7 @@
 		F19C33811AF75E3900367A31 /* DefenseState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F19C337F1AF75E3900367A31 /* DefenseState.cpp */; };
 		F19C33841AF770CE00367A31 /* gameSceneMissLabel.fnt in Resources */ = {isa = PBXBuildFile; fileRef = F19C33821AF770CE00367A31 /* gameSceneMissLabel.fnt */; };
 		F19C33851AF770CE00367A31 /* gameSceneMissLabel.png in Resources */ = {isa = PBXBuildFile; fileRef = F19C33831AF770CE00367A31 /* gameSceneMissLabel.png */; };
+		F1CC79CD1B05D35300CE752B /* FilterSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F1CC79CB1B05D35300CE752B /* FilterSprite.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -579,6 +580,8 @@
 		F19C33801AF75E3900367A31 /* DefenseState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefenseState.h; sourceTree = "<group>"; };
 		F19C33821AF770CE00367A31 /* gameSceneMissLabel.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gameSceneMissLabel.fnt; sourceTree = "<group>"; };
 		F19C33831AF770CE00367A31 /* gameSceneMissLabel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameSceneMissLabel.png; sourceTree = "<group>"; };
+		F1CC79CB1B05D35300CE752B /* FilterSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FilterSprite.cpp; sourceTree = "<group>"; };
+		F1CC79CC1B05D35300CE752B /* FilterSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterSprite.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -731,6 +734,8 @@
 				F105A8491AF1F5430044CCEE /* CCShake.h */,
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
+				F1CC79CB1B05D35300CE752B /* FilterSprite.cpp */,
+				F1CC79CC1B05D35300CE752B /* FilterSprite.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -1422,6 +1427,7 @@
 			files = (
 				F105A8611AF1F5690044CCEE /* Wave.cpp in Sources */,
 				F105A8961AF1F60C0044CCEE /* BGTWall.cpp in Sources */,
+				F1CC79CD1B05D35300CE752B /* FilterSprite.cpp in Sources */,
 				F105A87F1AF1F5BB0044CCEE /* UILayer.cpp in Sources */,
 				F105A8BB1AF1F61C0044CCEE /* DizzyState.cpp in Sources */,
 				F105A85D1AF1F5690044CCEE /* LevelData.cpp in Sources */,

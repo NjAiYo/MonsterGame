@@ -21,9 +21,9 @@ void FlowState::enter(Character* agent)
         //log("attack complete!");
         //agent->move();
     });
-    flowForce = 16;
+    flowForce = 40;
     ay = flowForce;
-    flowForce = 8;
+    flowForce = 20;
 }
 
 void FlowState::execute(Character* agent,float dt)

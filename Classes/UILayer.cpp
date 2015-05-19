@@ -11,6 +11,7 @@
 #include "BGTWorld.h"
 #include "GameScene.h"
 #include "BGTWall.h"
+#include "FilterSprite.h"
 
 UILayer::UILayer()
 :hitCount(0)
@@ -72,8 +73,20 @@ bool UILayer::initWithGameScene(GameScene *gs)
     
 
     
-    Sprite *sprite = Sprite::createWithSpriteFrameName("skillBt.png");
-    Sprite *sprite1 = Sprite::createWithSpriteFrameName("skillBt.png");
+    Sprite *sprite = FilterSprite::createWithSpriteFrameName("skillBt.png");
+    Sprite *sprite1 = FilterSprite::createWithSpriteFrameName("skillBt.png");
+    
+    //灰色滤镜
+    GLfloat  filterMat[16]= {
+        0.3f,  0.3f,  0.3f,  0.0f,
+        0.59f, 0.59f, 0.59f, 0.59f,
+        0.11f, 0.11f, 0.11f, 0.0f,
+        0.0f,  0.0f,  0.0f,  1.0f,
+    };
+    //FilterSprite *s = dynamic_cast<FilterSprite*>(sprite);
+    dynamic_cast<FilterSprite*>(sprite)->setFilterMat(filterMat);
+    dynamic_cast<FilterSprite*>(sprite1)->setFilterMat(filterMat);
+    
     sprite1->setScale(1.1);
     Size spriteSize = sprite->getContentSize();
     sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
@@ -244,10 +257,16 @@ bool UILayer::initWithGameScene(GameScene *gs)
     failedLayer->addChild(menu, 1);
     
     _eventDispatcher->addCustomEventListener("MonsterHitted", CC_CALLBACK_1(UILayer::monsterHittedHandler,this));
+    _eventDispatcher->addCustomEventListener("MonsterShanbi", CC_CALLBACK_1(UILayer::monsterShanbiHandler,this));
 //    _eventDispatcher->addCustomEventListener("MonsterHitted", [=](EventCustom* event){
 //        monsterHittedHandler(event);
 //    });
     return true;
+}
+
+void UILayer::monsterShanbiHandler(EventCustom* event)
+{
+
 }
 
 void UILayer::monsterHittedHandler(EventCustom* event)
@@ -263,7 +282,6 @@ void UILayer::monsterHittedHandler(EventCustom* event)
         showComboUI();
     }else if(hitCount > 1){
         //update combo number
-        
     }
     comboLabel->setString(String::createWithFormat("%d",hitCount)->getCString());
 }

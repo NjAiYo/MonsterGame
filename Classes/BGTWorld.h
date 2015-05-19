@@ -106,6 +106,8 @@ public:
     
     void nextWave();
     
+    void monsterDiedHandler(EventCustom* event);
+    
     
     void startGame();
     void endGame(bool isWin);

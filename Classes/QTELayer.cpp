@@ -106,6 +106,8 @@ void QTELayer::qteBegin()
     qteMonster->stand();
     percentage = 50;
     progressBar->setPercentage(percentage);
+    float rate = progressBar->getPercentage() / 100.0f;
+    qteMark->setPosition(bar->getContentSize().width*rate,bar->getContentSize().height);
     schedule(schedule_selector(QTELayer::countDown), 1);
 }
 

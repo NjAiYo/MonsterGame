@@ -15,7 +15,7 @@
 USING_NS_CC;
 
 
-#define gravity -40
+#define gravity -80
 
 #define shotAngle 45 * A_T_R
 
