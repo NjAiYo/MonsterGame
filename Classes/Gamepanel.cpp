@@ -14,6 +14,8 @@ int Gamepanel::LayerSwitch_A=0;
 int Gamepanel::LayerSwitch_B=0;
 int Gamepanel::LayerSwitch_C=0;
 int Gamepanel::LayerSwitch_D=0;
+float scaleFactory=1.0;
+int templine=0;
 Scene* Gamepanel::createScene()
 {
     auto scene = Scene::create();
@@ -29,6 +31,8 @@ bool Gamepanel::init()
     {
         return false;
     }
+    AppDelegate *app = (AppDelegate*)Application::getInstance();
+    scaleFactory = app->scaleFactory;
 	gamepanel=this;
 	Money=0;
 	Bagopen=0;
@@ -68,39 +72,39 @@ bool Gamepanel::init()
 
 	auto additem=MenuItemImage::create("xxp.png","xxp.png",CC_CALLBACK_1(Gamepanel::allbuttoncallback,this));
 	additem->setTag(100);
-	additem->setPosition(ccp(100,600));
+	additem->setPosition(ccp(200*scaleFactory,1200*scaleFactory));
+    additem->setScale(scaleFactory);
 	menu->addChild(additem);
 	auto delitem=MenuItemImage::create("xx.png","xx.png",CC_CALLBACK_1(Gamepanel::allbuttoncallback,this));
 	delitem->setTag(101);
-	delitem->setPosition(ccp(160,600));
+	delitem->setPosition(ccp(320*scaleFactory,1200*scaleFactory));
+    delitem->setScale(scaleFactory);
 	menu->addChild(delitem);
 	auto showAkinditem=MenuItemImage::create("xx.png","xx.png",CC_CALLBACK_1(Gamepanel::allbuttoncallback,this));
 	showAkinditem->setTag(102);
-	showAkinditem->setPosition(ccp(220,600));
+	showAkinditem->setPosition(ccp(440*scaleFactory,1200*scaleFactory));
+    showAkinditem->setScale(scaleFactory);
 	menu->addChild(showAkinditem);
     
 	auto moneypic=Sprite::create("gold.png");
-	moneypic->setPosition(ccp(800,600));
+	moneypic->setPosition(ccp(1600*scaleFactory,1200*scaleFactory));
+    moneypic->setScale(scaleFactory);
 	this->addChild(moneypic,1);
 
 	moneylab= Label::create("0", "Arial", 30);
-    moneylab->setPosition(ccp(750,600));
+    moneylab->setPosition(ccp(1500*scaleFactory,1200*scaleFactory));
+    moneylab->setScale(scaleFactory);
     this->addChild(moneylab, 1);
 
 	initMainFace();
     return true;
 }
 
-void Gamepanel::playCallback(Ref* sender)
-{
-    Director::getInstance()->replaceScene(TransitionFade::create(1, GameScene::createSceneWithLevel(0)));
-    //    Director::getInstance()->replaceScene(TransitionSlideInT::create(1, GameScene::createSceneWithLevel(0)));
-}
-
 void Gamepanel::initMainFace()
 {
 	MainFaceBg=Sprite::create("mainbg.png");
 	MainFaceBg->setPosition(Vec2(visibleSize.width/2,visibleSize.height/2));
+    MainFaceBg->setScale(scaleFactory);
 	this->addChild(MainFaceBg);
 
     ZipUtils::setPvrEncryptionKeyPart(0,0xf858f36b);
@@ -108,55 +112,46 @@ void Gamepanel::initMainFace()
     ZipUtils::setPvrEncryptionKeyPart(2,0xdbf1274e);
     ZipUtils::setPvrEncryptionKeyPart(3,0xf3d29164);
     
-    
-    SpriteFrameCache *ccsfc = SpriteFrameCache::getInstance();
-    ccsfc->addSpriteFramesWithFile("MainMenuScene.plist");
-    
-    Size size = Director::getInstance()->getWinSize();
-    Sprite *sprite = Sprite::createWithSpriteFrameName("playButton.png");
-    Sprite *sprite1 = Sprite::createWithSpriteFrameName("playButton.png");
-    sprite1->setScale(1.1);
-    Size spriteSize = sprite->getContentSize();
-    sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
-    
-    MenuItemSprite *playItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(Gamepanel::playCallback, this));
-    
-    Menu *playMenu = Menu::create(playItem,NULL);
-    playMenu->setPosition(size.width/2,size.height/2);
-    addChild(playMenu, 1);
-    
-    AppDelegate *app = (AppDelegate*)Application::getInstance();
-    float scaleFactory = app->scaleFactory;
-    
-    
     spAtlas* atlas = spAtlas_createFromFile("liemoren.atlas", 0);
     SkeletonAnimation *skeletonNode = SkeletonAnimation::createWithFile("liemoren.json", atlas);
     //skeletonNode->setAnimation(0, "walk", true);
     //        spine::SkeletonAnimation *skeletonNode = SkeletonAnimation::createWithFile("hero.json", "hero.atlas", 0.6f);
     
-    skeletonNode->setPosition(size.width/2, 10);
-    skeletonNode->setScale(1.0*scaleFactory);
+    skeletonNode->setPosition(visibleSize.width/2, 10);
+    skeletonNode->setScale(0.5*scaleFactory);
     addChild(skeletonNode);
     skeletonNode->setAnimation(0, "daiji", true);
 	
 	Jewel=MenuItemImage::create("uimainface/11.png","uimainface/11.png",CC_CALLBACK_1(Gamepanel::allbuttoncallback,this));
-	Jewel->setPosition(Vec2(900,600));
-	addChild(Jewel);
+	Jewel->setPosition(Vec2(1800*scaleFactory,1200*scaleFactory));
+    Jewel->setScale(scaleFactory);
 	Vitality=MenuItemImage::create("uimainface/12.png","uimainface/12.png",CC_CALLBACK_1(Gamepanel::allbuttoncallback,this));
-	Vitality->setPosition(Vec2(1000,600));
-	addChild(Vitality);
+	Vitality->setPosition(Vec2(2000*scaleFactory,1200*scaleFactory));
+    Vitality->setScale(scaleFactory);
 	RankList=MenuItemImage::create("uimainface/1.png","uimainface/1.png",CC_CALLBACK_1(Gamepanel::allbuttoncallback,this));
-	RankList->setPosition(Vec2(100,350));
-	addChild(RankList);
+	RankList->setPosition(Vec2(200*scaleFactory,700*scaleFactory));
+    RankList->setScale(scaleFactory);
 	Pets=MenuItemImage::create("uimainface/2.png","uimainface/2.png",CC_CALLBACK_1(Gamepanel::allbuttoncallback,this));
-	Pets->setPosition(Vec2(100,150));
-	addChild(Pets);
+	Pets->setPosition(Vec2(200*scaleFactory,300*scaleFactory));
+    Pets->setScale(scaleFactory);
 	Forge=MenuItemImage::create("uimainface/3.png","uimainface/3.png",CC_CALLBACK_1(Gamepanel::allbuttoncallback,this));
-	Forge->setPosition(Vec2(250,280));
-	addChild(Forge);
-//	Shop=MenuItemImage::create("uimainface/3.png","uimainface/3.png",CC_CALLBACK_1(Gamepanel::allbuttoncallback,this));
-//	Forge->setPosition(Vec2(250,280));
-//	addChild(Forge);
+	Forge->setPosition(Vec2(500*scaleFactory,560*scaleFactory));
+    Forge->setScale(scaleFactory);
+	Shop=MenuItemImage::create("uimainface/6.png","uimainface/6.png",CC_CALLBACK_1(Gamepanel::allbuttoncallback,this));
+	Shop->setPosition(Vec2(1800*scaleFactory,800*scaleFactory));
+    Shop->setScale(scaleFactory);
+    Store=MenuItemImage::create("uimainface/5.png","uimainface/5.png",CC_CALLBACK_1(Gamepanel::allbuttoncallback,this));
+    Store->setPosition(Vec2(1800*scaleFactory,300*scaleFactory));
+    Store->setScale(scaleFactory);
+    Mission=MenuItemImage::create("uimainface/7.png","uimainface/7.png",CC_CALLBACK_1(Gamepanel::allbuttoncallback,this));
+    Mission->setPosition(Vec2(1600*scaleFactory,560*scaleFactory));
+    Mission->setScale(scaleFactory);
+    Mission->setTag(MISSION);
+
+    
+    MainFaceMenu=Menu::create(Jewel,Vitality,RankList,Pets,Forge,Shop,Store,Mission,NULL);
+    MainFaceMenu->setPosition(Vec2::ZERO);
+    addChild(MainFaceMenu);
 }
 
 
@@ -185,9 +180,9 @@ void Gamepanel::showbag()
 	if(Bagopen==0)
 	{
 		bagbg=Sprite::create("bagbg.png");
-		bagbg->setPosition(Vec2(visibleSize.width/2+100,visibleSize.height - bagbg->getContentSize().height));
+		bagbg->setPosition(Vec2(1652*scaleFactory,621*scaleFactory));
 		this->addChild(bagbg,1);
-		bagclose->setPosition(Vec2(visibleSize.width/2+280,visibleSize.height - bagbg->getContentSize().height+200));
+		bagclose->setPosition(Vec2(1652*scaleFactory+250,621*scaleFactory+250));
 		bagclose->setVisible(true);
 		initbag();
 	}
@@ -205,10 +200,19 @@ void Gamepanel::initbag()
 	continerLayer = Layer::create();
     continerLayer->setAnchorPoint(Vec2(0,0));
     continerLayer->setPosition(Vec2(0,0));
-	scrollView->setPosition(ccp(visibleSize.width/2-50,visibleSize.height/2-250));
+	scrollView->setPosition(ccp(1402*scaleFactory,360*scaleFactory));
+    if(ItemData::getInstance()->Allbagitemvec.size()<=20)
+    {
+       continerLayer->setContentSize(Size(500*scaleFactory, 500*scaleFactory));
+    }
+    else
+    {
+        templine=(ItemData::getInstance()->Allbagitemvec.size()-20)/5%5==0?(ItemData::getInstance()->Allbagitemvec.size()-20)/5:(ItemData::getInstance()->Allbagitemvec.size()-20)/5+1;
+        continerLayer->setContentSize(Size(500*scaleFactory,(500+templine*100)*scaleFactory));
+        continerLayer->setPosition(Vec2(0,-templine*40));
+    }
+    scrollView->setViewSize(Size(500*scaleFactory, 500*scaleFactory));
     
-    scrollView->setViewSize(Size(360, 400));
-    continerLayer->setContentSize(Size(400, 400));
 	scrollView->setContentSize(continerLayer->getContentSize());
     scrollView->setContainer(continerLayer);
     
@@ -228,10 +232,10 @@ void Gamepanel::initbag()
 
 	for(int i=0;i<ItemData::getInstance()->Allbagitemvec.size();i++)
 	{
-		int x=i%4*80+40;
-		int y=330-i/4*80;
+		int x=i%5*80*scaleFactory+80*scaleFactory;
+		int y=450*scaleFactory-i/5*80*scaleFactory;
 		Item *tempbgt=ItemData::getInstance()->Allbagitemvec.at(i);
-		tempbgt->pic->setPosition(ccp(x,y));
+		tempbgt->pic->setPosition(ccp(x,y+templine*100));
 		menuitem->addChild(tempbgt->pic);
 		log(tempbgt->id.c_str());
 	}
@@ -239,10 +243,14 @@ void Gamepanel::initbag()
 void Gamepanel::additem()
 {
 	ItemCreator::getInstance()->createItem_unique(1,0,5);
-	ItemCreator::getInstance()->createItem_normal("cl001");
-	ItemCreator::getInstance()->createItem_normal("soul001");
-	ItemCreator::getInstance()->createItem_normal("xhp001");
-	ItemCreator::getInstance()->createItem_normal("wq001");
+    ItemCreator::getInstance()->createItem_unique(1,0,5);
+    ItemCreator::getInstance()->createItem_unique(1,0,5);
+    ItemCreator::getInstance()->createItem_unique(1,0,5);
+    ItemCreator::getInstance()->createItem_unique(1,0,5);
+	//ItemCreator::getInstance()->createItem_normal("cl001");
+	//ItemCreator::getInstance()->createItem_normal("soul001");
+	//ItemCreator::getInstance()->createItem_normal("xhp001");
+	//ItemCreator::getInstance()->createItem_normal("wq001");
 }
 
 void Gamepanel::deleteitem()
@@ -282,6 +290,9 @@ void Gamepanel::allbuttoncallback(Ref* pSender)
 	case BAGCLOSEBTN:
 			closebag();
 		break;
+    case MISSION:
+            Director::getInstance()->replaceScene(TransitionFade::create(1, GameScene::createSceneWithLevel(0)));
+        break;
 	case 100:
 		additem();
 		break;
