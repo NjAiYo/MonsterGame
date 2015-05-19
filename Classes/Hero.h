@@ -2,12 +2,15 @@
 #define __HERO_H__
 #include "cocos2d.h"
 USING_NS_CC;
+class Item;
 class Hero:public Node
 {
 public :
+	float Exp;
 	int level;
 	int HP;
-	int gong_ji_li;
+	int gong_ji_li_dao;
+	int gong_ji_li_qiang;
 	int fang_yu_li;
 	float bao_ji;
 	float bao_ji_shang_hai;
@@ -37,7 +40,36 @@ public :
 
 	static Hero *getInstance();
 	void initAllProperties();
-	void getCurrentData(); 
+	void updateProperties();
+	void getCurrentData();
+	void initJueseFace();
+	void buttoncallback(Ref *pSender);
+
+	void initEquipmentpanel(int kind);
+	void compareEquipment(Item *item);
+	void equipe_item(int kind);
+
+	Item *NeckLace;
+	Item *Ring1;
+	Item *Ring2;
+	Item *Weapon1;
+	Item *Weapon2;
+	Item *Pet1;
+	Item *Pet2;
+	Item *Pet3;
+
+
+#define NECKLACE 1
+#define RINGA 2
+#define RINGB 3
+#define EQUIPA 4
+#define EQUIPB 5
+#define PETA 6
+#define PETB 7
+#define PETC 8
+#define ESCFACE 20
+#define ESCPANEL 21
+#define EQUIP 22
 private:
 	static Hero* hero;
 };
