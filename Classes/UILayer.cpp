@@ -235,7 +235,6 @@ bool UILayer::initWithGameScene(GameScene *gs)
     menu->alignItemsHorizontallyWithPadding(50);
     winLayer->addChild(menu, 1);
 
-    
     failedLayer = LayerColor::create(Color4B(0, 0, 0, 170));
     addChild(failedLayer);
     failedLayer->setVisible(false);

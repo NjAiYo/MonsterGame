@@ -4,47 +4,47 @@
 
 
 typedef enum {
-	WeaponDataType_GUN = 0,//Ç¹
-	WeaponDataType_KNIFE = 1,//µ¶
-	WeaponDataType_PET = 2//³èÎï
+	WeaponDataType_GUN = 0,//æª
+	WeaponDataType_KNIFE = 1,//åˆ€
+	WeaponDataType_PET = 2//å® ç‰©
 }WeaponDataType;
 
 typedef enum {
-	ArmorDataType_RING = 10,//½äÖ¸
-	WeaponDataType_NECKLACE = 11//ÏîÁ´
+	ArmorDataType_RING = 10,//æˆ’æŒ‡
+	WeaponDataType_NECKLACE = 11//é¡¹é“¾
 }ArmorDataType;
 
 typedef enum {
-	StuffDataType_NORMAL = 20//¶ÍÔì²ÄÁÏ
+	StuffDataType_NORMAL = 20//é”»é€ ææ–™
 }StuffDataType;
 
 typedef enum {
-	ConsumeDataType_LIFE = 30,//Ñª
-	ConsumeDataType_ENERGY = 31,//ÄÜÁ¿
-	ConsumeDataType_BULLET = 32,//×Óµ¯
-	ConsumeDataType_MONEY = 33,//Ç®
-	ConsumeDataType_EXP = 34,//¾­Ñé
-	ConsumeDataType_RESETSKILL = 35//¼¼ÄÜÏ´µã
+	ConsumeDataType_LIFE = 30,//è¡€
+	ConsumeDataType_ENERGY = 31,//èƒ½é‡
+	ConsumeDataType_BULLET = 32,//å­å¼¹
+	ConsumeDataType_MONEY = 33,//é’±
+	ConsumeDataType_EXP = 34,//ç»éªŒ
+	ConsumeDataType_RESETSKILL = 35//æŠ€èƒ½æ´—ç‚¹
 }ConsumeDataType;
 
 typedef enum {
-	BuffDataType_HOLE = 40,//´ò¿×
-	BuffDataType_GEM = 41//±¦Ê¯
-}BuffDataType;//ÔöÇ¿ÎäÆ÷×°±¸µÄ
+	BuffDataType_HOLE = 40,//æ‰“å­”
+	BuffDataType_GEM = 41//å®çŸ³
+}BuffDataType;//å¢å¼ºæ­¦å™¨è£…å¤‡çš„
 
 typedef enum {
-	BuffDataType_FULLHIT = 50,//È«ÆÁ´ò»÷
-	BuffDataType_RECOVERYLIFE = 51,//¸´»îÊ¯
-	BuffDataType_ENERGYSHIELD = 52//ÄÜÁ¿»¤¶Ü
-}SkillDataType;//¼¼ÄÜµÀ¾ß
+	BuffDataType_FULLHIT = 50,//å…¨å±æ‰“å‡»
+	BuffDataType_RECOVERYLIFE = 51,//å¤æ´»çŸ³
+	BuffDataType_ENERGYSHIELD = 52//èƒ½é‡æŠ¤ç›¾
+}SkillDataType;//æŠ€èƒ½é“å…·
 
 class Item;
 class ItemCreator:public cocos2d::Node
 {
 public:
 	static ItemCreator* getInstance();
-	void createItem_normal(const char *id);//²úÉú¿ÉÒÔ¶ÑµşµÄµÀ¾ß
-	void createItem_unique(int level,int kind,int rarerate);//²úÉú²»¿É¶ÑµşµÄµÀ¾ß
+	void createItem_normal(const char *id);//å¯å †å çš„é“å…·
+	void createItem_unique(int level,int kind,int rarerate);//ä¸å¯å †å çš„é“å…·
 	bool ishave(const char *id);
 private:
 	static ItemCreator *_itemcreator;
