@@ -5,12 +5,11 @@
 #include "base/CCEventDispatcher.h"
 #include "platform/CCStdC.h"
 #include "deprecated/CCString.h"
-
+#include "Gamepanel.h"
 #include <vector>
-#include "cocos2d.h"
+
 using namespace std;
-USING_NS_CC;
-#include "AppDelegate.h"
+
 NS_CC_BEGIN
 
 enum 
@@ -21,7 +20,7 @@ enum
 //
 //CCMenu
 //
-float scaleFactory;
+
 Mymenu::~Mymenu()
 {
     CCLOGINFO("In the destructor of Menu. %p", this);
@@ -135,7 +134,7 @@ bool Mymenu::initWithArray(const Vector<MenuItem*>& arrayOfItems)
         
         
         auto touchListener = EventListenerTouchOneByOne::create();
-        touchListener->setSwallowTouches(false);
+        touchListener->setSwallowTouches(false);//改为false不会像下传递
         
         touchListener->onTouchBegan = CC_CALLBACK_2(Mymenu::onTouchBegan, this);
         touchListener->onTouchMoved = CC_CALLBACK_2(Mymenu::onTouchMoved, this);
@@ -144,8 +143,6 @@ bool Mymenu::initWithArray(const Vector<MenuItem*>& arrayOfItems)
         
         _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
         
-        AppDelegate *app = (AppDelegate*)Application::getInstance();
-        scaleFactory = app->scaleFactory;
         return true;
     }
     return false;
@@ -249,7 +246,7 @@ void Mymenu::onTouchEnded(Touch* touch, Event* event)
     {
         _selectedItem->unselected();
 		if(thepoint==convertToWorldSpace(_selectedItem->getPosition()))
-			if(convertToWorldSpace(_selectedItem->getPosition()).y<871&&convertToWorldSpace(_selectedItem->getPosition()).y>371)
+			if(convertToWorldSpace(_selectedItem->getPosition()).y<1054*Gamepanel::scaleFactory&&convertToWorldSpace(_selectedItem->getPosition()).y>162*Gamepanel::scaleFactory)
         _selectedItem->activate();
     }
     _state = Mymenu::State::WAITING;

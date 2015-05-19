@@ -55,6 +55,8 @@
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
+		DEC64CFC1B0B04C6003244ED /* Pet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEC64CF81B0B04C6003244ED /* Pet.cpp */; };
+		DEC64CFD1B0B04C6003244ED /* PetBag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEC64CFA1B0B04C6003244ED /* PetBag.cpp */; };
 		DEDFB13F1AFC9AA8001FC0C0 /* CsvData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEDFB12B1AFC9AA8001FC0C0 /* CsvData.cpp */; };
 		DEDFB1401AFC9AA8001FC0C0 /* CsvUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEDFB12D1AFC9AA8001FC0C0 /* CsvUtil.cpp */; };
 		DEDFB1411AFC9AA8001FC0C0 /* Gamepanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEDFB12F1AFC9AA8001FC0C0 /* Gamepanel.cpp */; };
@@ -302,6 +304,10 @@
 		D44C620D132DFF430009C878 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
+		DEC64CF81B0B04C6003244ED /* Pet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pet.cpp; sourceTree = "<group>"; };
+		DEC64CF91B0B04C6003244ED /* Pet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pet.h; sourceTree = "<group>"; };
+		DEC64CFA1B0B04C6003244ED /* PetBag.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PetBag.cpp; sourceTree = "<group>"; };
+		DEC64CFB1B0B04C6003244ED /* PetBag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PetBag.h; sourceTree = "<group>"; };
 		DEDFB12B1AFC9AA8001FC0C0 /* CsvData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CsvData.cpp; sourceTree = "<group>"; };
 		DEDFB12C1AFC9AA8001FC0C0 /* CsvData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CsvData.h; sourceTree = "<group>"; };
 		DEDFB12D1AFC9AA8001FC0C0 /* CsvUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CsvUtil.cpp; sourceTree = "<group>"; };
@@ -729,6 +735,10 @@
 		DEDFB12A1AFC9A99001FC0C0 /* New Group */ = {
 			isa = PBXGroup;
 			children = (
+				DEC64CF81B0B04C6003244ED /* Pet.cpp */,
+				DEC64CF91B0B04C6003244ED /* Pet.h */,
+				DEC64CFA1B0B04C6003244ED /* PetBag.cpp */,
+				DEC64CFB1B0B04C6003244ED /* PetBag.h */,
 				DEDFB12B1AFC9AA8001FC0C0 /* CsvData.cpp */,
 				DEDFB12C1AFC9AA8001FC0C0 /* CsvData.h */,
 				DEDFB12D1AFC9AA8001FC0C0 /* CsvUtil.cpp */,
@@ -1299,6 +1309,7 @@
 				F105A8991AF1F60C0044CCEE /* MessageDispatcher.cpp in Sources */,
 				F105A8BD1AF1F61C0044CCEE /* StandUpState.cpp in Sources */,
 				F105A85C1AF1F5690044CCEE /* MonsterData.cpp in Sources */,
+				DEC64CFD1B0B04C6003244ED /* PetBag.cpp in Sources */,
 				F19C337E1AF75DF600367A31 /* QTEMonster.cpp in Sources */,
 				F105A8871AF1F5CC0044CCEE /* GameManager.cpp in Sources */,
 				F105A8861AF1F5CC0044CCEE /* UserData.cpp in Sources */,
@@ -1327,6 +1338,7 @@
 				F105A8BA1AF1F61C0044CCEE /* FallDownState.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				DEDFB1431AFC9AA8001FC0C0 /* Hero.cpp in Sources */,
+				DEC64CFC1B0B04C6003244ED /* Pet.cpp in Sources */,
 				DEDFB1481AFC9AA8001FC0C0 /* StringUtil.cpp in Sources */,
 				F105A8B71AF1F61C0044CCEE /* MoveState.cpp in Sources */,
 				DEDFB1401AFC9AA8001FC0C0 /* CsvUtil.cpp in Sources */,

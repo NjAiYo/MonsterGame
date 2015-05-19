@@ -19,9 +19,9 @@ public:
 	std::string detail;
 	int x,y;
 	int sellnum;
-	MenuItemImage *pic;
+	MenuItemImage *pic,*sellit;
 	Label *numlab;
-	Label *sellnumlab;
+	Label *sellnumlab,*selltotalmoneylab;
 	//特殊属性随机生成不由外部文件描述
 	int level;
 
@@ -53,11 +53,16 @@ public:
 	int te_shu_ji_xiao_hao_jian_di;
 	float xi_xue_gai_lv;
 
+	int isusing;//判断是否装备中0未装备，1装备中
+	int issale;//可否出售0不可出售，1可出售
+	int isselect;//是否选中0未选中，1选中
+
 	static int randomforproperty;
 	int gailva,gailvb;//参与概率处理
 
 	Item(std::string id);
 	Item(int level,int kind,int rarerate);
+	Item(std::string id,int nothing);
 	void addnumber();
 	void useitem(int num);//使用并且删除如果number为0那么删除该道具
 	void releaseself();//用于立即清除，比如扔掉道具等的
@@ -82,5 +87,8 @@ public:
 	void kaixiangzi();//开武器装备等的效果处理
 	int isopen;//随机生成的道具用的标示，0标示未开启，可以开；1标示开启过了，可以查看详细可以卖。
 	void xianshijp(CCNode* pSender, void* data);//显示奖品的方法
+
+	Sprite *zhezhao;
+	Sprite *shiyongzhong;
 };
 #endif
