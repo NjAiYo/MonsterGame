@@ -23,10 +23,13 @@ void PetBag::initPetFace()
 
 		auto mask=Sprite::create("mask.png");
 		mask->setScale(100);
+        Gamepanel::gamepanel->Layer_A->addChild(mask);
 
 		auto petbg=Sprite::createWithSpriteFrameName("ditu2.png");
 		petbg->setPosition(Vec2(visibleSize.width/2,visibleSize.height/2));
 		petbg->setScale(Gamepanel::scaleFactory);
 		Gamepanel::gamepanel->Layer_A->addChild(petbg);
+        
+        
 	}
 }
