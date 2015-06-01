@@ -1245,17 +1245,6 @@
 		F105A8CD1AF1F6C40044CCEE /* fonts */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
-				DE77D9361B18524700478DB2 /* arial.ttf */,
-				DE77D9371B18524700478DB2 /* Marker Felt.ttf */,
-=======
-				F17189E01B1465EE00814208 /* monsterNumber.png */,
-				F17189DC1B1465CD00814208 /* enegyAddLabel.png */,
-				F17189DD1B1465CD00814208 /* lifeAddLabel.png */,
-				F17189DA1B14659E00814208 /* bulletAddLabel.png */,
-				F17189D81B14640000814208 /* comboNumber.png */,
-				F17189D61B14631700814208 /* coinNumber.png */,
->>>>>>> origin/master
 				F111643E1AF9D396001C6582 /* gameSceneCountDownLabel.fnt */,
 				F111643F1AF9D396001C6582 /* gameSceneCountDownLabel.png */,
 				F19C33821AF770CE00367A31 /* gameSceneMissLabel.fnt */,
@@ -1666,11 +1655,6 @@
 				F1FD4F741B16BE1F00057013 /* example_Twist.fsh in Resources */,
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
 				DEDFB1A51AFC9B09001FC0C0 /* tavern_bg_chest_2.png in Resources */,
-<<<<<<< HEAD
-				DE77D9301B1850C300478DB2 /* isusing.png in Resources */,
-=======
-				F1FD4F731B16BE1F00057013 /* example_sepia.fsh in Resources */,
->>>>>>> origin/master
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
 				F105A9341AF1F6C40044CCEE /* boss2_zhuazigj.mp3 in Resources */,
 				F105A9441AF1F6C40044CCEE /* door_2.mp3 in Resources */,
@@ -1717,12 +1701,6 @@
 				F105A9171AF1F6C40044CCEE /* gameSceneCoinLabel.png in Resources */,
 				F105A93A1AF1F6C40044CCEE /* d_hq.mp3 in Resources */,
 				F105A9431AF1F6C40044CCEE /* door_1.mp3 in Resources */,
-<<<<<<< HEAD
-				DE77D9391B18684E00478DB2 /* weapons.csv in Resources */,
-=======
-				F1FD4F661B16BE1E00057013 /* example_greyScale.fsh in Resources */,
-				F154EA7F1B0EDF0F00E6D8F7 /* O.json in Resources */,
->>>>>>> origin/master
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				DEDFB1CA1AFC9B09001FC0C0 /* wuqi3.png in Resources */,
@@ -1745,12 +1723,6 @@
 				F105A93D1AF1F6C40044CCEE /* d_ng.mp3 in Resources */,
 				F105A9211AF1F6C40044CCEE /* gameSceneScoreLabel.png in Resources */,
 				F105A9281AF1F6C40044CCEE /* boss1_daduan2.mp3 in Resources */,
-<<<<<<< HEAD
-				DE24B15E1B1813ED00C5C2E8 /* pet.csv in Resources */,
-=======
-				F154EA7E1B0EDF0F00E6D8F7 /* N.json in Resources */,
-				F154EA701B0EDF0F00E6D8F7 /* A.json in Resources */,
->>>>>>> origin/master
 				DEDFB1931AFC9B09001FC0C0 /* baglab.png in Resources */,
 				F105A9511AF1F6C40044CCEE /* sq.mp3 in Resources */,
 				F1FD4F711B16BE1E00057013 /* example_outline.fsh in Resources */,
@@ -1759,11 +1731,6 @@
 				DEDFB1CB1AFC9B09001FC0C0 /* xj.png in Resources */,
 				F1FD4F6A1B16BE1E00057013 /* example_lensFlare.fsh in Resources */,
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
-<<<<<<< HEAD
-=======
-				DEDFB1D11AFCA802001FC0C0 /* uimainface in Resources */,
-				F1FD4F721B16BE1F00057013 /* example_Plasma.fsh in Resources */,
->>>>>>> origin/master
 				F105A93B1AF1F6C40044CCEE /* d_hs.mp3 in Resources */,
 				F105A9471AF1F6C40044CCEE /* fireball.mp3 in Resources */,
 				F17189DB1B14659E00814208 /* bulletAddLabel.png in Resources */,
@@ -1870,13 +1837,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F105A8611AF1F5690044CCEE /* Wave.cpp in Sources */,
-<<<<<<< HEAD
-				DE2C4B2B1B1C469D00691331 /* Goods.cpp in Sources */,
-				DE77D92E1B183A8100478DB2 /* BagLayer.cpp in Sources */,
-=======
-				F1FD4F4F1B16BE1E00057013 /* CCCustomFilter.cpp in Sources */,
-				F117A8D61B0DC73B002EE642 /* WTMDetectionResult.cpp in Sources */,
->>>>>>> origin/master
 				F105A8961AF1F60C0044CCEE /* BGTWall.cpp in Sources */,
 				F105A87F1AF1F5BB0044CCEE /* UILayer.cpp in Sources */,
 				F105A8BB1AF1F61C0044CCEE /* DizzyState.cpp in Sources */,
@@ -1948,13 +1908,6 @@
 				F117A8CD1B0D69B1002EE642 /* WTMGlyphStroke.cpp in Sources */,
 				F1FD4F5B1B16BE1E00057013 /* CCSharpenFilter.cpp in Sources */,
 				F105A8CA1AF1F62E0044CCEE /* Weapon.cpp in Sources */,
-<<<<<<< HEAD
-				DE24B1501B18038400C5C2E8 /* TalentPoint.cpp in Sources */,
-=======
-				F1FD4F5A1B16BE1E00057013 /* CCSepiaFilter.cpp in Sources */,
-				F117A8D01B0D69D2002EE642 /* WTMGlyphTemplate.cpp in Sources */,
-				F18452B11B0EF85D007BF8A0 /* PointObject.cpp in Sources */,
->>>>>>> origin/master
 				F105A8C11AF1F61C0044CCEE /* LieDownState.cpp in Sources */,
 				F1FD4F581B16BE1E00057013 /* CCRGBFilter.cpp in Sources */,
 				F1FD4F541B16BE1E00057013 /* CCGrayFilter.cpp in Sources */,
