@@ -43,14 +43,11 @@ class ItemCreator:public cocos2d::Node
 {
 public:
 	static ItemCreator* getInstance();
-<<<<<<< HEAD
+
     virtual bool init();
 	bool createItem_normal(const char *id);//²úÉú¿ÉÒÔ¶ÑµþµÄµÀ¾ß
 	bool createItem_unique(int level,int kind,int rarerate);//²úÉú²»¿É¶ÑµþµÄµÀ¾ß
-=======
-	void createItem_normal(const char *id);//å¯å †å çš„é“å…·
-	void createItem_unique(int level,int kind,int rarerate);//ä¸å¯å †å çš„é“å…·
->>>>>>> origin/master
+
 	bool ishave(const char *id);
 private:
 	static ItemCreator *_itemcreator;

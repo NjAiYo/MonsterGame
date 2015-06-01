@@ -14,17 +14,15 @@ Player::~Player()
 }
 
 Player::Player()
-:id(0)
-,level(1)
-,score(0)
-,money(0)
+:_id(0)
+,_level(1)
+,_score(0)
+,_money(0)
 {
     
 }
 
 bool Player::init(){
-    Dictionary *dict = Dictionary::create();
-    dict->setObject(<#cocos2d::Ref *pObject#>, <#const std::string &key#>)
 
 
     return true;
