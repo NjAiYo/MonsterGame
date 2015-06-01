@@ -121,11 +121,11 @@ void GameScene::createWorld()
 
 void GameScene::startGame()
 {
-    scheduleUpdate();
     world->startGame();
     uiLayer->gameStart();
     
     state = GameStateGaming;
+    scheduleUpdate();
 }
 
 void GameScene::restartGame()

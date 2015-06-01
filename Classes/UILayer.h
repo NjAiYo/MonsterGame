@@ -11,14 +11,18 @@
 
 #include "cocos2d.h"
 #include "GameManager.h"
+#include "cocos2dFilters.h"
 
 USING_NS_CC;
+USING_NS_CC_EXT;
 
 class GameScene;
 
 class UILayer : public cocos2d::Layer
 {
 private:
+    Filters one;
+    
     GameScene *gameScene;
     Sprite *knifeIcon;
     Sprite *gunIcon;
@@ -26,7 +30,8 @@ private:
     LayerColor *winLayer;
     LayerColor *failedLayer;
     LayerColor *pausedLayer;
-    Label *scorelabel;
+    FilteredSprite* blursprite;
+    //Label *scorelabel;
     Layer *comboLayer;
     Label *playerLevelLabel;
     Label *coinLabel;
@@ -35,15 +40,16 @@ private:
     ProgressTimer *comboProgressBar;
     
     GameManager *gameManager;
-    Player *player;
+    Hero *player;
     Sprite *enegyBar;
     ProgressTimer *enegyProgressBar;
     
     Sprite *lifeBar;
     ProgressTimer *lifeProgressBar;
-    
+    Menu *pauseMenu;
     void restartCallback(Ref* sender);
     void nextLevelCallback(Ref* sender);
+    void mainCallback(Ref* sender);
     void pauseCallback(Ref* sender);
     void skillCallback(Ref* sender);
     void resumeCallback(Ref* sender);
@@ -53,6 +59,7 @@ private:
     
     void monsterHittedHandler(EventCustom* event);
     void monsterShanbiHandler(EventCustom* event);
+    void monsterDefenseHandler(EventCustom* event);
     void toggleToGun();
     void toggleToKnife();
     
@@ -63,6 +70,11 @@ private:
     void showComboUI();
     
     unsigned int mostHitRecord;
+    
+    float currentLifeValue;
+    float currentEnegyValue;
+    Sprite *lifeBarHead;
+    Sprite *enegyBarHead;
 public:
     
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone

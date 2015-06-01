@@ -83,9 +83,9 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
     float y2 = wallPosition.y - sinf(M_PI*110.0f/180.0f)*wall->getWidth()/2;
     wall->bottomPosition = Vec2(x2,y2);
     bottomPositionYForMonster = wall->bottomPosition.y - 150;
-    auto draw = DrawNode::create();
-    addChild(draw, 10);
-    draw->drawLine(Vec2(x1,y1), Vec2(x2, y2), Color4F(0.0, 1.0, 0.0, 1.0));
+//    auto draw = DrawNode::create();
+//    addChild(draw, 10);
+//    draw->drawLine(Vec2(x1,y1), Vec2(x2, y2), Color4F(0.0, 1.0, 0.0, 1.0));
     
     road0Y = y1;
     road1Y = wallPosition.y - sinf(M_PI*-70.0f/180.0f)*wall->getWidth()/4;

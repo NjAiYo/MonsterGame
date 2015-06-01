@@ -58,7 +58,7 @@ void MoveState::exit(Character* agent)
 
 bool MoveState::onMessage(Character* agent, const Telegram& msg)
 {
-    agent->flowup();
+    //agent->flowup();
     if(msg.msg == Msg_AttackedByXuLiWeapon || msg.msg == Msg_AttackedByWeapon){
         Weapon *weapon = (Weapon*)GameEntityManager::getInstance()->getEntityFromID(msg.sender);
         
@@ -67,9 +67,7 @@ bool MoveState::onMessage(Character* agent, const Telegram& msg)
             float value = CCRANDOM_0_1();
             if (value <= data->shanbi) {
                 //闪避
-                EventCustom event("MonsterShanbi");
-                event.setUserData(agent);
-                agent->getEventDispatcher()->dispatchEvent(&event);
+                agent->shanbi();
                 return false;
             }
         }
@@ -89,8 +87,8 @@ bool MoveState::onMessage(Character* agent, const Telegram& msg)
         switch (weapon->getType()) {
             case WeaponTypeKnife:{
                 //Knife *knife = (Knife*)weapon;
-                agent->flowup();
-                return false;
+//                agent->flowup();
+//                return false;
                 KnifeAttackDirection direction = *(KnifeAttackDirection*)msg.extraInfo;
                 if (msg.msg == Msg_AttackedByXuLiWeapon) {
                     if (direction == KnifeAttackDirectionUp) {
