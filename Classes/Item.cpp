@@ -155,9 +155,9 @@ Item::Item(std::string id,int nothing)
 	this->isusing=1;
 	this->issale=0;
 	this->isselect=0;
-	pic=MenuItemImage::create(this->picname,this->picname, CC_CALLBACK_1(Item::buttoncallback, this));
+    pic = MenuItemSprite::create(Sprite::createWithSpriteFrameName(this->picname),Sprite::createWithSpriteFrameName(this->picname), CC_CALLBACK_1(Item::buttoncallback, this));
 	pic->retain();
-	shiyongzhong=Sprite::create("ui/isusing.png");
+	shiyongzhong=Sprite::create("isusing.png");
 	shiyongzhong->setPosition(pic->getContentSize().width/2,pic->getContentSize().height/2);
 	pic->addChild(shiyongzhong);
 	isopen=1;
@@ -235,6 +235,10 @@ Item::Item(std::string id,int nothing)
 
 void Item::buttoncallback(Ref* pSender)
 {
+    EventCustom event("itemClicked");
+    event.setUserData(this);
+    _eventDispatcher->dispatchEvent(&event);
+    
 	if(Gamepanel::JueseSysytem==1)
 	{
 		for(int i=0;i<ItemData::getInstance()->Allbagitemvec.size();i++)
@@ -251,7 +255,8 @@ void Item::buttoncallback(Ref* pSender)
 		zhezhao->setOpacity(60);
 		zhezhao->setPosition(pic->getContentSize().width/2,pic->getContentSize().height/2);
 		pic->addChild(zhezhao);
-		Hero::getInstance()->compareEquipment(this);
+		Hero::getInstance()->shouEquipmentdata(this);
+        
 	}
 	else if(Gamepanel::DuanzaoSystem==1)
 	{
@@ -259,10 +264,14 @@ void Item::buttoncallback(Ref* pSender)
 	}
 	else if(Gamepanel::BagSystem==1)
 	{
+        
 		if((kind==0||kind==1)&&isopen==0&&Gamepanel::gamepanel->LayerSwitch_C==0)
 		{
 			randomgetitemdata(kind,rarerate);
 			kaixiangzi();
+            EventCustom event("openCase");
+            event.setUserData(this);
+            _eventDispatcher->dispatchEvent(&event);
 		}
 		else if(Gamepanel::gamepanel->LayerSwitch_C==0)
 		{
@@ -270,6 +279,10 @@ void Item::buttoncallback(Ref* pSender)
 			showdetail(0);
 			else
 			showdetail(1);
+            
+            EventCustom event("itemClicked");
+            event.setUserData(this);
+            _eventDispatcher->dispatchEvent(&event);
 		}
 	}
 	
@@ -317,9 +330,9 @@ void Item::operationcallback(Ref* pSender)
 	case 5:
 		if(number>0&&sellnum<=number)
 		{
-			Gamepanel::Money+=sellnum*salegold;
+			Hero::getInstance()->Money+=sellnum*salegold;
 			char a[8];
-			sprintf(a,"%d",Gamepanel::Money);
+			sprintf(a,"%d",Hero::getInstance()->Money);
 			Gamepanel::gamepanel->moneylab->setString(a);
 			useitem(sellnum);
 		}
@@ -339,7 +352,7 @@ void Item::operationcallback(Ref* pSender)
 	case 7:
 		Gamepanel::gamepanel->Layer_C->removeAllChildrenWithCleanup(true);
 		Gamepanel::gamepanel->LayerSwitch_C=0;
-		auto pp=Sprite::create("wuqi1.png");
+		auto pp=Sprite::createWithSpriteFrameName(String::createWithFormat("k%d_l%d_r%d.png",kind,level,rarerate)->getCString());
 		pp->setPosition(ccp(pic->getContentSize().width/2,pic->getContentSize().height/2));
 		pic->addChild(pp);
 		break;
@@ -360,13 +373,13 @@ void Item::showdetail(int kind)
 		if(rarerate==1)
 		{
 			if(this->kind==1)
-				itempic1=Sprite::create("chujijian.png");
+				itempic1=Sprite::createWithSpriteFrameName(String::createWithFormat("k%d_l%d_r%d.png",kind,level,rarerate)->getCString());
 			else 
-				itempic1=Sprite::create("chujiqiang.png");
+				itempic1=Sprite::createWithSpriteFrameName(String::createWithFormat("k%d_l%d_r%d.png",kind,level,rarerate)->getCString());
 		}
 		else
 		{
-			itempic1=Sprite::create("wuqi1.png");
+			itempic1=Sprite::createWithSpriteFrameName(String::createWithFormat("k%d_l%d_r%d.png",kind,level,rarerate)->getCString());
 		}
 		
 		itempic1->setPosition(ccp(150*2*Gamepanel::scaleFactory,470*2*Gamepanel::scaleFactory));

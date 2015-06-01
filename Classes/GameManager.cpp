@@ -23,15 +23,15 @@ GameManager::~GameManager()
     player->release();
 }
 
-Player* GameManager::getPlayer()
+Hero* GameManager::getPlayer()
 {
     return player;
 }
 
 bool GameManager::init()
 {
-    player = new Player();
-    player->init();
+    player = Hero::getInstance();
+    player->retain();
     return true;
 }
 

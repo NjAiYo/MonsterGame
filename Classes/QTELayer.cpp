@@ -9,6 +9,8 @@
 #include "QTELayer.h"
 #include "BGTWorld.h"
 
+
+
 QTELayer::QTELayer()
 :qteMonster(NULL)
 ,enableFight(false)

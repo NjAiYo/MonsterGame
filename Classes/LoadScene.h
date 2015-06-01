@@ -11,6 +11,9 @@
 
 #include "cocos2d.h"
 #include <spine/spine-cocos2dx.h>
+
+
+
 USING_NS_CC;
 
 class LoadScene : public cocos2d::Layer

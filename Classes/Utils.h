@@ -81,6 +81,8 @@ USING_NS_CC;
 #define DefenseAnimationName "defense"
 #define DefenseEndAnimationName "defense_end"
 
+#define GESTURE_SCORE_THRESHOLD 0.7f
+
 typedef enum {
     TROOP_TIME_MODE_FIXED = 0,
     TROOP_TIME_MODE_RANDOM = 1,
@@ -154,6 +156,32 @@ typedef enum {
     KnifeAttackDirectionDown,
     KnifeAttackDirectionUnkown,
 } KnifeAttackDirection;
+
+
+typedef enum {
+    Goods_Weapon_GUN = 0,//枪
+    Goods_Weapon_KNIFE = 1,//刀
+    Goods_Weapon_PET = 2,//宠物
+    
+    Goods_Armor_RING = 10,//戒指
+    Goods_Armo_NECKLACE = 11,//项链
+    
+    Goods_Stuff_NORMAL = 20,//普通材料
+    
+    Goods_Consume_LIFE = 30,//血
+    Goods_Consume_ENERGY = 31,//能量
+    Goods_Consume_BULLET = 32,//子弹
+    Goods_Consume_MONEY = 33,//钱
+    Goods_Consume_EXP = 34,//经验
+    Goods_Consume_RESETSKILL = 35,//技能重置
+    
+    Goods_Buff_HOLE = 40,//打洞
+    Goods_Buff_GEM = 41,//宝石
+    
+    Goods_Skill_FULLHIT = 50,//全屏攻击
+    Goods_Skill_RECOVERYLIFE = 51,//复活
+    Goods_Skill_ENERGYSHIELD = 52//能量盾
+}GoodsType;
 
 
 struct CGLine {

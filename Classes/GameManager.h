@@ -12,7 +12,7 @@
 #include "cocos2d.h"
 //#include "sqlite3.h"
 #include "UserData.h"
-#include "Player.h"
+#include "Hero.h"
 
 USING_NS_CC;
 
@@ -28,7 +28,7 @@ private:
 //    std::string sqlstr;
     int result;
     
-    Player *player;
+    Hero *player;
     UserData *userData;
     
     GameManager(const GameManager &);
@@ -42,7 +42,7 @@ public:
     static GameManager* getInstance();
     void readGameData();
     void saveGameData();
-    Player* getPlayer();
+    Hero* getPlayer();
     
 };
 

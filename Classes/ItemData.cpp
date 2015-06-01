@@ -6,10 +6,23 @@ ItemData *ItemData::getInstance()
 	if(_bagsystem==nullptr)
 	{
 		_bagsystem=new ItemData();
+        if(_bagsystem&&_bagsystem->init())
+        {
+            _bagsystem->autorelease();
+            _bagsystem->retain();
+        }
+        else
+        {
+            CC_SAFE_DELETE(_bagsystem);
+            _bagsystem=nullptr;
+        }
 	}
 	return _bagsystem;
 }
-
+bool ItemData::init()
+{
+    return true;
+}
 void ItemData::initrecorddata()
 {
 
@@ -18,6 +31,9 @@ void ItemData::initrecorddata()
 void ItemData::additem(Item *item)
 {
 	Allbagitemvec.pushBack(item);
+    EventCustom event("itemAdded");
+    event.setUserData(item);
+    _eventDispatcher->dispatchEvent(&event);
 }
 
 void ItemData::deleteitem(const char *id)
@@ -33,6 +49,9 @@ void ItemData::deleteitem(const char *id)
 				Allbagitemvec.erase(i);
 				delete temp;
 				temp=NULL;
+                EventCustom event("itemDeleted");
+                event.setUserData((void*)id);
+                _eventDispatcher->dispatchEvent(&event);
 			}
 		}
 	}

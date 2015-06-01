@@ -4,22 +4,44 @@
 #include "cocos2d.h"
 #include "Mymenu.h"
 #include "cocos-ext.h"
+#include "Hero.h"
+#include "GamepanelHeader.h"
+
+
+#if (CC_TARGET_PLATFORM==CC_PLATFORM_WIN32)
+
+#include "spine\spine.h"//win,android
+#include "spine\spine-cocos2dx.h"//win,android
+#else
 #include <spine/spine-cocos2dx.h>
+#endif
+
+
+
+
 using namespace spine;
 USING_NS_CC;
 class Item;
+class BagLayer;
 class Gamepanel : public cocos2d::Layer,public extension::ScrollViewDelegate
 {
 public:
-	static int Money;
-	static Gamepanel *gamepanel;
-	static int LayerSwitch_A,LayerSwitch_B,LayerSwitch_C,LayerSwitch_D;//A为点击道具按钮后显示的第一层开关标示，B为在a基础上又点了新的按钮弹出的一层的开关标示。
-	static int JueseSysytem,DuanzaoSystem,BagSystem;//在不同系统中道具按钮响应不同的操作
-	static float scaleFactory;
+    static Gamepanel *gamepanel;
+    static short LayerSwitch_A;
+    static short LayerSwitch_B;
+    static short LayerSwitch_C;
+    static short LayerSwitch_D;
+    static short JueseSysytem;
+    static short DuanzaoSystem;
+    static short BagSystem;
+    static short TalentSystem;
+    static short EquipSystem;
+    static float scaleFactory;
+    
 	Label *moneylab,*zuanshilab,*tililab;
-	//正式界面及数据设计
-	void initMainFace();
-	void initdata();
+    BagLayer *bagLayer;
+    Hero *hero;
+    
 	Sprite *MainFaceBg;
 	Menu *MainFaceMenu;
 	MenuItemImage *RankList;
@@ -32,26 +54,30 @@ public:
 
 	SkeletonAnimation* Heroskeleton;
 	DrawNode *drawnode;
-	//快捷菜单相关变量及方法
-	int barY,barFlag;
-	Sprite *bar;
+
+
 	Size visibleSize;
 	MenuItemImage *dropbtn,*bag;	
 	Menu *menu;
-	void showbarorhidebar();
-	//背包功能相关
-	int capacitance;
+
 	int bagonoff;
 	int bagline;
 	MenuItemImage *bagquanbu,*bagzhuangbei,*bagcailiao,*bagdaoju;
 
-	Node *Layer_A;//点击道具后响应的层
-	Node *Layer_B;//道具响应后点击其中的售出按钮显示的层
-	Mymenu *menuitem;
+	Node *Layer_A;
+	Node *Layer_B;
+	Mymenu *menuitem,*menuitem1;
 	Item *bgt;
-	extension::ScrollView *scrollView;
-	Layer *continerLayer;
-	
+	extension::ScrollView *scrollView,*scrollView1;
+	Layer *continerLayer,*continerLayer1;
+    
+    void initMainFace();
+    void initdata();
+
+    void jiesuoBag();
+    void buyCell();
+    
+    
 	void showbag();
 	void initbag();
 	void closebag();
@@ -60,33 +86,28 @@ public:
 	void showall();
 	void showequipments();
 	void showitems();
-	//人物功能相关
+
 	Node *Layer_C;
 	Node *Layer_D;
-	//基本功能相关 
-    static cocos2d::Scene* createScene();
-    virtual bool init();  
+
+
     void allbuttoncallback(Ref* pSender);
 	bool onTouchBegan(Touch *touch, Event *event);
 	void onTouchMoved(Touch *touch, Event *event);
 	void onTouchEnded(Touch *touch, Event *event);
-    CREATE_FUNC(Gamepanel);
+
 
 
     virtual void scrollViewDidScroll(extension::ScrollView* view);
     virtual void scrollViewDidZoom(extension::ScrollView* view);
-	void draw(Renderer *renderer, const Mat4& transform, uint32_t flags);
-	//标示大全
-#define DROPBTN 0
-#define BAGBTN 1
-#define BAGCLOSEBTN 2
-#define CHONGWU 3
-#define MISSION 4
-#define JUESE 10
-#define SHOWALL 20
-#define SHOWCAILIAO 21
-#define SHOWZHUANGBEI 22
-#define SHOWDAOJU 23
+	void update(float dt);
+    
+    
+
+    static cocos2d::Scene* createScene();
+    virtual bool init();
+    CREATE_FUNC(Gamepanel);
+
 };
 
 #endif // __HELLOWORLD_SCENE_H__

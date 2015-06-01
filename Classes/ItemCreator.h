@@ -43,8 +43,9 @@ class ItemCreator:public cocos2d::Node
 {
 public:
 	static ItemCreator* getInstance();
-	void createItem_normal(const char *id);//产生可以堆叠的道具
-	void createItem_unique(int level,int kind,int rarerate);//产生不可堆叠的道具
+    virtual bool init();
+	bool createItem_normal(const char *id);//产生可以堆叠的道具
+	bool createItem_unique(int level,int kind,int rarerate);//产生不可堆叠的道具
 	bool ishave(const char *id);
 private:
 	static ItemCreator *_itemcreator;

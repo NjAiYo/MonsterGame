@@ -246,8 +246,21 @@ void Mymenu::onTouchEnded(Touch* touch, Event* event)
     {
         _selectedItem->unselected();
 		if(thepoint==convertToWorldSpace(_selectedItem->getPosition()))
-			if(convertToWorldSpace(_selectedItem->getPosition()).y<1054*Gamepanel::scaleFactory&&convertToWorldSpace(_selectedItem->getPosition()).y>162*Gamepanel::scaleFactory)
-        _selectedItem->activate();
+		{
+			if(Gamepanel::BagSystem==1)
+			{
+				if(convertToWorldSpace(_selectedItem->getPosition()).y<1054*Gamepanel::scaleFactory&&convertToWorldSpace(_selectedItem->getPosition()).y>162*Gamepanel::scaleFactory)
+					_selectedItem->activate();
+			}
+			else if(Gamepanel::TalentSystem==1)
+			{
+				if(convertToWorldSpace(_selectedItem->getPosition()).y<827*Gamepanel::scaleFactory&&convertToWorldSpace(_selectedItem->getPosition()).y>324*Gamepanel::scaleFactory)
+					_selectedItem->activate();
+			}
+			else
+				if(convertToWorldSpace(_selectedItem->getPosition()).y<1054*Gamepanel::scaleFactory&&convertToWorldSpace(_selectedItem->getPosition()).y>162*Gamepanel::scaleFactory)
+					_selectedItem->activate();
+		}
     }
     _state = Mymenu::State::WAITING;
     this->release();

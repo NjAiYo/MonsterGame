@@ -1,8 +1,8 @@
-﻿id,kind,name,picname,rarerate,effection,salegold,cd,level,buyprice,detail
+id,kind,name,picname,rarerate,effection,salegold,cd,level,buyprice,detail
 dj001,1,小血瓶,xxp.png,0,0.3,10,60,0,0,恢复最大生命30%
 cl001,2,毒牙,dy.png,2,0,10,0,0,0,合成材料
 soul001,2,大僵尸灵魂碎片,djslhsp.png,0,0,20,0,0,0,合成材料
 xhp001,10,初级经验书,cjjys.png,0,50,10,0,0,0,获得经验50
 wq001,3,小剑,dd.png,0,10,50,100,0,0,增加攻击力50
-cjj,1,初级剑,chujijian.png,0,10,10,0,1,0,新手装备
-cjq,0,初级枪,chujiqiang.png,0,10,10,0,1,0,新手装备
+cjj,1,初级剑,k1_l1_r1.png,1,10,10,0,1,0,新手装备
+cjq,0,初级枪,k0_l1_r1.png,1,10,10,0,1,0,新手装备

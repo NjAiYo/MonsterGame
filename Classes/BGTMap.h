@@ -26,6 +26,7 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(BGTMap);
 
+    void gotoMainScene();
 };
 
 #endif /* defined(__BGT__BGTMap__) */

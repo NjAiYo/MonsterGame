@@ -23,6 +23,9 @@ Player::Player()
 }
 
 bool Player::init(){
-    
+    Dictionary *dict = Dictionary::create();
+    dict->setObject(<#cocos2d::Ref *pObject#>, <#const std::string &key#>)
+
+
     return true;
 }

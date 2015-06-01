@@ -14,6 +14,8 @@
 #include "QTEMonster.h"
 #include "QTELayer.h"
 
+
+
 class MessageDispatcher;
 class BGTWall;
 class Character;

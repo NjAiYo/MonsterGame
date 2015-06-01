@@ -1,11 +1,15 @@
 #ifndef __HERO_H__
 #define __HERO_H__
 #include "cocos2d.h"
+#include "TalentPoint.h"
 USING_NS_CC;
 class Item;
+//class TalentPoint;
 class Hero:public Node
 {
 public :
+	int Money;
+	int skillpoint;
 	float Exp;
 	int level;
 	int HP;
@@ -35,10 +39,10 @@ public :
 	float gong_ji_li_bai_fen_bi;
 	float HP_bai_fen_bi;
 	int wu_qi_xiang_kong;
-
-
+    int capacitance;
 
 	static Hero *getInstance();
+    virtual bool init();
 	void initAllProperties();
 	void updateProperties();
 	void getCurrentData();
@@ -46,8 +50,15 @@ public :
 	void buttoncallback(Ref *pSender);
 
 	void initEquipmentpanel(int kind);
-	void compareEquipment(Item *item);
+
+	void compareEquipment(Item *item);//暂时不用
+	void shouEquipmentdata(Item *item);
+
 	void equipe_item(int kind);
+	
+	void shuxingface();
+	void jinengface();
+	void tianfuface();
 
 	Item *NeckLace;
 	Item *Ring1;
@@ -57,19 +68,20 @@ public :
 	Item *Pet1;
 	Item *Pet2;
 	Item *Pet3;
+	Sprite *di,*huatiao;
+	Label *skillpointlab;
+	MenuItemImage *shuxing,*jineng,*tianfu;
+
+	Vector<TalentPoint *>TalentData;
+	void initTalentData();
+	void resetTalent();
+
+	int isEquip[12];//用于装备道具的使用状态判断等处理
+	Sprite *showpic[12];//显示装备中的道具及装备等对应上面的下标
+
+	void addMoney(int num);
 
 
-#define NECKLACE 1
-#define RINGA 2
-#define RINGB 3
-#define EQUIPA 4
-#define EQUIPB 5
-#define PETA 6
-#define PETB 7
-#define PETC 8
-#define ESCFACE 20
-#define ESCPANEL 21
-#define EQUIP 22
 private:
 	static Hero* hero;
 };

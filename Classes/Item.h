@@ -19,7 +19,8 @@ public:
 	std::string detail;
 	int x,y;
 	int sellnum;
-	MenuItemImage *pic,*sellit;
+    MenuItemSprite *pic;
+	MenuItemImage *sellit;
 	Label *numlab;
 	Label *sellnumlab,*selltotalmoneylab;
 	//特殊属性随机生成不由外部文件描述
