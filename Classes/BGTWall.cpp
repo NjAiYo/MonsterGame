@@ -46,6 +46,7 @@ bool BGTWall::initWithWorld(BGTWorld *w){
     
     for (int i = 0; i < 5; i++) {
         Label *label = Label::createWithBMFont("gameSceneKouLifeLabel.fnt", "-0");
+        //Label *label = Label::createWithCharMap("monsterNumber.png", 71, 66, '0');
         addChild(label);
         label->setVisible(false);
         damageLabels.pushBack(label);
@@ -55,8 +56,6 @@ bool BGTWall::initWithWorld(BGTWorld *w){
         label->setVisible(false);
         baoDamageLabels.pushBack(label);
     }
-    
-    
     return true;
 }
 
@@ -96,7 +95,8 @@ Label* BGTWall::getDamageLabelFromPool()
             return label;
         }
     }
-    Label *label = Label::createWithBMFont("gameSceneKouLifeLabel.fnt", "-0");
+    //Label *label = Label::createWithBMFont("gameSceneKouLifeLabel.fnt", "-0");
+    Label *label = Label::createWithCharMap("monsterNumber.png", 130, 144, '0');
     addChild(label);
     label->setVisible(false);
     damageLabels.pushBack(label);
@@ -139,7 +139,7 @@ bool BGTWall::handleMessage(const Telegram& msg)
             label->setPosition(50, p.y);
             label->setVisible(true);
             label->setOpacity(255);
-            label->setString(String::createWithFormat("-%d",(int)damage)->getCString());
+            label->setString(String::createWithFormat("%d",(int)damage)->getCString());
             
             CallFunc *func = CallFunc::create([=](){
                 label->setVisible(false);

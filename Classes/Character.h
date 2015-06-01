@@ -164,6 +164,7 @@ public:
     virtual void rollback();
     virtual void liedown();
     virtual void die();
+    virtual void shanbi();
     
 
     virtual void takeDamage(float damage);

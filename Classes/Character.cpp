@@ -395,6 +395,9 @@ bool Character::isDieState()
 void Character::defense()
 {
     m_pStateMachine->changeState(defenseState);
+    EventCustom event("MonsterDefense");
+    event.setUserData(this);
+    getEventDispatcher()->dispatchEvent(&event);
 }
 
 void Character::dizzy()
@@ -430,6 +433,13 @@ void Character::flowup()
 void Character::rollback()
 {
     m_pStateMachine->changeState(rollBackState);
+}
+
+void Character::shanbi()
+{
+    EventCustom event("MonsterShanbi");
+    event.setUserData(this);
+    getEventDispatcher()->dispatchEvent(&event);
 }
 
 void Character::takeDamage(float value)

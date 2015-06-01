@@ -11,12 +11,17 @@
 #include "BGTWorld.h"
 #include "GameScene.h"
 #include "BGTWall.h"
-#include "FilterSprite.h"
+
+//#include "FilterSprite.h"
+//#include "Gamepanel.h"
 
 UILayer::UILayer()
 :hitCount(0)
+,currentLifeValue(100)
 ,leftTime(0)
 ,mostHitRecord(0)
+,comboLabel(nullptr)
+,blursprite(nullptr)
 {
     
 }
@@ -26,6 +31,11 @@ bool UILayer::initWithGameScene(GameScene *gs)
     if (!Layer::init()) {
         return false;
     }
+//    one.pushBack(GrayFilter::create());
+    //one.pushBack(GaussianVBlurFilter::create(10));
+    one.pushBack(GaussianHBlurFilter::create(10));
+    
+    
     gameManager = GameManager::getInstance();
     player = gameManager->getPlayer();
     gameScene = gs;
@@ -37,20 +47,25 @@ bool UILayer::initWithGameScene(GameScene *gs)
     mostHitRecord = 0;
     leftTime = 0;
     
+    currentEnegyValue = 0;
+    currentLifeValue = 100;
+    
     comboLayer = Layer::create();
     addChild(comboLayer);
     
     
-    comboLabel = Label::createWithBMFont("gameSceneComboLabel.fnt", "0");
+    //comboLabel = Label::createWithBMFont("gameSceneComboLabel.fnt", "0");
+    comboLabel = Label::createWithCharMap("comboNumber.png", 130, 144, '0');
+    comboLabel->setAlignment(TextHAlignment::LEFT);
     comboLayer->addChild(comboLabel);
     comboLabel->setPosition(size.width-400, size.height-270);
-    comboLabel->setScale(scaleFactory);
+    //comboLabel->setScale(scaleFactory);
     
-    comboBar = Sprite::createWithSpriteFrameName("wallLifeBarFrame.png");
+    comboBar = Sprite::createWithSpriteFrameName("countDownFrameDi.png");
     comboBar->setPosition(size.width-400,size.height-200);
     comboLayer->addChild(comboBar);
     
-    comboProgressBar = ProgressTimer::create(Sprite::createWithSpriteFrameName("wallLifeBar.png"));
+    comboProgressBar = ProgressTimer::create(Sprite::createWithSpriteFrameName("countDownBar.png"));
     comboProgressBar->setType(ProgressTimer::Type::BAR);
     comboProgressBar->setMidpoint(Vec2(0,1));
     comboProgressBar->setBarChangeRate(Vec2(1, 0));
@@ -58,34 +73,45 @@ bool UILayer::initWithGameScene(GameScene *gs)
     comboProgressBar->setPosition(comboBar->getContentSize().width/2,comboBar->getContentSize().height/2);
     comboBar->addChild(comboProgressBar);
     
+    
+    Sprite *s = Sprite::createWithSpriteFrameName("countDownFrame.png");
+    s->setPosition(comboBar->getContentSize().width/2,comboBar->getContentSize().height/2);
+    comboBar->addChild(s);
+    
     comboLayer->setPosition(600,0);
     
     hudLayer = Layer::create();
     addChild(hudLayer);
     Sprite *coinSprite = Sprite::createWithSpriteFrameName("coin.png");
     hudLayer->addChild(coinSprite);
-    coinSprite->setPosition(130, size.height-195);
+    coinSprite->setPosition(245*scaleFactory, size.height-195);
     
-    coinLabel = Label::createWithBMFont("gameSceneCoinLabel.fnt", "x 0");
+    coinLabel = Label::createWithBMFont("gameSceneCoinLabel.fnt", "x0");
+//    s = Sprite::createWithSpriteFrameName("coinX.png");
+//    s->setPosition(310*scaleFactory,size.height-195);
+//    hudLayer->addChild(s);
+    //coinLabel = Label::createWithCharMap("coinNumber.png", 55, 45, '0');
+    coinLabel->setAlignment(TextHAlignment::LEFT);
     hudLayer->addChild(coinLabel, 1);
-    coinLabel->setPosition(150, size.height-195);
-    coinLabel->setScale(scaleFactory);
-    
+    //coinLabel->setString(":0");
+    coinLabel->setPosition(320*scaleFactory, size.height-195);
+    coinLabel->setScaleX(scaleFactory);
+    coinLabel->setScaleY(scaleFactory*0.6);
 
     
-    Sprite *sprite = FilterSprite::createWithSpriteFrameName("skillBt.png");
-    Sprite *sprite1 = FilterSprite::createWithSpriteFrameName("skillBt.png");
+    Sprite *sprite = Sprite::createWithSpriteFrameName("skillBt.png");
+    Sprite *sprite1 = Sprite::createWithSpriteFrameName("skillBt.png");
     
-    //灰色滤镜
-    GLfloat  filterMat[16]= {
-        0.3f,  0.3f,  0.3f,  0.0f,
-        0.59f, 0.59f, 0.59f, 0.59f,
-        0.11f, 0.11f, 0.11f, 0.0f,
-        0.0f,  0.0f,  0.0f,  1.0f,
-    };
-    //FilterSprite *s = dynamic_cast<FilterSprite*>(sprite);
-    dynamic_cast<FilterSprite*>(sprite)->setFilterMat(filterMat);
-    dynamic_cast<FilterSprite*>(sprite1)->setFilterMat(filterMat);
+//    //灰色滤镜
+//    GLfloat filterMat[16]= {
+//        0.3f,  0.3f,  0.3f,  0.0f,
+//        0.59f, 0.59f, 0.59f, 0.59f,
+//        0.11f, 0.11f, 0.11f, 0.0f,
+//        0.0f,  0.0f,  0.0f,  1.0f,
+//    };
+//    //FilterSprite *s = dynamic_cast<FilterSprite*>(sprite);
+//    dynamic_cast<FilteredSprite*>(sprite)->setFilterMat(filterMat);
+//    dynamic_cast<FilteredSprite*>(sprite1)->setFilterMat(filterMat);
     
     sprite1->setScale(1.1);
     Size spriteSize = sprite->getContentSize();
@@ -99,13 +125,13 @@ bool UILayer::initWithGameScene(GameScene *gs)
     hudLayer->addChild(menu, 1);
     
     
-    scorelabel = Label::createWithBMFont("gameSceneScoreLabel.fnt", "0");
-    hudLayer->addChild(scorelabel, 1);
-    scorelabel->setPosition(size.width/2, size.height-55);
+//    scorelabel = Label::createWithBMFont("gameSceneScoreLabel.fnt", "0");
+//    hudLayer->addChild(scorelabel, 1);
+//    scorelabel->setPosition(size.width/2, size.height-55);
     
-    playerLevelLabel = Label::createWithBMFont("gameSceneLevelLabel.fnt", "1");
+    playerLevelLabel = Label::createWithBMFont("gameSceneLevelLabel.fnt", "Lv.1");
     hudLayer->addChild(playerLevelLabel, 1);
-    playerLevelLabel->setPosition(112, size.height-80);
+    playerLevelLabel->setPosition(120, size.height-170);
     
     backIconPosition = Vec2(300*scaleFactory, 120*scaleFactory);
     
@@ -130,9 +156,10 @@ bool UILayer::initWithGameScene(GameScene *gs)
     knifeIcon->setColor(frontTint);
     knifeIcon->setScale(frontScale);
 
-    enegyBar = Sprite::createWithSpriteFrameName("enegyBarFrame.png");
+    enegyBar = Sprite::createWithSpriteFrameName("enegyBarFrameDi.png");
     enegyBar->setPosition(size.width/2,80);
     hudLayer->addChild(enegyBar);
+    
 
     
     enegyProgressBar = ProgressTimer::create(Sprite::createWithSpriteFrameName("enegyBar.png"));
@@ -143,11 +170,21 @@ bool UILayer::initWithGameScene(GameScene *gs)
     enegyProgressBar->setPosition(enegyBar->getContentSize().width/2,enegyBar->getContentSize().height/2);
     enegyBar->addChild(enegyProgressBar);
     
+    enegyBarHead = Sprite::createWithSpriteFrameName("enegyBarHead.png");
+    enegyBarHead->setPosition(enegyBar->getContentSize().width,enegyBar->getContentSize().height/2);
+    enegyBar->addChild(enegyBarHead);
+    
+    s = Sprite::createWithSpriteFrameName("enegyBarFrame.png");
+    s->setPosition(enegyBar->getContentSize().width/2,enegyBar->getContentSize().height/2);
+    enegyBar->addChild(s);
+
     
     
-    lifeBar = Sprite::createWithSpriteFrameName("wallLifeBarFrame.png");
-    lifeBar->setPosition(160,size.height-100);
+    lifeBar = Sprite::createWithSpriteFrameName("wallLifeBarFrameDi.png");
+    lifeBar->setPosition(490*scaleFactory,size.height-100);
     hudLayer->addChild(lifeBar);
+    
+
     
     lifeProgressBar = ProgressTimer::create(Sprite::createWithSpriteFrameName("wallLifeBar.png"));
     lifeProgressBar->setType(ProgressTimer::Type::BAR);
@@ -157,6 +194,20 @@ bool UILayer::initWithGameScene(GameScene *gs)
     lifeProgressBar->setPosition(lifeBar->getContentSize().width/2,lifeBar->getContentSize().height/2);
     lifeBar->addChild(lifeProgressBar);
     
+    lifeBarHead = Sprite::createWithSpriteFrameName("wallLifeBarHead.png");
+    lifeBarHead->setPosition(lifeBar->getContentSize().width,lifeBar->getContentSize().height/2);
+    lifeBar->addChild(lifeBarHead);
+    
+    s = Sprite::createWithSpriteFrameName("wallLifeBarFrame.png");
+    s->setPosition(lifeBar->getContentSize().width/2,lifeBar->getContentSize().height/2);
+    lifeBar->addChild(s);
+    
+    
+
+    
+    s = Sprite::createWithSpriteFrameName("lifeIcon.png");
+    s->setPosition(124,size.height-100);
+    hudLayer->addChild(s);
     
     
     sprite = Sprite::createWithSpriteFrameName("pauseBt.png");
@@ -166,11 +217,11 @@ bool UILayer::initWithGameScene(GameScene *gs)
     sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
     
     MenuItemSprite *pauseItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::pauseCallback, this));
-    pauseItem->setPosition(size.width-70,size.height-50);
+    pauseItem->setPosition(size.width-70,size.height-70);
     
     
     
-    Menu *pauseMenu = Menu::create(pauseItem,NULL);
+    pauseMenu = Menu::create(pauseItem,NULL);
     pauseMenu->setPosition(0,0);
     addChild(pauseMenu, 1);
 
@@ -190,6 +241,11 @@ bool UILayer::initWithGameScene(GameScene *gs)
     pausedLayer = LayerColor::create(Color4B(0, 0, 0, 170));
     addChild(pausedLayer);
     pausedLayer->setVisible(false);
+    
+    s = Sprite::createWithSpriteFrameName("pauseUI.png");
+    pausedLayer->addChild(s);
+    s->setPosition(size.width/2, size.height/2);
+    
     sprite = Sprite::createWithSpriteFrameName("resumeButton.png");
     sprite1 = Sprite::createWithSpriteFrameName("resumeButton.png");
     sprite1->setScale(1.1);
@@ -197,11 +253,30 @@ bool UILayer::initWithGameScene(GameScene *gs)
     sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
     
     MenuItemSprite *resumeItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::resumeCallback, this));
-    resumeItem->setPosition(size.width/2,size.height/2);
+    resumeItem->setPosition(s->getContentSize().width/2,s->getContentSize().height/2+200);
     
-    menu = Menu::create(resumeItem,NULL);
+    sprite = Sprite::createWithSpriteFrameName("restartButton.png");
+    sprite1 = Sprite::createWithSpriteFrameName("restartButton.png");
+    sprite1->setScale(1.1);
+    spriteSize = sprite->getContentSize();
+    sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
+    
+    MenuItemSprite *restartItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::restartCallback, this));
+    restartItem->setPosition(s->getContentSize().width/2,s->getContentSize().height/2-50);
+    
+    sprite = Sprite::createWithSpriteFrameName("mainButton.png");
+    sprite1 = Sprite::createWithSpriteFrameName("mainButton.png");
+    sprite1->setScale(1.1);
+    spriteSize = sprite->getContentSize();
+    sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
+    
+    MenuItemSprite *mainItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::mainCallback, this));
+    mainItem->setPosition(s->getContentSize().width/2,s->getContentSize().height/2-250);
+    
+    menu = Menu::create(resumeItem,restartItem,mainItem,NULL);
     menu->setPosition(0,0);
-    pausedLayer->addChild(menu, 1);
+    //menu->alignItemsVerticallyWithPadding(10);
+    s->addChild(menu, 1);
     
     
     
@@ -219,7 +294,7 @@ bool UILayer::initWithGameScene(GameScene *gs)
     spriteSize = sprite->getContentSize();
     sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
     
-    MenuItemSprite *restartItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::restartCallback, this));
+    restartItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::restartCallback, this));
     
     
     sprite = Sprite::createWithSpriteFrameName("nextLevelButton.png");
@@ -235,7 +310,6 @@ bool UILayer::initWithGameScene(GameScene *gs)
     menu->alignItemsHorizontallyWithPadding(50);
     winLayer->addChild(menu, 1);
 
-    
     failedLayer = LayerColor::create(Color4B(0, 0, 0, 170));
     addChild(failedLayer);
     failedLayer->setVisible(false);
@@ -258,10 +332,17 @@ bool UILayer::initWithGameScene(GameScene *gs)
     
     _eventDispatcher->addCustomEventListener("MonsterHitted", CC_CALLBACK_1(UILayer::monsterHittedHandler,this));
     _eventDispatcher->addCustomEventListener("MonsterShanbi", CC_CALLBACK_1(UILayer::monsterShanbiHandler,this));
+    _eventDispatcher->addCustomEventListener("MonsterDefense", CC_CALLBACK_1(UILayer::monsterDefenseHandler,this));
+    
 //    _eventDispatcher->addCustomEventListener("MonsterHitted", [=](EventCustom* event){
 //        monsterHittedHandler(event);
 //    });
     return true;
+}
+
+void UILayer::monsterDefenseHandler(EventCustom* event)
+{
+    
 }
 
 void UILayer::monsterShanbiHandler(EventCustom* event)
@@ -311,9 +392,9 @@ void UILayer::showHUD()
 
 void UILayer::gameStart()
 {
-    coinLabel->setString(String::createWithFormat("%d",player->money)->getCString());
-    scorelabel->setString(String::createWithFormat("%d",player->score)->getCString());
-    playerLevelLabel->setString(String::createWithFormat("%d",player->level)->getCString());
+    coinLabel->setString(String::createWithFormat("x%d",0)->getCString());//player->getMoney()
+    //scorelabel->setString(String::createWithFormat("%d",player->score)->getCString());
+    playerLevelLabel->setString(String::createWithFormat("Lv.%d",player->level)->getCString());
 }
 
 void UILayer::skillCallback(Ref* sender)
@@ -324,6 +405,11 @@ void UILayer::skillCallback(Ref* sender)
 void UILayer::resumeCallback(Ref* sender){
     pausedLayer->setVisible(false);
     gameScene->resumeGame();
+    pauseMenu->setVisible(true);
+    if (blursprite) {
+        blursprite->removeFromParentAndCleanup(true);
+        blursprite = nullptr;
+    }
 }
 
 void UILayer::pauseCallback(Ref* sender)
@@ -331,6 +417,27 @@ void UILayer::pauseCallback(Ref* sender)
     if (gameScene->getState()!=GameStateGaming) {
         return;
     }
+    
+    Size size = Director::getInstance()->getWinSize();
+    RenderTexture *tex = RenderTexture::create(int(size.width), int(size.height));
+    tex->setPosition(Point(size.width/2, size.height/2));
+    tex->begin();
+    gameScene->visit();
+    //    Director::getInstance()->getRunningScene()->visit();
+    tex->end();
+    if (blursprite) {
+        blursprite->removeFromParentAndCleanup(true);
+        blursprite = nullptr;
+    }
+    
+    blursprite = FilteredSpriteWithOne::createWithTexture(tex->getSprite()->getTexture());
+    blursprite->setFilter(GaussianHBlurFilter::create(4));
+    //blursprite->setFilters(one);
+    blursprite->setPosition(size.width/2, size.height/2);
+    blursprite->setScaleY(-1);
+    pausedLayer->addChild(blursprite,-1);
+    
+    pauseMenu->setVisible(false);
     pausedLayer->setVisible(true);
     gameScene->pauseGame();
 }
@@ -338,6 +445,11 @@ void UILayer::pauseCallback(Ref* sender)
 void UILayer::nextLevelCallback(Ref* sender)
 {
     gameScene->nextLevel();
+}
+
+void UILayer::mainCallback(Ref* sender)
+{
+    //Director::getInstance()->replaceScene(TransitionFade::create(1, Gamepanel::createScene()));
 }
 
 void UILayer::restartCallback(Ref* sender)
@@ -368,12 +480,48 @@ void UILayer::update(float dt)
         }
         comboProgressBar->setPercentage((leftTime/COMBO_HIT_DURATION)*100);
     }
-    
+    float lifeTarget = gameScene->getWorld()->getWall()->getLife()/gameScene->getWorld()->getWall()->getTotalLife()*100;
 
-    lifeProgressBar->setPercentage(gameScene->getWorld()->getWall()->getLife()/gameScene->getWorld()->getWall()->getTotalLife()*100);
-    enegyProgressBar->setPercentage(gameScene->getWorld()->getEnegy());
+    if (currentLifeValue > lifeTarget) {
+        currentLifeValue -= 0.1;
+        if (currentLifeValue < 0) {
+            currentLifeValue = 0;
+        }
+        if (currentLifeValue <= lifeTarget) {
+            currentLifeValue = lifeTarget;
+        }
+    }else if(currentLifeValue < lifeTarget){
+        currentLifeValue += 0.1;
+        if (currentLifeValue > 100) {
+            currentLifeValue = 100;
+        }
+        if (currentLifeValue >= lifeTarget) {
+            currentLifeValue = lifeTarget;
+        }
+    }
+    float enegyTarget = gameScene->getWorld()->getEnegy();
+    if (currentEnegyValue > enegyTarget) {
+        currentEnegyValue -= 0.1;
+        if (currentEnegyValue < 0) {
+            currentEnegyValue = 0;
+        }
+        if (currentEnegyValue <= enegyTarget) {
+            currentEnegyValue = enegyTarget;
+        }
+    }else if(currentEnegyValue < enegyTarget){
+        currentEnegyValue += 0.1;
+        if (currentEnegyValue > 100) {
+            currentEnegyValue = 100;
+        }
+        if (currentEnegyValue >= enegyTarget) {
+            currentEnegyValue = enegyTarget;
+        }
+    }
     
-    
+    lifeProgressBar->setPercentage(currentLifeValue);
+    enegyProgressBar->setPercentage(currentEnegyValue);
+    lifeBarHead->setPositionX(lifeBar->getContentSize().width * currentLifeValue/100.0f);
+    enegyBarHead->setPositionX(enegyBar->getContentSize().width * currentEnegyValue/100.0f);
 }
 
 void UILayer::toggleToKnife(){
