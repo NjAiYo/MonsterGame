@@ -34,13 +34,16 @@ class BGTWorld : public Node
 private:
     int currentLevelIndex,currentWaveIndex;
     Sprite *gameBgSprite;
+    Sprite *frontbgSprite;
     Label *waveTip;
     Layer *uiLayer;
     LevelData *currentLevelData;
     GameScene *gameScene;
     Layer *bgLayer;
     Layer *monsterLayer;
+    Layer *shadowLayer;
     Layer *battlefieldLayer;
+    Layer *frontBgLayer;
     Layer *weaponLayer;
     Vector<Weapon*> weapons;
     Weapon *currentWeapon;
@@ -73,10 +76,14 @@ private:
     Character *qteCharacter;
     float enegy;
     float maxEnegy;
+    bool isPlaySkill;
+    Character *skillCharacter;
 public:
     void enterQTEMode(Character* monster);
     void exitQTEMode(bool playerWin);
     bool isQTEMode();
+    
+    void resumeSkill(float dt);
     
     float getEnegy();
     
@@ -109,7 +116,7 @@ public:
     void nextWave();
     
     void monsterDiedHandler(EventCustom* event);
-    
+    void monsterSkilledHandler(EventCustom* event);
     
     void startGame();
     void endGame(bool isWin);

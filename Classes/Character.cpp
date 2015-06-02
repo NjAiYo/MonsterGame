@@ -44,6 +44,7 @@ Character::~Character()
     lieDownState->release();
     flowState->release();
     defenseState->release();
+    skillState->release();
     if (monsterData) {
         monsterData->release();
     }
@@ -90,6 +91,7 @@ bool Character::initWithWorldAndType(BGTWorld *w,CharacterType t)
     lieDownState = new LieDownState();
     flowState = new FlowState();
     defenseState = new DefenseState();
+    skillState = new SkillState();
     
     
     hitRectNode = DrawNode::create();
@@ -100,9 +102,6 @@ bool Character::initWithWorldAndType(BGTWorld *w,CharacterType t)
     setType(t);
     reset();
     
-    
-    
-
     
     for (int i = 0; i < 3; i++) {
         Label *label = Label::createWithBMFont("gameSceneKouLifeLabel.fnt", "-0");
@@ -122,6 +121,16 @@ bool Character::initWithWorldAndType(BGTWorld *w,CharacterType t)
     }
 
     return true;
+}
+
+bool Character::isSkilled()
+{
+    return skilled;
+}
+
+void Character::skill(){
+    skilled = true;
+    m_pStateMachine->changeState(skillState);
 }
 
 Label* Character::getMissLabelFromPool()
@@ -282,9 +291,18 @@ SkeletonAnimation* Character::getSkeletonNode()
     return skeletonNode;
 }
 
+//是否是飞行怪物
+bool Character::isCanFly()
+{
+    return canfly;
+}
+
 void Character::reset()
 {
     paused = false;
+    canfly = false;
+    defensed = false;
+    lifeTime = 0;
     characterScaleFactor = 1;
     lastAttackedId = -1;
     currentTimeScale = 1;
@@ -295,7 +313,7 @@ void Character::reset()
     life = monsterData->life;
     progressBar->setPercentage(100 *(life/(float)monsterData->life));
     lifeBar->setVisible(false);
-   
+    skillBeginTime = 15 + CCRANDOM_0_1()*25;
     m_pStateMachine->setCurrentState(standState);
     m_pStateMachine->changeState(standState);
 //    CallFunc *func = CallFunc::create([=](){
@@ -305,20 +323,29 @@ void Character::reset()
 //    this->runAction(Sequence::create(DelayTime::create(CCRANDOM_0_1()*0.1),func, NULL));
 }
 
+void Character::hitted(){
+    EventCustom event("MonsterHitted");
+    event.setUserData(this);
+    _eventDispatcher->dispatchEvent(&event);
+}
+
 bool Character::handleMessage(const Telegram& msg)
 {
-    if (msg.msg == Msg_AttackedByXuLiWeapon || msg.msg == Msg_AttackedByWeapon) {
-        EventCustom event("MonsterHitted");
-        event.setUserData(this);
-        _eventDispatcher->dispatchEvent(&event);
+    if (paused) {
+        return false;
     }
     return m_pStateMachine->handleMessage(msg);
+}
+
+bool Character::canSkill(){
+    return lifeTime >= skillBeginTime && !skilled;
 }
 
 void Character::update(float dt)
 {
     if (!paused) {
-        showLifeBarTime-=dt;
+        showLifeBarTime -= dt;
+        lifeTime += dt;
         if (showLifeBarTime<0) {
             showLifeBarTime = 0;
         }
@@ -392,10 +419,20 @@ bool Character::isDieState()
     return m_pStateMachine->isInState(*dieState);
 }
 
+bool Character::canDefense()
+{
+    return !defensed;
+}
+
 void Character::defense()
 {
+    defensed = true;
     m_pStateMachine->changeState(defenseState);
-    EventCustom event("MonsterDefense");
+}
+
+void Character::parry()
+{
+    EventCustom event("MonsterParry");
     event.setUserData(this);
     getEventDispatcher()->dispatchEvent(&event);
 }
@@ -442,7 +479,7 @@ void Character::shanbi()
     getEventDispatcher()->dispatchEvent(&event);
 }
 
-void Character::takeDamage(float value)
+void Character::takeDamage(float value,bool isBaoJi)
 {
     if (life <= 0 || value <= 0) {
         return;
@@ -463,16 +500,26 @@ void Character::takeDamage(float value)
 //    }
     
     //CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("dao_1.mp3");
+    if (isBaoJi) {
+        EventCustom event("MonsterBaoDamaged");
+        event.setUserData(this);
+        _eventDispatcher->dispatchEvent(&event);
+    }else{
+        EventCustom event("MonsterDamaged");
+        event.setUserData(this);
+        _eventDispatcher->dispatchEvent(&event);
+    }
+
 }
 
-void Character::pauseAnimation()
+void Character::pause()
 {
     currentTimeScale = skeletonNode->getTimeScale();
     skeletonNode->setTimeScale(0);
     paused = true;
 }
 
-void Character::resumeAnimation()
+void Character::resume()
 {
     skeletonNode->setTimeScale(currentTimeScale);
     paused = false;

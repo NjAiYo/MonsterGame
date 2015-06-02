@@ -45,13 +45,21 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
     dispatcher = MessageDispatcher::getInstance();
 
     bgLayer = Layer::create();
-    addChild(bgLayer);
+    addChild(bgLayer,-1);
+    
+    shadowLayer = Layer::create();
+    addChild(shadowLayer,0);
     
     battlefieldLayer = Layer::create();
-    addChild(battlefieldLayer);
+    addChild(battlefieldLayer,1);
     
     monsterLayer = Layer::create();
     battlefieldLayer->addChild(monsterLayer);
+    
+    
+    frontBgLayer = Layer::create();
+    addChild(frontBgLayer,2);
+    
     
     qteLayer = new QTELayer();
     qteLayer->initWithWorld(this);
@@ -61,7 +69,7 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
     
     
     weaponLayer = Layer::create();
-    addChild(weaponLayer);
+    addChild(weaponLayer,3);
     inQTEMode = false;
     wall = new BGTWall();
     wall->initWithWorld(this);
@@ -118,7 +126,7 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
 
     
     uiLayer = Layer::create();
-    addChild(uiLayer);
+    addChild(uiLayer,4);
     waveTip = Label::create("一大波怪物正在靠近", "Arial", 120*scaleFactory);
     waveTip->setColor(Color3B(255, 255, 255));
     uiLayer->addChild(waveTip);
@@ -130,7 +138,37 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
     maxEnegy = 100;
     
     _eventDispatcher->addCustomEventListener("MonsterDied", CC_CALLBACK_1(BGTWorld::monsterDiedHandler,this));
+    _eventDispatcher->addCustomEventListener("monsterSkilled", CC_CALLBACK_1(BGTWorld::monsterSkilledHandler,this));
+    
     return true;
+}
+
+void BGTWorld::monsterSkilledHandler(EventCustom* event)
+{
+    skillCharacter = (Character*)event->getUserData();
+    isPlaySkill = true;
+    //pause 1 second
+    for(Character *monster : monsterPool)
+    {
+        if (!monster->isVisible() || skillCharacter==monster) {
+            continue;
+        }
+        monster->pause();
+    }
+    this->scheduleOnce(CC_SCHEDULE_SELECTOR(BGTWorld::resumeSkill), 1.0f);
+}
+
+void BGTWorld::resumeSkill(float dt)
+{
+    shake(0.1f,5);
+    for(Character *monster : monsterPool)
+    {
+        if (!monster->isVisible()) {
+            continue;
+        }
+        monster->resume();
+    }
+    isPlaySkill = false;
 }
 
 void BGTWorld::monsterDiedHandler(EventCustom* event)
@@ -213,7 +251,7 @@ void BGTWorld::enterQTEMode(Character* m)
         if (!monster->isVisible()) {// || monster==m
             continue;
         }
-        monster->pauseAnimation();
+        monster->pause();
     }
     gameScene->hideHUD();
     qteLayer->qteBegin();
@@ -229,7 +267,7 @@ void BGTWorld::exitQTEMode(bool playerWin)
         if (!monster->isVisible()) {
             continue;
         }
-        monster->resumeAnimation();
+        monster->resume();
     }
     if (playerWin) {
         qteCharacter->die();
@@ -274,9 +312,12 @@ void BGTWorld::createWorld(int level){
 
     if(gameBgSprite && gameBgSprite->getTag()!=currentLevelIndex){
         gameBgSprite->removeFromParent();
+        frontbgSprite->removeFromParent();
     }
+    
+
     if(!gameBgSprite){
-        gameBgSprite = Sprite::create("gamebg.jpg");
+        gameBgSprite = Sprite::create("gamebg0.png");
         gameBgSprite->setTag(currentLevelIndex);
         float w = gameBgSprite->getContentSize().width;
         float h = gameBgSprite->getContentSize().height;
@@ -285,8 +326,19 @@ void BGTWorld::createWorld(int level){
         bgLayer->addChild(gameBgSprite,0);
         
         gameBgSprite->setPosition(size.width/2,size.height/2);
+        
+        frontbgSprite = Sprite::create("gamebg0front.png");
+        frontbgSprite->setScaleX(size.width/w);
+        frontbgSprite->setScaleY(size.height/h);
+        frontbgSprite->setPosition(size.width/2,size.height/2);
+        frontBgLayer->addChild(frontbgSprite);
     }
     wall->reset();
+    
+    
+    //
+    
+    //doormask.png
     
     for(int i = 0; i < monsterPool.size(); i++){
         Character *enemy = monsterPool.at(i);
@@ -433,7 +485,7 @@ void BGTWorld::reset()
         if (!monster->isVisible()) {
             continue;
         }
-        monster->resumeAnimation();
+        monster->resume();
     }
 }
 
@@ -450,7 +502,7 @@ void BGTWorld::endGame(bool isWin)
         if (!monster->isVisible()) {
             continue;
         }
-        monster->pauseAnimation();
+        monster->pause();
     }
 }
 
@@ -506,7 +558,7 @@ void BGTWorld::resumeGame(){
         if (!monster->isVisible()) {
             continue;
         }
-        monster->resumeAnimation();
+        monster->pause();
     }
 }
 
@@ -516,7 +568,7 @@ void BGTWorld::pauseGame(){
         if (!monster->isVisible()) {
             continue;
         }
-        monster->pauseAnimation();
+        monster->resume();
     }
 }
 
@@ -572,7 +624,7 @@ void BGTWorld::update(float dt)
             }
         }
     }
-
+    
     for(Character *monster : monsterPool)
     {
         if (!monster->isVisible()) {
@@ -580,6 +632,7 @@ void BGTWorld::update(float dt)
         }
         monster->update(dt);
     }
+    
     currentWeapon->update(dt);
     wall->update(dt);
     if (wall->getLife() <= 0) {

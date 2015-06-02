@@ -42,7 +42,7 @@ bool LoadScene::init()
     }
     Size size = Director::getInstance()->getWinSize();
     
-    textureNames.push_back("gamebg.jpg");
+    textureNames.push_back("gamebg0.png");
     textureNames.push_back("rope.png");
     textureNames.push_back("stone.png");
     imagesLoaded = 0;

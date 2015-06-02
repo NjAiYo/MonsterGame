@@ -118,12 +118,40 @@ bool AttackState::onMessage(Character* agent, const Telegram& msg)
 {
     if(msg.msg == Msg_AttackedByXuLiWeapon || msg.msg == Msg_AttackedByWeapon){
         Weapon *weapon = (Weapon*)GameEntityManager::getInstance()->getEntityFromID(msg.sender);
-        agent->takeDamage(weapon->getDamage());
-        if (agent->getLife() <= 0) {
-            agent->die();
+        MonsterData *data = agent->getMonsterData();
+        //刀打空中怪物，枪打地上怪物可能触发闪避
+        if ((data->shanbi > 0 && weapon->getType() == WeaponTypeKnife && agent->isCanFly()) || (data->shanbi > 0 && weapon->getType() == WeaponTypePistol && !agent->isCanFly())) {
+            float value = CCRANDOM_0_1();
+            if (value <= data->shanbi) {
+                //闪避
+                agent->shanbi();
+                return false;
+            }
+        }
+        if (data->gedang > 0) {
+            float value = CCRANDOM_0_1();
+            if (value <= data->gedang) {
+                //格挡
+                agent->parry();
+                return false;
+            }
+        }
+        //进入防御状态
+        if (agent->canDefense() && agent->getLife() < agent->getTotalLife()*0.5) {
+            agent->defense();
             return false;
         }
+        
+        //蓄力攻击没有攻击力
+        if (msg.msg == Msg_AttackedByWeapon){
+            agent->takeDamage(weapon->getDamage());
+            if (agent->getLife() <= 0) {
+                agent->die();
+                return false;
+            }
+        }
         switch (weapon->getType()) {
+                agent->hitted();
             case WeaponTypeKnife:{
                 //Knife *knife = (Knife*)weapon;
                 

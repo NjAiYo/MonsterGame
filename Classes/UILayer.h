@@ -27,6 +27,15 @@ private:
     Sprite *knifeIcon;
     Sprite *gunIcon;
     Layer *hudLayer;
+    Sprite *failedTip;
+    Sprite *failedTipBg;
+    
+    Sprite *winTip;
+    Sprite *winTipBg;
+    
+    Layer *rateLayer;
+    Layer *upgredLayer;
+    
     LayerColor *winLayer;
     LayerColor *failedLayer;
     LayerColor *pausedLayer;
@@ -48,18 +57,21 @@ private:
     ProgressTimer *lifeProgressBar;
     Menu *pauseMenu;
     void restartCallback(Ref* sender);
-    void nextLevelCallback(Ref* sender);
+    void sureCallback(Ref* sender);
     void mainCallback(Ref* sender);
     void pauseCallback(Ref* sender);
     void skillCallback(Ref* sender);
     void resumeCallback(Ref* sender);
+    void awardCallback(Ref* sender);
     Vec2 frontIconPosition,backIconPosition;
     float frontScale,backScale;
     Color3B frontTint,backTint;
     
     void monsterHittedHandler(EventCustom* event);
     void monsterShanbiHandler(EventCustom* event);
-    void monsterDefenseHandler(EventCustom* event);
+    void monsterParryHandler(EventCustom* event);
+    void monsterDamagedHandler(EventCustom* event);
+    void monsterBaoDamagedHandler(EventCustom* event);
     void toggleToGun();
     void toggleToKnife();
     

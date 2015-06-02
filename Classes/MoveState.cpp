@@ -39,6 +39,8 @@ void MoveState::execute(Character* agent,float dt)
     
     if (canAttack) {
         agent->attack();
+    }else if(agent->canSkill()){
+        agent->skill();
     }else{
         float newX = agent->getPositionX();
         if (agent->getDirection() == CharacterDirectionLeft) {
@@ -63,7 +65,8 @@ bool MoveState::onMessage(Character* agent, const Telegram& msg)
         Weapon *weapon = (Weapon*)GameEntityManager::getInstance()->getEntityFromID(msg.sender);
         
         MonsterData *data = agent->getMonsterData();
-        if (data->shanbi > 0) {
+        //刀打空中怪物，枪打地上怪物可能触发闪避
+        if ((data->shanbi > 0 && weapon->getType() == WeaponTypeKnife && agent->isCanFly()) || (data->shanbi > 0 && weapon->getType() == WeaponTypePistol && !agent->isCanFly())) {
             float value = CCRANDOM_0_1();
             if (value <= data->shanbi) {
                 //闪避
@@ -75,20 +78,31 @@ bool MoveState::onMessage(Character* agent, const Telegram& msg)
             float value = CCRANDOM_0_1();
             if (value <= data->gedang) {
                 //格挡
-                agent->defense();
+                agent->parry();
                 return false;
             }
         }
-        agent->takeDamage(weapon->getDamage());
-        if (agent->getLife() <= 0) {
-            agent->die();
+        //进入防御状态
+        if (agent->canDefense() && agent->getLife() < agent->getTotalLife()*0.5) {
+            agent->defense();
             return false;
         }
+        
+        //蓄力攻击没有攻击力
+        if (msg.msg == Msg_AttackedByWeapon){
+            agent->takeDamage(weapon->getDamage());
+            if (agent->getLife() <= 0) {
+                agent->die();
+                return false;
+            }
+        }
         switch (weapon->getType()) {
+                agent->hitted();
             case WeaponTypeKnife:{
                 //Knife *knife = (Knife*)weapon;
 //                agent->flowup();
 //                return false;
+                
                 KnifeAttackDirection direction = *(KnifeAttackDirection*)msg.extraInfo;
                 if (msg.msg == Msg_AttackedByXuLiWeapon) {
                     if (direction == KnifeAttackDirectionUp) {
