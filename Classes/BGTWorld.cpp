@@ -50,6 +50,13 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
     shadowLayer = Layer::create();
     addChild(shadowLayer,0);
     
+    for (int i = 0; i < 10; i++) {
+        Sprite *sprite = Sprite::createWithSpriteFrameName("shadow.png");
+        shadowLayer->addChild(sprite);
+        sprite->setVisible(false);
+        shadowsPool.pushBack(sprite);
+    }
+    
     battlefieldLayer = Layer::create();
     addChild(battlefieldLayer,1);
     
@@ -90,7 +97,7 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
     float x2 = wallPosition.x + cosf(M_PI*110.0f/180.0f)*wall->getWidth()/2;
     float y2 = wallPosition.y - sinf(M_PI*110.0f/180.0f)*wall->getWidth()/2;
     wall->bottomPosition = Vec2(x2,y2);
-    bottomPositionYForMonster = wall->bottomPosition.y - 150;
+    bottomPositionYForMonster = wall->bottomPosition.y - 50;
 //    auto draw = DrawNode::create();
 //    addChild(draw, 10);
 //    draw->drawLine(Vec2(x1,y1), Vec2(x2, y2), Color4F(0.0, 1.0, 0.0, 1.0));
@@ -143,6 +150,32 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
     return true;
 }
 
+Sprite* BGTWorld::getShadowByMonster(Character* monster)
+{
+    for (int i = 0; i < shadowsPool.size(); i++) {
+        Sprite *label = shadowsPool.at(i);
+        if (label->isVisible() && label->getTag() == monster->getID()) {
+            return label;
+        }
+    }
+    return nullptr;
+}
+
+Sprite* BGTWorld::getIdleShadowFromPool()
+{
+    for (int i = 0; i < shadowsPool.size(); i++) {
+        Sprite *label = shadowsPool.at(i);
+        if (!label->isVisible()) {
+            return label;
+        }
+    }
+    Sprite *sprite = Sprite::createWithSpriteFrameName("shadow.png");
+    shadowLayer->addChild(sprite);
+    sprite->setVisible(false);
+    shadowsPool.pushBack(sprite);
+    return sprite;
+}
+
 void BGTWorld::monsterSkilledHandler(EventCustom* event)
 {
     skillCharacter = (Character*)event->getUserData();
@@ -168,6 +201,7 @@ void BGTWorld::resumeSkill(float dt)
         }
         monster->resume();
     }
+    
     isPlaySkill = false;
 }
 
@@ -523,6 +557,10 @@ void BGTWorld::nextWave(){
 
 void BGTWorld::monsterDied(Character* monster)
 {
+    Sprite *shadow = getShadowByMonster(monster);
+    shadow->setVisible(false);
+    shadow->setTag(-1);
+    
     enegy += 5;
     if (enegy > 100) {
         enegy = 100;
@@ -554,23 +592,23 @@ void BGTWorld::showNextWaveUI(){
 }
 
 void BGTWorld::resumeGame(){
-    for(Character *monster : monsterPool)
-    {
-        if (!monster->isVisible()) {
-            continue;
-        }
-        monster->pause();
-    }
+//    for(Character *monster : monsterPool)
+//    {
+//        if (!monster->isVisible()) {
+//            continue;
+//        }
+//        monster->pause();
+//    }
 }
 
 void BGTWorld::pauseGame(){
-    for(Character *monster : monsterPool)
-    {
-        if (!monster->isVisible()) {
-            continue;
-        }
-        monster->resume();
-    }
+//    for(Character *monster : monsterPool)
+//    {
+//        if (!monster->isVisible()) {
+//            continue;
+//        }
+//        monster->resume();
+//    }
 }
 
 
@@ -618,6 +656,11 @@ void BGTWorld::update(float dt)
                     //这一波所有的怪物都出击了,
                     nextWaveOutTimeLeft = waveGapTime;
                 }
+                Sprite *shadow = getIdleShadowFromPool();
+                shadow->setVisible(true);
+                shadow->setTag(monster->getID());
+                shadow->setPosition(monster->getPositionX(),monster->getPositionY());
+                
                 log("put monster to field:type=%d,x=%f,y=%f,time=%f",unit->outType,unit->outPosition.x,unit->outPosition.y,unit->outTime);
                 std::sort(monsterPool.begin(), monsterPool.end(), [](Node* a, Node* b){
                     return a->getLocalZOrder() >= b->getLocalZOrder();
@@ -632,6 +675,10 @@ void BGTWorld::update(float dt)
             continue;
         }
         monster->update(dt);
+        Sprite *shadow = getShadowByMonster(monster);
+        if (shadow) {
+            shadow->setPosition(monster->getPositionX(),monster->getPositionY());
+        }
     }
     
     currentWeapon->update(dt);
@@ -642,43 +689,77 @@ void BGTWorld::update(float dt)
     dispatcher->dispatchDelayedMessages();
 }
 
-
-
-bool BGTWorld::onTouchBegan(Touch* touch, Event* event)
+void BGTWorld::onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event)
 {
     if (inQTEMode) {
-        qteLayer->onTouchBegan(touch, event);
+        qteLayer->onTouchesBegan(touches, unused_event);
     }else{
-        currentWeapon->onTouchBegan(touch, event);
-    }
-
-    return true;
-}
-
-void BGTWorld::onTouchMoved(Touch* touch, Event* event)
-{
-    if (inQTEMode) {
-        qteLayer->onTouchMoved(touch, event);
-    }else{
-        currentWeapon->onTouchMoved(touch, event);
-    }
-
-}
-
-void BGTWorld::onTouchEnded(Touch* touch, Event* event)
-{
-    if (inQTEMode) {
-        qteLayer->onTouchEnded(touch, event);
-    }else{
-        currentWeapon->onTouchEnded(touch, event);
+        currentWeapon->onTouchesBegan(touches, unused_event);
     }
 }
 
-void BGTWorld::onTouchCancelled(Touch *touch, Event *unused_event)
+void BGTWorld::onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event)
 {
     if (inQTEMode) {
-        qteLayer->onTouchCancelled(touch, unused_event);
+        qteLayer->onTouchesMoved(touches, unused_event);
     }else{
-        currentWeapon->onTouchCancelled(touch, unused_event);
+        currentWeapon->onTouchesMoved(touches, unused_event);
     }
 }
+
+void BGTWorld::onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event)
+{
+    if (inQTEMode) {
+        qteLayer->onTouchesEnded(touches, unused_event);
+    }else{
+        currentWeapon->onTouchesEnded(touches, unused_event);
+    }
+}
+
+void BGTWorld::onTouchesCancelled(const std::vector<Touch*>&touches, Event *unused_event)
+{
+    if (inQTEMode) {
+        qteLayer->onTouchesCancelled(touches, unused_event);
+    }else{
+        currentWeapon->onTouchesCancelled(touches, unused_event);
+    }
+}
+
+//bool BGTWorld::onTouchBegan(Touch* touch, Event* event)
+//{
+//    if (inQTEMode) {
+//        qteLayer->onTouchBegan(touch, event);
+//    }else{
+//        currentWeapon->onTouchBegan(touch, event);
+//    }
+//
+//    return true;
+//}
+//
+//void BGTWorld::onTouchMoved(Touch* touch, Event* event)
+//{
+//    if (inQTEMode) {
+//        qteLayer->onTouchMoved(touch, event);
+//    }else{
+//        currentWeapon->onTouchMoved(touch, event);
+//    }
+//
+//}
+//
+//void BGTWorld::onTouchEnded(Touch* touch, Event* event)
+//{
+//    if (inQTEMode) {
+//        qteLayer->onTouchEnded(touch, event);
+//    }else{
+//        currentWeapon->onTouchEnded(touch, event);
+//    }
+//}
+//
+//void BGTWorld::onTouchCancelled(Touch *touch, Event *unused_event)
+//{
+//    if (inQTEMode) {
+//        qteLayer->onTouchCancelled(touch, unused_event);
+//    }else{
+//        currentWeapon->onTouchCancelled(touch, unused_event);
+//    }
+//}

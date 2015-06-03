@@ -58,18 +58,18 @@ public:
     virtual void onEnterTransitionDidFinish() override;
     virtual void onExitTransitionDidStart() override;
     
-    bool onTouchBegan(Touch* touch, Event* event);
-    void onTouchMoved(Touch* touch, Event* event);
-    void onTouchEnded(Touch* touch, Event* event);
-    void onTouchCancelled(Touch *touch, Event *unused_event);
+//    bool onTouchBegan(Touch* touch, Event* event);
+//    void onTouchMoved(Touch* touch, Event* event);
+//    void onTouchEnded(Touch* touch, Event* event);
+//    void onTouchCancelled(Touch *touch, Event *unused_event);
     
-//    virtual void onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event);
-//
-//    virtual void onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event);
-//
-//    virtual void onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event);
-//
-//    virtual void onTouchesCancelled(const std::vector<Touch*>&touches, Event *unused_event);
+     virtual void onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event);
+
+     virtual void onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event);
+
+     virtual void onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event);
+
+     virtual void onTouchesCancelled(const std::vector<Touch*>&touches, Event *unused_event);
     
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);

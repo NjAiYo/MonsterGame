@@ -78,6 +78,8 @@ private:
     float maxEnegy;
     bool isPlaySkill;
     Character *skillCharacter;
+    
+    Vector<Sprite*> shadowsPool;
 public:
     void enterQTEMode(Character* monster);
     void exitQTEMode(bool playerWin);
@@ -123,6 +125,10 @@ public:
     
     void shake( float d, float strength );
     
+    Sprite* getIdleShadowFromPool();
+    
+    Sprite* getShadowByMonster(Character* monster);
+    
     Vector<Character*> getMonsters();
     
     BGTWall* getWall();
@@ -132,10 +138,19 @@ public:
     void onExit();
     void onExitTransitionDidStart();
     
-    bool onTouchBegan(Touch* touch, Event* event);
-    void onTouchMoved(Touch* touch, Event* event);
-    void onTouchEnded(Touch* touch, Event* event);
-    void onTouchCancelled(Touch *touch, Event *unused_event);
+//    bool onTouchBegan(Touch* touch, Event* event);
+//    void onTouchMoved(Touch* touch, Event* event);
+//    void onTouchEnded(Touch* touch, Event* event);
+//    void onTouchCancelled(Touch *touch, Event *unused_event);
+    
+    
+    void onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event);
+    
+    void onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event);
+    
+    void onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event);
+    
+    void onTouchesCancelled(const std::vector<Touch*>&touches, Event *unused_event);
 };
 
 #endif /* defined(__BGT__BGTWorld__) */

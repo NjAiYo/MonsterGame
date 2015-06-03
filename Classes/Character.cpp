@@ -421,7 +421,7 @@ bool Character::isDieState()
 
 bool Character::canDefense()
 {
-    return !defensed;
+    return !defensed && monsterData->canQTE;
 }
 
 void Character::defense()
@@ -500,13 +500,17 @@ void Character::takeDamage(float value,bool isBaoJi)
 //    }
     
     //CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("dao_1.mp3");
+    CustomerUserData userData;
+    userData.monster = this;
+    userData.damage = value;
+    
     if (isBaoJi) {
         EventCustom event("MonsterBaoDamaged");
-        event.setUserData(this);
+        event.setUserData(&userData);
         _eventDispatcher->dispatchEvent(&event);
     }else{
         EventCustom event("MonsterDamaged");
-        event.setUserData(this);
+        event.setUserData(&userData);
         _eventDispatcher->dispatchEvent(&event);
     }
 

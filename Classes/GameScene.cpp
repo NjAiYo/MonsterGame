@@ -79,13 +79,20 @@ void GameScene::onEnter()
 {
     Layer::onEnter();
     // Register Touch Event
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
+//    auto listener = EventListenerTouchOneByOne::create();
+//    listener->setSwallowTouches(true);
+//    
+//    listener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
+//    listener->onTouchMoved = CC_CALLBACK_2(GameScene::onTouchMoved, this);
+//    listener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
+//    listener->onTouchCancelled = CC_CALLBACK_2(GameScene::onTouchCancelled, this);
     
-    listener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
-    listener->onTouchMoved = CC_CALLBACK_2(GameScene::onTouchMoved, this);
-    listener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
-    listener->onTouchCancelled = CC_CALLBACK_2(GameScene::onTouchCancelled, this);
+    auto listener = EventListenerTouchAllAtOnce::create();
+    
+    listener->onTouchesBegan = CC_CALLBACK_2(GameScene::onTouchesBegan, this);
+    listener->onTouchesMoved = CC_CALLBACK_2(GameScene::onTouchesMoved, this);
+    listener->onTouchesEnded = CC_CALLBACK_2(GameScene::onTouchesEnded, this);
+    listener->onTouchesCancelled = CC_CALLBACK_2(GameScene::onTouchesCancelled, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
@@ -165,54 +172,64 @@ void GameScene::gameEnd(bool isWin)
     state = GameStateEnded;
 }
 
-//void GameScene::onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event)
+void GameScene::onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event)
+{
+    if (state == GameStateGaming) {
+        world->onTouchesBegan(touches,unused_event);
+    }
+}
+
+void GameScene::onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event)
+{
+    if (state == GameStateGaming) {
+        world->onTouchesMoved(touches,unused_event);
+    }
+}
+
+void GameScene::onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event)
+{
+    if (state == GameStateGaming) {
+        world->onTouchesEnded(touches,unused_event);
+    }
+}
+
+void GameScene::onTouchesCancelled(const std::vector<Touch*>&touches, Event *unused_event)
+{
+    if (state == GameStateGaming) {
+        world->onTouchesCancelled(touches,unused_event);
+    }
+}
+
+//bool GameScene::onTouchBegan(Touch* touch, Event* event)
 //{
-//    c = 0;
+//    //c = 0;
+//    if (state == GameStateGaming) {
+//        world->onTouchBegan(touch,event);
+//    }
+//    return true;
 //}
 //
-//void GameScene::onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event)
+//void GameScene::onTouchMoved(Touch* touch, Event* event)
 //{
-//    log("onTouchMoved:%d",c++);
+//        //log("onTouchMoved:%d",c++);
+//    if (state == GameStateGaming) {
+//        world->onTouchMoved(touch,event);
+//    }
 //}
 //
-//void GameScene::onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event)
+//void GameScene::onTouchEnded(Touch* touch, Event* event)
 //{
+//    if (state == GameStateGaming) {
+//        world->onTouchEnded(touch,event);
+//    }
 //}
 //
-//void GameScene::onTouchesCancelled(const std::vector<Touch*>&touches, Event *unused_event)
+//void GameScene::onTouchCancelled(Touch *touch, Event *unused_event)
 //{
+//    if (state == GameStateGaming) {
+//        world->onTouchCancelled(touch,unused_event);
+//    }
 //}
-
-bool GameScene::onTouchBegan(Touch* touch, Event* event)
-{
-    //c = 0;
-    if (state == GameStateGaming) {
-        world->onTouchBegan(touch,event);
-    }
-    return true;
-}
-
-void GameScene::onTouchMoved(Touch* touch, Event* event)
-{
-        //log("onTouchMoved:%d",c++);
-    if (state == GameStateGaming) {
-        world->onTouchMoved(touch,event);
-    }
-}
-
-void GameScene::onTouchEnded(Touch* touch, Event* event)
-{
-    if (state == GameStateGaming) {
-        world->onTouchEnded(touch,event);
-    }
-}
-
-void GameScene::onTouchCancelled(Touch *touch, Event *unused_event)
-{
-    if (state == GameStateGaming) {
-        world->onTouchCancelled(touch,unused_event);
-    }
-}
 
 void GameScene::update(float dt)
 {

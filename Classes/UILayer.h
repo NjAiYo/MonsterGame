@@ -98,9 +98,24 @@ private:
     Vector<Sprite*> flowIconsPool;
     Vector<Sprite*> gedangIconsPool;
     Vector<Sprite*> jiTuiIconsPool;
-    
+    Vector<Sprite*> mianyiIconsPool;
+    Vector<Label*> damageLabels;
+    Vector<Label*> baoDamageLabels;
     
     void showEndResult(float t);
+    
+    
+    Label* getDamageLabelFromPool();
+    Label* getBaoDamageLabelFromPool();
+    
+    Sprite *getShanbiIconFromPool();
+    Sprite *getMissIconFromPool();
+    Sprite *getYunIconFromPool();
+    Sprite *getDaoDiIconFromPool();
+    Sprite *getFlowIconFromPool();
+    Sprite *getGeDangIconFromPool();
+    Sprite *getJiTuiIconFromPool();
+    Sprite *getMianyiIconFromPool();
 public:
     
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
@@ -116,10 +131,17 @@ public:
     void gameStart();
     void update(float dt);
     
-    bool onTouchBegan(Touch* touch, Event* event);
-    void onTouchMoved(Touch* touch, Event* event);
-    void onTouchEnded(Touch* touch, Event* event);
-    void onTouchCancelled(Touch *touch, Event *unused_event);
+//    bool onTouchBegan(Touch* touch, Event* event);
+//    void onTouchMoved(Touch* touch, Event* event);
+//    void onTouchEnded(Touch* touch, Event* event);
+//    void onTouchCancelled(Touch *touch, Event *unused_event);
+    void onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event);
+    
+    void onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event);
+    
+    void onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event);
+    
+    void onTouchesCancelled(const std::vector<Touch*>&touches, Event *unused_event);
 };
 
 #endif /* defined(__BGT__UILayer__) */

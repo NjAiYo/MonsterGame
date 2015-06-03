@@ -234,6 +234,7 @@
 		F117A8D31B0D6B46002EE642 /* WTMGlyphUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F117A8D11B0D6B46002EE642 /* WTMGlyphUtilities.cpp */; };
 		F117A8D91B0DC7E9002EE642 /* WTMGlyphDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F117A8D71B0DC7E9002EE642 /* WTMGlyphDelegate.cpp */; };
 		F117A8DC1B0DC86C002EE642 /* WTMGlyphDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F117A8DA1B0DC86C002EE642 /* WTMGlyphDetector.cpp */; };
+		F11DA1C71B1ED81B004D35D0 /* GameConfiger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F11DA1C51B1ED81B004D35D0 /* GameConfiger.cpp */; };
 		F154EA711B0EDF0F00E6D8F7 /* B.json in Resources */ = {isa = PBXBuildFile; fileRef = F154EA541B0EDF0F00E6D8F7 /* B.json */; };
 		F154EA721B0EDF0F00E6D8F7 /* C.json in Resources */ = {isa = PBXBuildFile; fileRef = F154EA551B0EDF0F00E6D8F7 /* C.json */; };
 		F154EA731B0EDF0F00E6D8F7 /* circle.json in Resources */ = {isa = PBXBuildFile; fileRef = F154EA561B0EDF0F00E6D8F7 /* circle.json */; };
@@ -650,6 +651,8 @@
 		F117A8D81B0DC7E9002EE642 /* WTMGlyphDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTMGlyphDelegate.h; sourceTree = "<group>"; };
 		F117A8DA1B0DC86C002EE642 /* WTMGlyphDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WTMGlyphDetector.cpp; sourceTree = "<group>"; };
 		F117A8DB1B0DC86C002EE642 /* WTMGlyphDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTMGlyphDetector.h; sourceTree = "<group>"; };
+		F11DA1C51B1ED81B004D35D0 /* GameConfiger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameConfiger.cpp; sourceTree = "<group>"; };
+		F11DA1C61B1ED81B004D35D0 /* GameConfiger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfiger.h; sourceTree = "<group>"; };
 		F154EA531B0EDF0F00E6D8F7 /* A.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = A.json; sourceTree = "<group>"; };
 		F154EA541B0EDF0F00E6D8F7 /* B.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = B.json; sourceTree = "<group>"; };
 		F154EA551B0EDF0F00E6D8F7 /* C.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = C.json; sourceTree = "<group>"; };
@@ -1123,6 +1126,8 @@
 				F105A8591AF1F5690044CCEE /* Unit.h */,
 				F105A85A1AF1F5690044CCEE /* Wave.cpp */,
 				F105A85B1AF1F5690044CCEE /* Wave.h */,
+				F11DA1C51B1ED81B004D35D0 /* GameConfiger.cpp */,
+				F11DA1C61B1ED81B004D35D0 /* GameConfiger.h */,
 			);
 			name = data;
 			sourceTree = "<group>";
@@ -1884,6 +1889,7 @@
 				F105A8BE1AF1F61C0044CCEE /* StiffState.cpp in Sources */,
 				F105A85F1AF1F5690044CCEE /* Troop.cpp in Sources */,
 				F105A8991AF1F60C0044CCEE /* MessageDispatcher.cpp in Sources */,
+				F11DA1C71B1ED81B004D35D0 /* GameConfiger.cpp in Sources */,
 				F105A8BD1AF1F61C0044CCEE /* StandUpState.cpp in Sources */,
 				F1FD4F571B16BE1E00057013 /* CCMaskFilter.cpp in Sources */,
 				F105A85C1AF1F5690044CCEE /* MonsterData.cpp in Sources */,

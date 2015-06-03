@@ -63,8 +63,8 @@ bool StiffState::onMessage(Character* agent, const Telegram& msg)
                 return false;
             }
         }
+        agent->hitted();
         switch (weapon->getType()) {
-            agent->hitted();
             case WeaponTypeKnife:{
                 //Knife *knife = (Knife*)weapon;
                 KnifeAttackDirection direction = *(KnifeAttackDirection*)msg.extraInfo;

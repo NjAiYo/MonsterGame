@@ -98,8 +98,8 @@ bool SkillState::onMessage(Character* agent, const Telegram& msg)
                 return false;
             }
         }
-        switch (weapon->getType()) {
-                agent->hitted();
+        agent->hitted();
+        switch (weapon->getType()) {    
             case WeaponTypeKnife:{
                 //Knife *knife = (Knife*)weapon;
                 //                agent->flowup();

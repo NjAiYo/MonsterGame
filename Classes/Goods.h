@@ -17,12 +17,17 @@ class Goods:public Ref
 {
 public:
     /**
-     *物品Id
+     *物品Id,用于数据库
      */
-    std::string id;
+    unsigned int id;
     
     /**
-     *物品类型
+     *物品Id,用于确定这是具体什么物品
+     */
+    std::string goodsId;
+    
+    /**
+     *物品类型，物品的大分类
      */
     GoodsType type;
     
@@ -36,7 +41,6 @@ public:
      */
     unsigned int buyPrice;
 
-    
     /**
      *名称
      */
@@ -60,15 +64,26 @@ public:
     
     
     /**
+     *玩家使用的最低等级要求，宝石则是对武器的最低等级要求
+     */
+    unsigned int minLevelToUse;
+    
+    /**
      *稀有度
      */
     unsigned int rarerate;
     
-    /**
-     *物品属性
-     */
-    Vector<Dictionary*> properties;
     
+    /**
+     *物品属性,
+     */
+    std::vector<GoodsProperty> properties;
+    
+    
+    /**
+     *物品的孔，内容是宝石,Ref对象表示空孔，宝石Goods对象表示一个宝石
+     */
+    Vector<Ref*> kongArray;
     Goods();
 };
 

@@ -10,6 +10,7 @@
 #define __Monster__Player__
 
 #include "cocos2d.h"
+#include "Goods.h"
 #include <map>
 
 USING_NS_CC;
@@ -17,17 +18,21 @@ USING_NS_CC;
 class Player : public cocos2d::Ref
 {
 private:
+    /**
+     * 用户的属性
+     */
     unsigned int _id;
     std::string _name;
     unsigned int _level;
     unsigned int _score;
     unsigned int _money;
     unsigned int _exp;
-    
+    unsigned int _caseCapbility;
+
     /**
      * 用户的物品
      */
-    Vector<Dictionary*> _items;
+    Vector<Goods*> _goods;
     
 public:
     ~Player();
@@ -37,6 +42,16 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(Player);
+    
+    /**
+     * 体力
+     */
+    CC_SYNTHESIZE(unsigned int, _power, Power);
+    
+    /**
+     * 宝石
+     */
+    CC_SYNTHESIZE(unsigned int, _diamonds, Diamonds);
     
     /**
      * 用户在数据库中的Id
@@ -79,13 +94,48 @@ public:
      * 用户幸运值
      */
     unsigned int getLucky();
-    void setLucky(unsigned int value);
     
+    /**
+     * 用户的箱子格子数量
+     */
+    unsigned int getCaseCapbility();
+    void setCaseCapbility(unsigned int value);
     
     /**
      * 获取用户属性json字符串
      */
     std::string getPlayerPropertyJSONString();
+    
+    
+    /**
+     * 获取用户物品json字符串
+     */
+    std::string getPlayerGoodsJSONString();
+    
+    /**
+     * 添加物品,箱子满添加失败返回-1，其他失败返回-2，成功返回1
+     */
+    int addGoods(Goods *goods);
+    
+    /**
+     * 根据物品的id获取物品
+     */
+    Goods* getGoods(unsigned int id);
+    
+    /**
+     * 删除物品，物品不存在返回-1，其他失败返回-2，成功返回1
+     */
+    void deleteGoods(Goods *goods);
+    
+    /**
+     * 根据id删除物品，物品不存在返回-1，其他失败返回-2，成功返回1
+     */
+    void deleteGoodsById(unsigned int id);
+    
+    /**
+     * 获取玩家所有物品
+     */
+    Vector<Goods*> getGoodses();
 };
 
 #endif /* defined(__Monster__Player__) */

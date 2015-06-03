@@ -11,6 +11,7 @@
 #include "BGTWorld.h"
 #include "GameScene.h"
 #include "BGTWall.h"
+#include "Character.h"
 
 //#include "FilterSprite.h"
 //#include "Gamepanel.h"
@@ -60,11 +61,11 @@ bool UILayer::initWithGameScene(GameScene *gs)
     comboLabel = Label::createWithCharMap("comboNumber.png", 130, 144, '0');
     comboLabel->setAlignment(TextHAlignment::LEFT);
     comboLayer->addChild(comboLabel);
-    comboLabel->setPosition(size.width-400, size.height-270);
-    //comboLabel->setScale(scaleFactory);
+    comboLabel->setPosition(size.width-400*scaleFactory, size.height-270*scaleFactory);
+    comboLabel->setScale(scaleFactory);
     
     comboBar = Sprite::createWithSpriteFrameName("countDownFrameDi.png");
-    comboBar->setPosition(size.width-400,size.height-200);
+    comboBar->setPosition(size.width-400*scaleFactory,size.height-200*scaleFactory);
     comboLayer->addChild(comboBar);
     
     comboProgressBar = ProgressTimer::create(Sprite::createWithSpriteFrameName("countDownBar.png"));
@@ -80,7 +81,7 @@ bool UILayer::initWithGameScene(GameScene *gs)
     s->setPosition(comboBar->getContentSize().width/2,comboBar->getContentSize().height/2);
     comboBar->addChild(s);
     
-    comboLayer->setPosition(600,0);
+    comboLayer->setPosition(600*scaleFactory,0);
     
     tipLayer = Layer::create();
     addChild(tipLayer);
@@ -89,7 +90,7 @@ bool UILayer::initWithGameScene(GameScene *gs)
     addChild(hudLayer);
     Sprite *coinSprite = Sprite::createWithSpriteFrameName("coin.png");
     hudLayer->addChild(coinSprite);
-    coinSprite->setPosition(245*scaleFactory, size.height-195);
+    coinSprite->setPosition(245*scaleFactory, size.height-195*scaleFactory);
     
     coinLabel = Label::createWithBMFont("gameSceneCoinLabel.fnt", "x0");
 //    s = Sprite::createWithSpriteFrameName("coinX.png");
@@ -99,7 +100,7 @@ bool UILayer::initWithGameScene(GameScene *gs)
     coinLabel->setAlignment(TextHAlignment::LEFT);
     hudLayer->addChild(coinLabel, 1);
     //coinLabel->setString(":0");
-    coinLabel->setPosition(320*scaleFactory, size.height-195);
+    coinLabel->setPosition(320*scaleFactory, size.height-195*scaleFactory);
     coinLabel->setScaleX(scaleFactory);
     coinLabel->setScaleY(scaleFactory*0.6);
 
@@ -136,8 +137,8 @@ bool UILayer::initWithGameScene(GameScene *gs)
     
     playerLevelLabel = Label::createWithBMFont("gameSceneLevelLabel.fnt", "Lv.1");
     hudLayer->addChild(playerLevelLabel, 1);
-    playerLevelLabel->setPosition(120, size.height-170);
-    
+    playerLevelLabel->setPosition(120*scaleFactory, size.height-170*scaleFactory);
+    playerLevelLabel->setScale(scaleFactory);
     backIconPosition = Vec2(300*scaleFactory, 120*scaleFactory);
     
     frontIconPosition = Vec2(180*scaleFactory, 160*scaleFactory);
@@ -162,7 +163,7 @@ bool UILayer::initWithGameScene(GameScene *gs)
     knifeIcon->setScale(frontScale);
 
     enegyBar = Sprite::createWithSpriteFrameName("enegyBarFrameDi.png");
-    enegyBar->setPosition(size.width/2,80);
+    enegyBar->setPosition(size.width/2,80*scaleFactory);
     hudLayer->addChild(enegyBar);
     
 
@@ -186,7 +187,7 @@ bool UILayer::initWithGameScene(GameScene *gs)
     
     
     lifeBar = Sprite::createWithSpriteFrameName("wallLifeBarFrameDi.png");
-    lifeBar->setPosition(490*scaleFactory,size.height-100);
+    lifeBar->setPosition(490*scaleFactory,size.height-100*scaleFactory);
     hudLayer->addChild(lifeBar);
     
 
@@ -211,7 +212,7 @@ bool UILayer::initWithGameScene(GameScene *gs)
 
     
     s = Sprite::createWithSpriteFrameName("lifeIcon.png");
-    s->setPosition(124,size.height-100);
+    s->setPosition(124*scaleFactory,size.height-100*scaleFactory);
     hudLayer->addChild(s);
     
     
@@ -222,7 +223,7 @@ bool UILayer::initWithGameScene(GameScene *gs)
     sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
     
     MenuItemSprite *pauseItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::pauseCallback, this));
-    pauseItem->setPosition(size.width-70,size.height-70);
+    pauseItem->setPosition(size.width-70*scaleFactory,size.height-70*scaleFactory);
     
     
     
@@ -233,15 +234,22 @@ bool UILayer::initWithGameScene(GameScene *gs)
     
     
     // Register Touch Event
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
+//    auto listener = EventListenerTouchOneByOne::create();
+//    listener->setSwallowTouches(true);
+//    
+//    listener->onTouchBegan = CC_CALLBACK_2(UILayer::onTouchBegan, this);
+//    listener->onTouchMoved = CC_CALLBACK_2(UILayer::onTouchMoved, this);
+//    listener->onTouchEnded = CC_CALLBACK_2(UILayer::onTouchEnded, this);
+//    listener->onTouchCancelled = CC_CALLBACK_2(UILayer::onTouchCancelled, this);
+//    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
     
-    listener->onTouchBegan = CC_CALLBACK_2(UILayer::onTouchBegan, this);
-    listener->onTouchMoved = CC_CALLBACK_2(UILayer::onTouchMoved, this);
-    listener->onTouchEnded = CC_CALLBACK_2(UILayer::onTouchEnded, this);
-    listener->onTouchCancelled = CC_CALLBACK_2(UILayer::onTouchCancelled, this);
+    auto listener = EventListenerTouchAllAtOnce::create();
+    
+    listener->onTouchesBegan = CC_CALLBACK_2(UILayer::onTouchesBegan, this);
+    listener->onTouchesMoved = CC_CALLBACK_2(UILayer::onTouchesMoved, this);
+    listener->onTouchesEnded = CC_CALLBACK_2(UILayer::onTouchesEnded, this);
+    listener->onTouchesCancelled = CC_CALLBACK_2(UILayer::onTouchesCancelled, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
-    
     
     pausedLayer = LayerColor::create(Color4B(0, 0, 0, 170));
     addChild(pausedLayer);
@@ -258,7 +266,7 @@ bool UILayer::initWithGameScene(GameScene *gs)
     sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
     
     MenuItemSprite *resumeItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::resumeCallback, this));
-    resumeItem->setPosition(s->getContentSize().width/2,s->getContentSize().height/2+200);
+    resumeItem->setPosition(s->getContentSize().width/2,s->getContentSize().height/2+200*scaleFactory);
     
     sprite = Sprite::createWithSpriteFrameName("restartButton.png");
     sprite1 = Sprite::createWithSpriteFrameName("restartButton.png");
@@ -267,7 +275,7 @@ bool UILayer::initWithGameScene(GameScene *gs)
     sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
     
     MenuItemSprite *restartItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::restartCallback, this));
-    restartItem->setPosition(s->getContentSize().width/2,s->getContentSize().height/2-50);
+    restartItem->setPosition(s->getContentSize().width/2,s->getContentSize().height/2-50*scaleFactory);
     
     sprite = Sprite::createWithSpriteFrameName("mainButton.png");
     sprite1 = Sprite::createWithSpriteFrameName("mainButton.png");
@@ -276,7 +284,7 @@ bool UILayer::initWithGameScene(GameScene *gs)
     sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
     
     MenuItemSprite *mainItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::mainCallback, this));
-    mainItem->setPosition(s->getContentSize().width/2,s->getContentSize().height/2-250);
+    mainItem->setPosition(s->getContentSize().width/2,s->getContentSize().height/2-250*scaleFactory);
     
     menu = Menu::create(resumeItem,restartItem,mainItem,NULL);
     menu->setPosition(0,0);
@@ -313,14 +321,14 @@ bool UILayer::initWithGameScene(GameScene *gs)
     
     rateLayer = new GameEndRateLayer();
     rateLayer->init();
-    addChild(rateLayer);
+    addChild(rateLayer,2);
     rateLayer->release();
     rateLayer->setVisible(false);
     
 
     upgredLayer = new GameEndUpgradeLayer();
     upgredLayer->init();
-    addChild(upgredLayer);
+    addChild(upgredLayer,2);
     upgredLayer->release();
     upgredLayer->setVisible(false);
     
@@ -352,7 +360,7 @@ bool UILayer::initWithGameScene(GameScene *gs)
         sprite->setVisible(false);
         flowIconsPool.pushBack(sprite);
         
-        sprite = Sprite::createWithSpriteFrameName("fukongLabel.png");
+        sprite = Sprite::createWithSpriteFrameName("gedangLabel.png");
         tipLayer->addChild(sprite);
         sprite->setVisible(false);
         gedangIconsPool.pushBack(sprite);
@@ -362,6 +370,22 @@ bool UILayer::initWithGameScene(GameScene *gs)
         tipLayer->addChild(sprite);
         sprite->setVisible(false);
         jiTuiIconsPool.pushBack(sprite);
+        
+        sprite = Sprite::createWithSpriteFrameName("mianyiLabel.png");
+        tipLayer->addChild(sprite);
+        sprite->setVisible(false);
+        mianyiIconsPool.pushBack(sprite);
+        
+        Label *label = Label::createWithBMFont("gameSceneKouLifeLabel.fnt", "-0");
+        //Label *label = Label::createWithCharMap("monsterNumber.png", 71, 66, '0');
+        addChild(label);
+        label->setVisible(false);
+        damageLabels.pushBack(label);
+        
+        label = Label::createWithBMFont("gameSceneBaoJiLabel.fnt", "暴击\n  0  ");
+        addChild(label);
+        label->setVisible(false);
+        baoDamageLabels.pushBack(label);
     }
     
     
@@ -380,6 +404,157 @@ bool UILayer::initWithGameScene(GameScene *gs)
     return true;
 }
 
+Label* UILayer::getDamageLabelFromPool()
+{
+    for (int i = 0; i < damageLabels.size(); i++) {
+        Label *label = damageLabels.at(i);
+        if (!label->isVisible()) {
+            return label;
+        }
+    }
+    //Label *label = Label::createWithBMFont("gameSceneKouLifeLabel.fnt", "-0");
+    Label *label = Label::createWithCharMap("monsterNumber.png", 130, 144, '0');
+    addChild(label);
+    label->setVisible(false);
+    damageLabels.pushBack(label);
+    return label;
+}
+
+Label* UILayer::getBaoDamageLabelFromPool()
+{
+    for (int i = 0; i < baoDamageLabels.size(); i++) {
+        Label *label = baoDamageLabels.at(i);
+        if (!label->isVisible()) {
+            return label;
+        }
+    }
+    Label *label = Label::createWithBMFont("gameSceneBaoJiLabel.fnt", "暴击\n  0  ");
+    addChild(label);
+    label->setVisible(false);
+    baoDamageLabels.pushBack(label);
+    return label;
+}
+
+Sprite* UILayer::getShanbiIconFromPool()
+{
+    for (int i = 0; i < shanbiIconsPool.size(); i++) {
+        Sprite *label = shanbiIconsPool.at(i);
+        if (!label->isVisible()) {
+            return label;
+        }
+    }
+    Sprite *label = Sprite::createWithSpriteFrameName("shanbiLabel.png");
+    tipLayer->addChild(label);
+    label->setVisible(false);
+    shanbiIconsPool.pushBack(label);
+    return label;
+}
+
+Sprite* UILayer::getMissIconFromPool()
+{
+    for (int i = 0; i < missIconsPool.size(); i++) {
+        Sprite *label = missIconsPool.at(i);
+        if (!label->isVisible()) {
+            return label;
+        }
+    }
+    Sprite *label = Sprite::createWithSpriteFrameName("missLabel.png");
+    tipLayer->addChild(label);
+    label->setVisible(false);
+    missIconsPool.pushBack(label);
+    return label;
+}
+
+Sprite* UILayer::getYunIconFromPool()
+{
+    for (int i = 0; i < yunIconsPool.size(); i++) {
+        Sprite *label = yunIconsPool.at(i);
+        if (!label->isVisible()) {
+            return label;
+        }
+    }
+    Sprite *label = Sprite::createWithSpriteFrameName("yunLabel.png");
+    tipLayer->addChild(label);
+    label->setVisible(false);
+    yunIconsPool.pushBack(label);
+    return label;
+}
+
+Sprite* UILayer::getDaoDiIconFromPool()
+{
+    for (int i = 0; i < daodiIconsPool.size(); i++) {
+        Sprite *label = daodiIconsPool.at(i);
+        if (!label->isVisible()) {
+            return label;
+        }
+    }
+    Sprite *label = Sprite::createWithSpriteFrameName("daodiLabel.png");
+    tipLayer->addChild(label);
+    label->setVisible(false);
+    daodiIconsPool.pushBack(label);
+    return label;
+}
+
+Sprite* UILayer::getFlowIconFromPool()
+{
+    for (int i = 0; i < flowIconsPool.size(); i++) {
+        Sprite *label = flowIconsPool.at(i);
+        if (!label->isVisible()) {
+            return label;
+        }
+    }
+    Sprite *label = Sprite::createWithSpriteFrameName("fukongLabel.png");
+    tipLayer->addChild(label);
+    label->setVisible(false);
+    flowIconsPool.pushBack(label);
+    return label;
+}
+
+Sprite* UILayer::getGeDangIconFromPool()
+{
+    for (int i = 0; i < gedangIconsPool.size(); i++) {
+        Sprite *label = gedangIconsPool.at(i);
+        if (!label->isVisible()) {
+            return label;
+        }
+    }
+    Sprite *label = Sprite::createWithSpriteFrameName("gedangLabel.png");
+    tipLayer->addChild(label);
+    label->setVisible(false);
+    gedangIconsPool.pushBack(label);
+    return label;
+}
+
+Sprite* UILayer::getJiTuiIconFromPool()
+{
+    for (int i = 0; i < jiTuiIconsPool.size(); i++) {
+        Sprite *label = jiTuiIconsPool.at(i);
+        if (!label->isVisible()) {
+            return label;
+        }
+    }
+    Sprite *label = Sprite::createWithSpriteFrameName("jituiLabel.png");
+    tipLayer->addChild(label);
+    label->setVisible(false);
+    jiTuiIconsPool.pushBack(label);
+    return label;
+}
+
+Sprite* UILayer::getMianyiIconFromPool()
+{
+    for (int i = 0; i < mianyiIconsPool.size(); i++) {
+        Sprite *label = mianyiIconsPool.at(i);
+        if (!label->isVisible()) {
+            return label;
+        }
+    }
+    Sprite *label = Sprite::createWithSpriteFrameName("mianyiLabel.png");
+    tipLayer->addChild(label);
+    label->setVisible(false);
+    mianyiIconsPool.pushBack(label);
+    return label;
+}
+
 void UILayer::restartCallback(Ref* sender)
 {
     //    gameScene->restartGame();
@@ -391,27 +566,68 @@ void UILayer::restartCallback(Ref* sender)
 
 void UILayer::monsterDamagedHandler(EventCustom* event)
 {
+    CustomerUserData *userData = (CustomerUserData*)event->getUserData();
+    Character *monster = (Character*)userData->monster;
+
+    Label *label = getDamageLabelFromPool();
+    label->setPosition(monster->getPositionX(), monster->getFloor()+monster->getBoundingBox().size.height/2);
+    label->setVisible(true);
+    label->setOpacity(255);
+    label->setString(String::createWithFormat("%d",(int)userData->damage)->getCString());
     
+    CallFunc *func = CallFunc::create([=](){
+        label->setVisible(false);
+    });
+    label->runAction(Sequence::create(Spawn::create(MoveBy::create(1.5, Vec2(0, 400)),FadeOut::create(1.5), NULL),func, NULL));
 }
 
 void UILayer::monsterBaoDamagedHandler(EventCustom* event)
 {
+    CustomerUserData *userData = (CustomerUserData*)event->getUserData();
+    Character *monster = (Character*)userData->monster;
     
+    Label *label = getBaoDamageLabelFromPool();
+    label->setPosition(monster->getPositionX(), monster->getFloor()+monster->getBoundingBox().size.height/2);
+    label->setVisible(true);
+    label->setOpacity(255);
+    label->setString(String::createWithFormat("%d",(int)userData->damage)->getCString());
+    
+    CallFunc *func = CallFunc::create([=](){
+        label->setVisible(false);
+    });
+    label->runAction(Sequence::create(Spawn::create(MoveBy::create(1.5, Vec2(0, 400)),FadeOut::create(1.5), NULL),func, NULL));
 }
 
 void UILayer::monsterParryHandler(EventCustom* event)
 {
+    Character *monster = (Character*)event->getUserData();
+    Sprite *label = getGeDangIconFromPool();
+    label->setPosition(monster->getPositionX(), monster->getFloor()+monster->getBoundingBox().size.height/2);
+    label->setVisible(true);
+    label->setOpacity(255);
     
+    CallFunc *func = CallFunc::create([=](){
+        label->setVisible(false);
+    });
+    label->runAction(Sequence::create(Spawn::create(MoveBy::create(1.5, Vec2(0, 400)),FadeOut::create(1.5), NULL),func, NULL));
 }
 
 void UILayer::monsterShanbiHandler(EventCustom* event)
 {
+    Character *monster = (Character*)event->getUserData();
+    Sprite *label = getShanbiIconFromPool();
+    label->setPosition(monster->getPositionX(), monster->getFloor()+monster->getBoundingBox().size.height/2);
+    label->setVisible(true);
+    label->setOpacity(255);
     
+    CallFunc *func = CallFunc::create([=](){
+        label->setVisible(false);
+    });
+    label->runAction(Sequence::create(Spawn::create(MoveBy::create(1.5, Vec2(0, 400)),FadeOut::create(1.5), NULL),func, NULL));
 }
 
 void UILayer::monsterHittedHandler(EventCustom* event)
 {
-    log("monster hit");
     if (hitCount == 0 || leftTime > 0) {
         leftTime = COMBO_HIT_DURATION;
         hitCount++;
@@ -428,14 +644,17 @@ void UILayer::monsterHittedHandler(EventCustom* event)
 
 void UILayer::hideComboUI()
 {
-    auto action = EaseExponentialIn::create(MoveBy::create(0.3, Vec2(600,0)));
+    AppDelegate *app = (AppDelegate*)Application::getInstance();
+    float scaleFactory = app->scaleFactory;
+    auto action = EaseExponentialIn::create(MoveBy::create(0.3, Vec2(600*scaleFactory,0)));
     comboLayer->runAction(action);
 }
 
 void UILayer::showComboUI()
 {
-    log("showComboUI");
-    auto action = EaseExponentialOut::create(MoveBy::create(0.3, Vec2(-600,0)));
+    AppDelegate *app = (AppDelegate*)Application::getInstance();
+    float scaleFactory = app->scaleFactory;
+    auto action = EaseExponentialOut::create(MoveBy::create(0.3, Vec2(-600*scaleFactory,0)));
     comboLayer->runAction(action);
 }
 
@@ -596,13 +815,14 @@ void UILayer::toggleToGun(){
     gunIcon->setLocalZOrder(10);
 }
 
-bool UILayer::onTouchBegan(Touch* touch, Event* event)
+void UILayer::onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event)
 {
+    Touch *touch = touches.at(0);
     if (gameScene->getState()!=GameStateGaming) {
-        return false;
+        return;
     }
     if (!hudLayer->isVisible()) {
-        return false;
+        return;
     }
     AppDelegate *app = (AppDelegate*)Application::getInstance();
     float scaleFactory = app->scaleFactory;
@@ -615,23 +835,62 @@ bool UILayer::onTouchBegan(Touch* touch, Event* event)
         }else{
             toggleToKnife();
         }
-        return true;
+        return;
     }
+
+}
+
+void UILayer::onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event)
+{
     
-    return false;
 }
 
-void UILayer::onTouchMoved(Touch* touch, Event* event)
+void UILayer::onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event)
 {
-
+    
 }
 
-void UILayer::onTouchEnded(Touch* touch, Event* event)
+void UILayer::onTouchesCancelled(const std::vector<Touch*>&touches, Event *unused_event)
 {
-
+    
 }
 
-void UILayer::onTouchCancelled(Touch *touch, Event *unused_event)
-{
-
-}
+//bool UILayer::onTouchBegan(Touch* touch, Event* event)
+//{
+//    if (gameScene->getState()!=GameStateGaming) {
+//        return false;
+//    }
+//    if (!hudLayer->isVisible()) {
+//        return false;
+//    }
+//    AppDelegate *app = (AppDelegate*)Application::getInstance();
+//    float scaleFactory = app->scaleFactory;
+//    
+//    Vec2 pos = touch->getLocation();
+//    Rect rect = Rect(knifeIcon->getPositionX()-200*scaleFactory/2, knifeIcon->getPositionY()-200*scaleFactory/2, 200*scaleFactory, 200*scaleFactory);
+//    if (rect.containsPoint(pos)) {
+//        if(gameScene->getWorld()->isUseKnife()){
+//            toggleToGun();
+//        }else{
+//            toggleToKnife();
+//        }
+//        return true;
+//    }
+//    
+//    return false;
+//}
+//
+//void UILayer::onTouchMoved(Touch* touch, Event* event)
+//{
+//
+//}
+//
+//void UILayer::onTouchEnded(Touch* touch, Event* event)
+//{
+//
+//}
+//
+//void UILayer::onTouchCancelled(Touch *touch, Event *unused_event)
+//{
+//
+//}

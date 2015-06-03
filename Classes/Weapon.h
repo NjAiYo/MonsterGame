@@ -31,10 +31,18 @@ public:
     virtual void setDamage(float v){ damage = v; };
     virtual float getDamage(){ return damage; };
     virtual ~Weapon(){};
-    virtual bool onTouchBegan(Touch* touch, Event* event)=0;
-    virtual void onTouchMoved(Touch* touch, Event* event)=0;
-    virtual void onTouchEnded(Touch* touch, Event* event)=0;
-    virtual void onTouchCancelled(Touch *touch, Event *unused_event)=0;
+//    virtual bool onTouchBegan(Touch* touch, Event* event)=0;
+//    virtual void onTouchMoved(Touch* touch, Event* event)=0;
+//    virtual void onTouchEnded(Touch* touch, Event* event)=0;
+//    virtual void onTouchCancelled(Touch *touch, Event *unused_event)=0;
+    
+    virtual void onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event)=0;
+    
+    virtual void onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event)=0;
+    
+    virtual void onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event)=0;
+    
+    virtual void onTouchesCancelled(const std::vector<Touch*>&touches, Event *unused_event)=0;
     
     WeaponType getType() { return type; };
 };

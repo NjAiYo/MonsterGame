@@ -51,8 +51,8 @@ bool LieDownState::onMessage(Character* agent, const Telegram& msg)
         agent->getSkeletonNode()->setTrackCompleteListener(entry, [=] (int trackIndex,int loopCount) {
             //agent->getSkeletonNode()->setAnimation(0, "laydown", true);
         });
+        agent->hitted();
         switch (weapon->getType()) {
-            agent->hitted();
             case WeaponTypeKnife:{
                 //Knife *knife = (Knife*)weapon;
                 

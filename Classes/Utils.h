@@ -88,6 +88,44 @@ USING_NS_CC;
 
 #define GESTURE_SCORE_THRESHOLD 0.7f
 
+
+typedef enum {
+    GoodsPropertiesType_XiXue = 0,//吸血
+    GoodsPropertiesType_JiaXue = 1,//加血
+    GoodsPropertiesType_JiaNengLiang = 2,//加能量
+    GoodsPropertiesType_JiaGongJi = 3,//加攻击
+    GoodsPropertiesType_JiaShanBi = 4,//加闪避
+    GoodsPropertiesType_JiaMingZhong = 5,//加命中
+    GoodsPropertiesType_JiaJinYan = 6,//加经验
+    GoodsPropertiesType_JiaFangYu = 7,//加防御
+    GoodsPropertiesType_JiaBaoJiLv = 8,//加暴击几率
+    GoodsPropertiesType_JiaBaoShang = 9,//加爆伤
+    GoodsPropertiesType_JiaDanYao = 10,//加弹药
+    GoodsPropertiesType_JianCD = 11,//减CD
+    GoodsPropertiesType_JiaNaiJiu = 12,//加耐久
+    GoodsPropertiesType_JianSu = 13,//减速
+    GoodsPropertiesType_JiaJiYunLv = 14,//加击晕几率
+    GoodsPropertiesType_JiaShangHaiHuo = 15,//加火伤害
+    GoodsPropertiesType_JiaShangHaiDu = 16,//加毒伤害
+    GoodsPropertiesType_JiaJinBiChanChu = 17,//加金币产出
+    GoodsPropertiesType_JiaXingYun = 18,//加幸运
+    GoodsPropertiesType_JiaLianJi = 19,//加连击
+    GoodsPropertiesType_JiangXiaoHao = 20,//降低能量消耗
+    GoodsPropertiesType_Kong = 21,//孔
+} GoodsPropertiesType;
+
+//物品属性
+struct GoodsProperty {
+    GoodsPropertiesType type;
+    float value;
+};
+
+
+struct CustomerUserData {
+    void* monster;
+    float damage;
+};
+
 typedef enum {
     TROOP_TIME_MODE_FIXED = 0,
     TROOP_TIME_MODE_RANDOM = 1,
@@ -161,28 +199,33 @@ typedef enum {
 
 
 typedef enum {
-    Goods_Weapon_GUN = 0,//枪
-    Goods_Weapon_KNIFE = 1,//刀
+    Goods_Weapon_KNIFE = 0,//刀
+    Goods_Weapon_GUN = 1,//枪
     Goods_Weapon_PET = 2,//宠物
     
-    Goods_Armor_RING = 10,//戒指
-    Goods_Armo_NECKLACE = 11,//项链
+    Goods_Armor_RING = 100,//戒指
+    Goods_Armo_NECKLACE = 101,//项链
     
-    Goods_Stuff_NORMAL = 20,//普通材料
+    Goods_Stuff = 200,//材料
     
-    Goods_Consume_LIFE = 30,//血
-    Goods_Consume_ENERGY = 31,//能量
-    Goods_Consume_BULLET = 32,//子弹
-    Goods_Consume_MONEY = 33,//钱
-    Goods_Consume_EXP = 34,//经验
-    Goods_Consume_RESETSKILL = 35,//技能重置
+    Goods_Consume_LIFE = 300,//血
+    Goods_Consume_ENERGY = 301,//能量
+    Goods_Consume_BULLET = 302,//子弹
+    Goods_Consume_MONEY = 303,//钱
+    Goods_Consume_EXP_PLAYER = 304,//经验
+    Goods_Consume_RESET_SKILL = 305,//技能重置
+    Goods_Consume_EXP_PET = 306,//经验
+    Goods_Consume_RESET_WEAPON_ONE_PROPERTY = 307,//一条武器属性重置
+    Goods_Consume_RESET_WEAPON_ALL_PROPERTY = 308,//所有武器属性重置
+    Goods_Consume_WEAPON_UPGRED = 309,//武器进阶
+    Goods_Consume_PET_UPGRED = 310,//宠物进阶
+    Goods_Consume_DRILL_HOLE = 311,//打洞
+ 
+    Goods_Buff_GEM = 400,//宝石
     
-    Goods_Buff_HOLE = 40,//打洞
-    Goods_Buff_GEM = 41,//宝石
-    
-    Goods_Skill_FULLHIT = 50,//全屏攻击
-    Goods_Skill_RECOVERYLIFE = 51,//复活
-    Goods_Skill_ENERGYSHIELD = 52//能量盾
+    Goods_Skill_FULLHIT = 500,//全屏攻击
+    Goods_Skill_RECOVERYLIFE = 501,//复活
+    Goods_Skill_ENERGYSHIELD = 502//能量盾
 }GoodsType;
 
 

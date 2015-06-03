@@ -53,20 +53,21 @@ bool Pistol::hittestPoint(Vec2 p)
     return false;
 }
 
-bool Pistol::onTouchBegan(Touch* touch, Event* event)
+void Pistol::onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event)
 {
+    Touch *touch = touches.at(0);
     Weapon::m_attackID++;
     //log("Pistol::onTouchBegan");
-//    if (!canShot) {
-//        return true;
-//    }
+    //    if (!canShot) {
+    //        return true;
+    //    }
     lastShotTime = millisecondNow();
     Vec2 pos = touch->getLocation();
     CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("jq.mp3");
     canShot = false;
-//    for (Character *agent : world->getMonsters()) {
-//        log("agent->z:%d",agent->getLocalZOrder());
-//    }
+    //    for (Character *agent : world->getMonsters()) {
+    //        log("agent->z:%d",agent->getLocalZOrder());
+    //    }
     //hit test monster
     for (Character *agent : world->getMonsters()) {
         if (!agent->isVisible() || agent->isDieState()) {
@@ -82,49 +83,123 @@ bool Pistol::onTouchBegan(Touch* touch, Event* event)
                                                               NULL);
             break;
         }
-        
     }
-    return true;
 }
 
-void Pistol::onTouchMoved(Touch* touch, Event* event)
+void Pistol::onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event)
 {
     if (!canShot) {
         return;
     }
+    //    lastShotTime = millisecondNow();
+    //    Vec2 pos = touch->getLocation();
+    //    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("jq.mp3");
+    //    canShot = false;
+    //
+    //    //hit test monster
+    //    for (Character *agent : world->getMonsters()) {
+    //        if (!agent->isVisible()) {
+    //            continue;
+    //        }
+    //        Rect rect = agent->getRect();
+    //        bool hit = false;
+    //        if (pos.x < rect.origin.x || pos.y < rect.origin.y || pos.x > rect.origin.x+rect.size.width || pos.y > rect.origin.y+rect.size.height) {
+    //            hit = false;
+    //        }else{
+    //            hit = true;
+    //        }
+    //        if (hit) {
+    //            MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
+    //                                                              getID(),           //sender ID
+    //                                                              agent->getID(),           //receiver ID
+    //                                                              Msg_AttackedByWeapon,        //msg
+    //                                                              NULL);
+    //        }
+    //    }
+}
+
+void Pistol::onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event)
+{
+    
+}
+
+void Pistol::onTouchesCancelled(const std::vector<Touch*>&touches, Event *unused_event)
+{
+    
+}
+
+//bool Pistol::onTouchBegan(Touch* touch, Event* event)
+//{
+//    Weapon::m_attackID++;
+//    //log("Pistol::onTouchBegan");
+////    if (!canShot) {
+////        return true;
+////    }
 //    lastShotTime = millisecondNow();
 //    Vec2 pos = touch->getLocation();
 //    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("jq.mp3");
 //    canShot = false;
-//    
+////    for (Character *agent : world->getMonsters()) {
+////        log("agent->z:%d",agent->getLocalZOrder());
+////    }
 //    //hit test monster
 //    for (Character *agent : world->getMonsters()) {
-//        if (!agent->isVisible()) {
+//        if (!agent->isVisible() || agent->isDieState()) {
 //            continue;
 //        }
-//        Rect rect = agent->getRect();
-//        bool hit = false;
-//        if (pos.x < rect.origin.x || pos.y < rect.origin.y || pos.x > rect.origin.x+rect.size.width || pos.y > rect.origin.y+rect.size.height) {
-//            hit = false;
-//        }else{
-//            hit = true;
-//        }
+//        bool hit = agent->hittestPoint(pos);
+//        
 //        if (hit) {
 //            MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
 //                                                              getID(),           //sender ID
 //                                                              agent->getID(),           //receiver ID
 //                                                              Msg_AttackedByWeapon,        //msg
 //                                                              NULL);
+//            break;
 //        }
+//        
 //    }
-}
-
-void Pistol::onTouchEnded(Touch* touch, Event* event)
-{
-    
-}
-
-void Pistol::onTouchCancelled(Touch *touch, Event *unused_event)
-{
-    
-}
+//    return true;
+//}
+//
+//void Pistol::onTouchMoved(Touch* touch, Event* event)
+//{
+//    if (!canShot) {
+//        return;
+//    }
+////    lastShotTime = millisecondNow();
+////    Vec2 pos = touch->getLocation();
+////    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("jq.mp3");
+////    canShot = false;
+////    
+////    //hit test monster
+////    for (Character *agent : world->getMonsters()) {
+////        if (!agent->isVisible()) {
+////            continue;
+////        }
+////        Rect rect = agent->getRect();
+////        bool hit = false;
+////        if (pos.x < rect.origin.x || pos.y < rect.origin.y || pos.x > rect.origin.x+rect.size.width || pos.y > rect.origin.y+rect.size.height) {
+////            hit = false;
+////        }else{
+////            hit = true;
+////        }
+////        if (hit) {
+////            MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
+////                                                              getID(),           //sender ID
+////                                                              agent->getID(),           //receiver ID
+////                                                              Msg_AttackedByWeapon,        //msg
+////                                                              NULL);
+////        }
+////    }
+//}
+//
+//void Pistol::onTouchEnded(Touch* touch, Event* event)
+//{
+//    
+//}
+//
+//void Pistol::onTouchCancelled(Touch *touch, Event *unused_event)
+//{
+//    
+//}

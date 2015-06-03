@@ -189,9 +189,10 @@ void QTELayer::qteAttacked()
     }
 }
 
-bool QTELayer::onTouchBegan(Touch* touch, Event* event)
+void QTELayer::onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event)
 {
-    if(!enableFight) return false;
+    if(!enableFight) return;
+    Touch *touch = touches.at(0);
     Vec2 pos = touch->getLocation();
     //this->getChildByTag(111)->setPosition(Vec2(t->getLocation().x,t->getLocation().y));
     
@@ -202,13 +203,12 @@ bool QTELayer::onTouchBegan(Touch* touch, Event* event)
     startTouchPosition = pos;
     
     currentTouchTime = millisecondNow();
-    return true;
 }
 
-void QTELayer::onTouchMoved(Touch* touch, Event* event)
+void QTELayer::onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event)
 {
-    
     if(!enableFight) return;
+    Touch *touch = touches.at(0);
     Vec2 delta = touch->getDelta();
     Vec2 lastPos = touch->getPreviousLocation();
     Vec2 pos = touch->getLocation();
@@ -231,11 +231,63 @@ void QTELayer::onTouchMoved(Touch* touch, Event* event)
     }
 }
 
-void QTELayer::onTouchEnded(Touch* touch, Event* event)
+void QTELayer::onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event)
 {
     if(!enableFight) return;
 }
-void QTELayer::onTouchCancelled(Touch *touch, Event *unused_event)
+
+void QTELayer::onTouchesCancelled(const std::vector<Touch*>&touches, Event *unused_event)
 {
     if(!enableFight) return;
 }
+
+//bool QTELayer::onTouchBegan(Touch* touch, Event* event)
+//{
+//    if(!enableFight) return false;
+//    Vec2 pos = touch->getLocation();
+//    //this->getChildByTag(111)->setPosition(Vec2(t->getLocation().x,t->getLocation().y));
+//    
+//    //star->setPosition(pos);
+//    streak->setPosition(pos);
+//    
+//    streak->reset();
+//    startTouchPosition = pos;
+//    
+//    currentTouchTime = millisecondNow();
+//    return true;
+//}
+//
+//void QTELayer::onTouchMoved(Touch* touch, Event* event)
+//{
+//    
+//    if(!enableFight) return;
+//    Vec2 delta = touch->getDelta();
+//    Vec2 lastPos = touch->getPreviousLocation();
+//    Vec2 pos = touch->getLocation();
+//    
+//    float dx = pos.x - startTouchPosition.x;
+//    float dy = pos.y - startTouchPosition.y;
+//    float dist = sqrtf(dx*dx+dy*dy);
+//    
+//    
+//    streak->setPosition(pos);
+//    //刀的判断
+//    dist = pos.distanceSquared(startTouchPosition);
+//    
+//    if (dist > 50) {
+//        //hit test monster
+//        bool hit = qteMonster->hittestPoint(pos);
+//        if (hit) {
+//            hitQteMonster();
+//        }
+//    }
+//}
+//
+//void QTELayer::onTouchEnded(Touch* touch, Event* event)
+//{
+//    if(!enableFight) return;
+//}
+//void QTELayer::onTouchCancelled(Touch *touch, Event *unused_event)
+//{
+//    if(!enableFight) return;
+//}

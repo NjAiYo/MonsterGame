@@ -50,11 +50,17 @@ public:
     //all entities must implement an update function
     void update(float dt);
     
-    bool onTouchBegan(Touch* touch, Event* event);
-    void onTouchMoved(Touch* touch, Event* event);
-    void onTouchEnded(Touch* touch, Event* event);
-    void onTouchCancelled(Touch *touch, Event *unused_event);
+//    bool onTouchBegan(Touch* touch, Event* event);
+//    void onTouchMoved(Touch* touch, Event* event);
+//    void onTouchEnded(Touch* touch, Event* event);
+//    void onTouchCancelled(Touch *touch, Event *unused_event);
+    void onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event);
     
+    void onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event);
+    
+    void onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event);
+    
+    void onTouchesCancelled(const std::vector<Touch*>&touches, Event *unused_event);
     
     void glyphDetected(WTMGlyph *glyph, float score);
     void glyphResults(Array* results);

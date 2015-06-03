@@ -42,6 +42,7 @@ bool Knife::initWithWorld(BGTWorld *w)
 //        xuliBar->setBarChangeRate(cc.p(1, 0));
         xuliBar->setPercentage(0);
         xuliLayer->addChild(xuliBar);
+        xuliBar->setPosition(-1000,-1000);
         xuliTotalTime = 500;//2秒
         xuliTimePast = 0;
         origDamage = 10;
@@ -208,8 +209,252 @@ void Knife::update(float dt)
 //    return isXuliDamage;
 //}
 
-bool Knife::onTouchBegan(Touch* touch, Event* event)
+//bool Knife::onTouchBegan(Touch* touch, Event* event)
+//{
+//    Weapon::m_attackID++;
+//    CCLOG("Paddle::onTouchBegan id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
+//    //log("Knife::onTouchBegan");
+//    Vec2 pos = touch->getLocation();
+//    //this->getChildByTag(111)->setPosition(Vec2(t->getLocation().x,t->getLocation().y));
+//    lastHitCharacter = nullptr;
+//    isXuliDamage = false;
+//    streak->setPosition(pos);
+//    
+//    streak->reset();
+//    startTouchPosition = pos;
+//    touchedForXuLi = true;
+//    currentTouchTime = millisecondNow();
+//    hitDistance = 301;
+////    path.push_back(Point2D(pos.x,pos.y));
+//    
+//    
+//    //gesture
+//    //This is basically the content of resetIfTimeout
+//    bool hasTimeOut = glyphDetector->hasTimedOut();
+//    if (hasTimeOut) {
+//        log("Gesture detector reset");
+//        glyphDetector->reset();
+//        
+////        if (self.enableDrawing) {
+////            [self.myPath removeAllPoints];
+////            //This is not recommended for production, but it's ok here since we don't have a lot to draw
+////            [self setNeedsDisplay];
+////        }
+//    }
+//    Size size = Director::getInstance()->getWinSize();
+//    glyphDetector->addPoint(PointObject::create(pos.x, size.height-pos.y));
+//    
+////    glyphDetector->addPoint(PointObject::create(125, 378));
+////glyphDetector->addPoint(PointObject::create(129, 382));
+////glyphDetector->addPoint(PointObject::create(131, 392));
+////glyphDetector->addPoint(PointObject::create(135, 403));
+////glyphDetector->addPoint(PointObject::create(139, 416));
+////glyphDetector->addPoint(PointObject::create(143, 429));
+////glyphDetector->addPoint(PointObject::create(145, 439));
+////glyphDetector->addPoint(PointObject::create(147, 450));
+////glyphDetector->addPoint(PointObject::create(151, 469));
+////glyphDetector->addPoint(PointObject::create(153, 476));
+////glyphDetector->addPoint(PointObject::create(154, 480));
+////glyphDetector->addPoint(PointObject::create(155, 482));
+////glyphDetector->addPoint(PointObject::create(156, 482));
+////glyphDetector->addPoint(PointObject::create(156, 483));
+////glyphDetector->addPoint(PointObject::create(157, 483));
+////glyphDetector->addPoint(PointObject::create(157, 480));
+////    glyphDetector->addPoint(PointObject::create(159, 470));
+////glyphDetector->addPoint(PointObject::create(163, 457));
+////glyphDetector->addPoint(PointObject::create(169, 439));
+////glyphDetector->addPoint(PointObject::create(174, 422));
+////glyphDetector->addPoint(PointObject::create(180, 406));
+////glyphDetector->addPoint(PointObject::create(184, 395));
+////glyphDetector->addPoint(PointObject::create(187, 388));
+////glyphDetector->addPoint(PointObject::create(188, 384));
+////glyphDetector->addPoint(PointObject::create(189, 381));
+////glyphDetector->addPoint(PointObject::create(190, 380));
+////glyphDetector->addPoint(PointObject::create(190, 378));
+////glyphDetector->addPoint(PointObject::create(190, 372));
+////glyphDetector->detectGlyph();
+//    return true;
+//}
+//
+//void Knife::onTouchMoved(Touch* touch, Event* event)
+//{
+//    //log("Knife::onTouchMoved");
+//    // If it weren't for the TouchDispatcher, you would need to keep a reference
+//    // to the touch from touchBegan and check that the current touch is the same
+//    // as that one.
+//    // Actually, it would be even more complicated since in the Cocos dispatcher
+//    // you get Sets instead of 1 UITouch, so you'd need to loop through the set
+//    // in each touchXXX method.
+//    
+//    //CCLOG("Paddle::onTouchMoved id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
+//
+//    Vec2 delta = touch->getDelta();
+//    Vec2 lastPos = touch->getPreviousLocation();
+//    Vec2 pos = touch->getLocation();
+////    path.push_back(Point2D(pos.x,pos.y));
+//    
+//    Size size = Director::getInstance()->getWinSize();
+//    glyphDetector->addPoint(PointObject::create(pos.x, size.height-pos.y));
+//    
+//    float ddx = pos.x - lastPos.x;
+//    float ddy = pos.y - lastPos.y;
+//    float moveDistance = sqrtf(ddx*ddx+ddy*ddy);
+//    //log("moveDistance:%f",moveDistance);
+//    //float moveDistance = pos.distance(lastPos);
+//    
+//    float dx = pos.x - startTouchPosition.x;
+//    float dy = pos.y - startTouchPosition.y;
+//    float dist = sqrtf(dx*dx+dy*dy);
+//    
+//    
+//    //    star->setPosition(star->getPosition() + delta);
+//    //    streak->setPosition(star->getPosition());
+//    AppDelegate *app = (AppDelegate*)Application::getInstance();
+//    float scaleFactory = app->scaleFactory;
+//    if (dist > 100*scaleFactory){
+//        touchedForXuLi = false;
+//    }
+//    if (xuliing){
+//        xuliBar->setPosition(pos);
+//    }
+//    
+////    if (xuliing) {
+////        float xulibarradius = 300 * scaleFactory;
+////
+////        if (dist > xulibarradius) {
+////            //如果手指出了蓄力槽范围
+////            xuliing = false;
+////            xuliLayer->setVisible(false);
+////        }
+////    }
+//
+//    
+//    
+//    streak->setPosition(pos);
+//    //刀的判断
+////    dist = pos.distance(startTouchPosition);
+//
+//    //if (dist > 50) {
+//        dx = pos.x - lastPos.x;
+//        dy = pos.y - lastPos.y;
+//        float angle2 = atan2f(dy, dx)*180/M_PI;
+//        //log("angle1:%f,angle2:%f",angle1,angle2);
+//        
+//        KnifeAttackDirection direction;
+//        
+//        if(angle2 <= 135 && angle2 >= 45){
+//            //往上划
+//            direction = KnifeAttackDirectionUp;
+//        }else if(angle2 <= -45 && angle2 >= -135){
+//            //往下划
+//            direction = KnifeAttackDirectionDown;
+//        }else if (angle2 <= 45 && angle2 >= -45) {
+//            //往右划
+//            direction = KnifeAttackDirectionRight;
+//        }else{
+//            //往左划
+//            direction = KnifeAttackDirectionLeft;
+//        }
+//        
+//        //hit test monster
+//        for (Character *agent : world->getMonsters()) {
+//            if (!agent->isVisible() || agent->isDieState()) {
+//                continue;
+//            }
+//            bool hit = agent->hittestPoint(pos);
+//            if (hit) {
+//                //log("hit:%d",agent->getID());
+//                //startTouchPosition = pos;
+//                if (agent != lastHitCharacter) {
+//                    hitDistance = 301;
+//                }else{
+//                    hitDistance+=moveDistance;
+//                }
+//                
+//                lastHitCharacter = agent;
+//                if (hitDistance > 300) {
+//                    hitDistance = 0;
+//                    //log("damage hit:%d,%f",agent->getID(),moveDistance);
+//                    if (isXuliDamage) {
+//                        MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
+//                                                                          getID(),           //sender ID
+//                                                                          agent->getID(),           //receiver ID
+//                                                                          Msg_AttackedByXuLiWeapon,        //msg
+//                                                                          &direction);
+//                    }else{
+//                        MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
+//                                                                          getID(),           //sender ID
+//                                                                          agent->getID(),           //receiver ID
+//                                                                          Msg_AttackedByWeapon,        //msg
+//                                                                          &direction);
+//                    }
+//                    
+//                    if (xuliing) {
+//                        xuliing = false;
+//                        xuliLayer->setVisible(false);
+//                    }
+//                    isXuliDamage = false;
+//                    
+//                }
+//                return;
+//            }
+//        }
+//    //}
+//    //如果没有碰到任何怪
+//    lastHitCharacter = nullptr;
+//    hitDistance = 301;
+//    //log("not hit");
+//}
+//
+//void Knife::onTouchEnded(Touch* touch, Event* event)
+//{
+//    Vec2 delta = touch->getDelta();
+//    touchedForXuLi = false;
+//    xuliing = false;
+//    xuliLayer->setVisible(false);
+//    damage = origDamage;
+//    isXuliDamage = false;
+//    //    star->setPosition(star->getPosition() + delta);
+//    //    streak->setPosition(star->getPosition());
+//    
+//    Vec2 pos = touch->getLocation();
+////    path.push_back(Point2D(pos.x,pos.y));
+//    
+//    
+//    Size size = Director::getInstance()->getWinSize();
+//    glyphDetector->addPoint(PointObject::create(pos.x, size.height-pos.y));
+//    glyphDetector->detectGlyph();
+//    
+//    streak->setPosition(pos);
+//    
+//    float dx = pos.x - startTouchPosition.x;
+//    float dy = pos.y - startTouchPosition.y;
+//    float dist = sqrtf(dx*dx+dy*dy);
+//    if(dist > 100){
+//        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("dao_1.mp3");
+//    }
+//    
+////    cout<< "Results" <<endl;
+////    RecognitionResult rpm=gm.Multirecognize(getGestureP(),"normal");
+////    cout << "$N Recognized gesture: " << rpm.name << endl;
+////    cout << "$N Score:" << rpm.score << endl;
+//}
+//
+//void Knife::onTouchCancelled(Touch *touch, Event *unused_event)
+//{
+//    touchedForXuLi = false;
+//    xuliing = false;
+//    xuliLayer->setVisible(false);
+//    damage = origDamage;
+//    isXuliDamage = false;
+//    
+//    Vec2 pos = touch->getLocation();
+//}
+
+
+void Knife::onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event)
 {
+    Touch *touch = touches.at(0);
     Weapon::m_attackID++;
     CCLOG("Paddle::onTouchBegan id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
     //log("Knife::onTouchBegan");
@@ -224,7 +469,7 @@ bool Knife::onTouchBegan(Touch* touch, Event* event)
     touchedForXuLi = true;
     currentTouchTime = millisecondNow();
     hitDistance = 301;
-//    path.push_back(Point2D(pos.x,pos.y));
+    //    path.push_back(Point2D(pos.x,pos.y));
     
     
     //gesture
@@ -234,49 +479,49 @@ bool Knife::onTouchBegan(Touch* touch, Event* event)
         log("Gesture detector reset");
         glyphDetector->reset();
         
-//        if (self.enableDrawing) {
-//            [self.myPath removeAllPoints];
-//            //This is not recommended for production, but it's ok here since we don't have a lot to draw
-//            [self setNeedsDisplay];
-//        }
+        //        if (self.enableDrawing) {
+        //            [self.myPath removeAllPoints];
+        //            //This is not recommended for production, but it's ok here since we don't have a lot to draw
+        //            [self setNeedsDisplay];
+        //        }
     }
     Size size = Director::getInstance()->getWinSize();
     glyphDetector->addPoint(PointObject::create(pos.x, size.height-pos.y));
     
-//    glyphDetector->addPoint(PointObject::create(125, 378));
-//glyphDetector->addPoint(PointObject::create(129, 382));
-//glyphDetector->addPoint(PointObject::create(131, 392));
-//glyphDetector->addPoint(PointObject::create(135, 403));
-//glyphDetector->addPoint(PointObject::create(139, 416));
-//glyphDetector->addPoint(PointObject::create(143, 429));
-//glyphDetector->addPoint(PointObject::create(145, 439));
-//glyphDetector->addPoint(PointObject::create(147, 450));
-//glyphDetector->addPoint(PointObject::create(151, 469));
-//glyphDetector->addPoint(PointObject::create(153, 476));
-//glyphDetector->addPoint(PointObject::create(154, 480));
-//glyphDetector->addPoint(PointObject::create(155, 482));
-//glyphDetector->addPoint(PointObject::create(156, 482));
-//glyphDetector->addPoint(PointObject::create(156, 483));
-//glyphDetector->addPoint(PointObject::create(157, 483));
-//glyphDetector->addPoint(PointObject::create(157, 480));
-//    glyphDetector->addPoint(PointObject::create(159, 470));
-//glyphDetector->addPoint(PointObject::create(163, 457));
-//glyphDetector->addPoint(PointObject::create(169, 439));
-//glyphDetector->addPoint(PointObject::create(174, 422));
-//glyphDetector->addPoint(PointObject::create(180, 406));
-//glyphDetector->addPoint(PointObject::create(184, 395));
-//glyphDetector->addPoint(PointObject::create(187, 388));
-//glyphDetector->addPoint(PointObject::create(188, 384));
-//glyphDetector->addPoint(PointObject::create(189, 381));
-//glyphDetector->addPoint(PointObject::create(190, 380));
-//glyphDetector->addPoint(PointObject::create(190, 378));
-//glyphDetector->addPoint(PointObject::create(190, 372));
-//glyphDetector->detectGlyph();
-    return true;
+    //    glyphDetector->addPoint(PointObject::create(125, 378));
+    //glyphDetector->addPoint(PointObject::create(129, 382));
+    //glyphDetector->addPoint(PointObject::create(131, 392));
+    //glyphDetector->addPoint(PointObject::create(135, 403));
+    //glyphDetector->addPoint(PointObject::create(139, 416));
+    //glyphDetector->addPoint(PointObject::create(143, 429));
+    //glyphDetector->addPoint(PointObject::create(145, 439));
+    //glyphDetector->addPoint(PointObject::create(147, 450));
+    //glyphDetector->addPoint(PointObject::create(151, 469));
+    //glyphDetector->addPoint(PointObject::create(153, 476));
+    //glyphDetector->addPoint(PointObject::create(154, 480));
+    //glyphDetector->addPoint(PointObject::create(155, 482));
+    //glyphDetector->addPoint(PointObject::create(156, 482));
+    //glyphDetector->addPoint(PointObject::create(156, 483));
+    //glyphDetector->addPoint(PointObject::create(157, 483));
+    //glyphDetector->addPoint(PointObject::create(157, 480));
+    //    glyphDetector->addPoint(PointObject::create(159, 470));
+    //glyphDetector->addPoint(PointObject::create(163, 457));
+    //glyphDetector->addPoint(PointObject::create(169, 439));
+    //glyphDetector->addPoint(PointObject::create(174, 422));
+    //glyphDetector->addPoint(PointObject::create(180, 406));
+    //glyphDetector->addPoint(PointObject::create(184, 395));
+    //glyphDetector->addPoint(PointObject::create(187, 388));
+    //glyphDetector->addPoint(PointObject::create(188, 384));
+    //glyphDetector->addPoint(PointObject::create(189, 381));
+    //glyphDetector->addPoint(PointObject::create(190, 380));
+    //glyphDetector->addPoint(PointObject::create(190, 378));
+    //glyphDetector->addPoint(PointObject::create(190, 372));
+    //glyphDetector->detectGlyph();
 }
 
-void Knife::onTouchMoved(Touch* touch, Event* event)
+void Knife::onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event)
 {
+    Touch *touch = touches.at(0);
     //log("Knife::onTouchMoved");
     // If it weren't for the TouchDispatcher, you would need to keep a reference
     // to the touch from touchBegan and check that the current touch is the same
@@ -286,11 +531,11 @@ void Knife::onTouchMoved(Touch* touch, Event* event)
     // in each touchXXX method.
     
     //CCLOG("Paddle::onTouchMoved id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
-
+    
     Vec2 delta = touch->getDelta();
     Vec2 lastPos = touch->getPreviousLocation();
     Vec2 pos = touch->getLocation();
-//    path.push_back(Point2D(pos.x,pos.y));
+    //    path.push_back(Point2D(pos.x,pos.y));
     
     Size size = Director::getInstance()->getWinSize();
     glyphDetector->addPoint(PointObject::create(pos.x, size.height-pos.y));
@@ -317,87 +562,87 @@ void Knife::onTouchMoved(Touch* touch, Event* event)
         xuliBar->setPosition(pos);
     }
     
-//    if (xuliing) {
-//        float xulibarradius = 300 * scaleFactory;
-//
-//        if (dist > xulibarradius) {
-//            //如果手指出了蓄力槽范围
-//            xuliing = false;
-//            xuliLayer->setVisible(false);
-//        }
-//    }
-
+    //    if (xuliing) {
+    //        float xulibarradius = 300 * scaleFactory;
+    //
+    //        if (dist > xulibarradius) {
+    //            //如果手指出了蓄力槽范围
+    //            xuliing = false;
+    //            xuliLayer->setVisible(false);
+    //        }
+    //    }
+    
     
     
     streak->setPosition(pos);
     //刀的判断
-//    dist = pos.distance(startTouchPosition);
-
+    //    dist = pos.distance(startTouchPosition);
+    
     //if (dist > 50) {
-        dx = pos.x - lastPos.x;
-        dy = pos.y - lastPos.y;
-        float angle2 = atan2f(dy, dx)*180/M_PI;
-        //log("angle1:%f,angle2:%f",angle1,angle2);
-        
-        KnifeAttackDirection direction;
-        
-        if(angle2 <= 135 && angle2 >= 45){
-            //往上划
-            direction = KnifeAttackDirectionUp;
-        }else if(angle2 <= -45 && angle2 >= -135){
-            //往下划
-            direction = KnifeAttackDirectionDown;
-        }else if (angle2 <= 45 && angle2 >= -45) {
-            //往右划
-            direction = KnifeAttackDirectionRight;
-        }else{
-            //往左划
-            direction = KnifeAttackDirectionLeft;
+    dx = pos.x - lastPos.x;
+    dy = pos.y - lastPos.y;
+    float angle2 = atan2f(dy, dx)*180/M_PI;
+    //log("angle1:%f,angle2:%f",angle1,angle2);
+    
+    KnifeAttackDirection direction;
+    
+    if(angle2 <= 135 && angle2 >= 45){
+        //往上划
+        direction = KnifeAttackDirectionUp;
+    }else if(angle2 <= -45 && angle2 >= -135){
+        //往下划
+        direction = KnifeAttackDirectionDown;
+    }else if (angle2 <= 45 && angle2 >= -45) {
+        //往右划
+        direction = KnifeAttackDirectionRight;
+    }else{
+        //往左划
+        direction = KnifeAttackDirectionLeft;
+    }
+    
+    //hit test monster
+    for (Character *agent : world->getMonsters()) {
+        if (!agent->isVisible() || agent->isDieState()) {
+            continue;
         }
-        
-        //hit test monster
-        for (Character *agent : world->getMonsters()) {
-            if (!agent->isVisible() || agent->isDieState()) {
-                continue;
+        bool hit = agent->hittestPoint(pos);
+        if (hit) {
+            //log("hit:%d",agent->getID());
+            //startTouchPosition = pos;
+            if (agent != lastHitCharacter) {
+                hitDistance = 301;
+            }else{
+                hitDistance+=moveDistance;
             }
-            bool hit = agent->hittestPoint(pos);
-            if (hit) {
-                //log("hit:%d",agent->getID());
-                //startTouchPosition = pos;
-                if (agent != lastHitCharacter) {
-                    hitDistance = 301;
+            
+            lastHitCharacter = agent;
+            if (hitDistance > 300) {
+                hitDistance = 0;
+                //log("damage hit:%d,%f",agent->getID(),moveDistance);
+                if (isXuliDamage) {
+                    MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
+                                                                      getID(),           //sender ID
+                                                                      agent->getID(),           //receiver ID
+                                                                      Msg_AttackedByXuLiWeapon,        //msg
+                                                                      &direction);
                 }else{
-                    hitDistance+=moveDistance;
+                    MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
+                                                                      getID(),           //sender ID
+                                                                      agent->getID(),           //receiver ID
+                                                                      Msg_AttackedByWeapon,        //msg
+                                                                      &direction);
                 }
                 
-                lastHitCharacter = agent;
-                if (hitDistance > 300) {
-                    hitDistance = 0;
-                    //log("damage hit:%d,%f",agent->getID(),moveDistance);
-                    if (isXuliDamage) {
-                        MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
-                                                                          getID(),           //sender ID
-                                                                          agent->getID(),           //receiver ID
-                                                                          Msg_AttackedByXuLiWeapon,        //msg
-                                                                          &direction);
-                    }else{
-                        MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
-                                                                          getID(),           //sender ID
-                                                                          agent->getID(),           //receiver ID
-                                                                          Msg_AttackedByWeapon,        //msg
-                                                                          &direction);
-                    }
-                    
-                    if (xuliing) {
-                        xuliing = false;
-                        xuliLayer->setVisible(false);
-                    }
-                    isXuliDamage = false;
-                    
+                if (xuliing) {
+                    xuliing = false;
+                    xuliLayer->setVisible(false);
                 }
-                return;
+                isXuliDamage = false;
+                
             }
+            return;
         }
+    }
     //}
     //如果没有碰到任何怪
     lastHitCharacter = nullptr;
@@ -405,8 +650,9 @@ void Knife::onTouchMoved(Touch* touch, Event* event)
     //log("not hit");
 }
 
-void Knife::onTouchEnded(Touch* touch, Event* event)
+void Knife::onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event)
 {
+    Touch *touch = touches.at(0);
     Vec2 delta = touch->getDelta();
     touchedForXuLi = false;
     xuliing = false;
@@ -417,7 +663,7 @@ void Knife::onTouchEnded(Touch* touch, Event* event)
     //    streak->setPosition(star->getPosition());
     
     Vec2 pos = touch->getLocation();
-//    path.push_back(Point2D(pos.x,pos.y));
+    //    path.push_back(Point2D(pos.x,pos.y));
     
     
     Size size = Director::getInstance()->getWinSize();
@@ -432,15 +678,11 @@ void Knife::onTouchEnded(Touch* touch, Event* event)
     if(dist > 100){
         CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("dao_1.mp3");
     }
-    
-//    cout<< "Results" <<endl;
-//    RecognitionResult rpm=gm.Multirecognize(getGestureP(),"normal");
-//    cout << "$N Recognized gesture: " << rpm.name << endl;
-//    cout << "$N Score:" << rpm.score << endl;
 }
 
-void Knife::onTouchCancelled(Touch *touch, Event *unused_event)
+void Knife::onTouchesCancelled(const std::vector<Touch*>&touches, Event *unused_event)
 {
+    Touch *touch = touches.at(0);
     touchedForXuLi = false;
     xuliing = false;
     xuliLayer->setVisible(false);
