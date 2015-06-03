@@ -35,10 +35,8 @@ bool UILayer::initWithGameScene(GameScene *gs)
     //one.pushBack(GaussianVBlurFilter::create(10));
     one.pushBack(GaussianHBlurFilter::create(10));
     
-    
     SpriteFrameCache *ccsfc = SpriteFrameCache::getInstance();
     ccsfc->addSpriteFramesWithFile("GameSceneEndLayer.plist");
-    
     
     gameManager = GameManager::getInstance();
     player = gameManager->getPlayer();
@@ -83,6 +81,9 @@ bool UILayer::initWithGameScene(GameScene *gs)
     comboBar->addChild(s);
     
     comboLayer->setPosition(600,0);
+    
+    tipLayer = Layer::create();
+    addChild(tipLayer);
     
     hudLayer = Layer::create();
     addChild(hudLayer);
@@ -323,6 +324,46 @@ bool UILayer::initWithGameScene(GameScene *gs)
     upgredLayer->release();
     upgredLayer->setVisible(false);
     
+    //生成icons
+    for(int i = 0; i < 5; i++){
+        Sprite *sprite = Sprite::createWithSpriteFrameName("shanbiLabel.png");
+        tipLayer->addChild(sprite);
+        sprite->setVisible(false);
+        shanbiIconsPool.pushBack(sprite);
+        
+        sprite = Sprite::createWithSpriteFrameName("missLabel.png");
+        tipLayer->addChild(sprite);
+        sprite->setVisible(false);
+        missIconsPool.pushBack(sprite);
+        
+        sprite = Sprite::createWithSpriteFrameName("yunLabel.png");
+        tipLayer->addChild(sprite);
+        sprite->setVisible(false);
+        yunIconsPool.pushBack(sprite);
+
+        
+        sprite = Sprite::createWithSpriteFrameName("daodiLabel.png");
+        tipLayer->addChild(sprite);
+        sprite->setVisible(false);
+        daodiIconsPool.pushBack(sprite);
+        
+        sprite = Sprite::createWithSpriteFrameName("fukongLabel.png");
+        tipLayer->addChild(sprite);
+        sprite->setVisible(false);
+        flowIconsPool.pushBack(sprite);
+        
+        sprite = Sprite::createWithSpriteFrameName("fukongLabel.png");
+        tipLayer->addChild(sprite);
+        sprite->setVisible(false);
+        gedangIconsPool.pushBack(sprite);
+
+        
+        sprite = Sprite::createWithSpriteFrameName("jituiLabel.png");
+        tipLayer->addChild(sprite);
+        sprite->setVisible(false);
+        jiTuiIconsPool.pushBack(sprite);
+    }
+    
     
     _eventDispatcher->addCustomEventListener("MonsterHitted", CC_CALLBACK_1(UILayer::monsterHittedHandler,this));
     _eventDispatcher->addCustomEventListener("MonsterShanbi", CC_CALLBACK_1(UILayer::monsterShanbiHandler,this));
@@ -339,7 +380,7 @@ bool UILayer::initWithGameScene(GameScene *gs)
     return true;
 }
 
-void GameEndRateLayer::restartCallback(Ref* sender)
+void UILayer::restartCallback(Ref* sender)
 {
     //    gameScene->restartGame();
     //

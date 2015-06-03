@@ -328,9 +328,10 @@ void BGTWorld::createWorld(int level){
         gameBgSprite->setPosition(size.width/2,size.height/2);
         
         frontbgSprite = Sprite::create("gamebg0front.png");
+        frontbgSprite->setAnchorPoint(Vec2(0.5,0));
         frontbgSprite->setScaleX(size.width/w);
         frontbgSprite->setScaleY(size.height/h);
-        frontbgSprite->setPosition(size.width/2,size.height/2);
+        frontbgSprite->setPosition(size.width/2,0);
         frontBgLayer->addChild(frontbgSprite);
     }
     wall->reset();

@@ -34,14 +34,14 @@ bool GameEndUpgradeLayer::init()
     addChild(upBgSp);
     upBgSp->setPosition(size.width/2,size.height/2);
     
-    Sprite *upLabelSp = Sprite::create("upgredLabel.png");
+    Sprite *upLabelSp = Sprite::createWithSpriteFrameName("upgredLabel.png");
     upBgSp->addChild(upLabelSp);
     upLabelSp->setPosition(upBgSp->getContentSize().width/2,upBgSp->getContentSize().height);
     
-    upgredTip = Sprite::create("upgredTip.png");
+    upgredTip = Sprite::createWithSpriteFrameName("upgredTip.png");
     upBgSp->addChild(upgredTip);
     upgredTip->setPosition(upBgSp->getContentSize().width/2-100*scaleFactory,upBgSp->getContentSize().height-200*scaleFactory);
-    Label *upLabel = Label::createWithCharMap("upgredHerolLevelLabel", 54, 60, '0');
+    Label *upLabel = Label::createWithCharMap("upgredHerolLevelLabel.png", 54, 60, '0');
     upBgSp->addChild(upLabel);
     upLabel->setString("36");
     upLabel->setPosition(upBgSp->getContentSize().width/2+400*scaleFactory,upBgSp->getContentSize().height-200*scaleFactory);
@@ -50,7 +50,7 @@ bool GameEndUpgradeLayer::init()
     upBgSp->addChild(lifeLabel);
     lifeLabel->setPosition(upBgSp->getContentSize().width/2,upBgSp->getContentSize().height/2+100*scaleFactory);
     
-    Label *addLifeLabel = Label::createWithBMFont("gameSceneEndGreendLabel.fnt", "+25");
+    Label *addLifeLabel = Label::createWithBMFont("gameSceneEndGreenLabel.fnt", "+25");
     upBgSp->addChild(addLifeLabel);
     addLifeLabel->setPosition(upBgSp->getContentSize().width/2+200*scaleFactory,upBgSp->getContentSize().height/2+100*scaleFactory);
     
@@ -58,7 +58,7 @@ bool GameEndUpgradeLayer::init()
     upBgSp->addChild(expIconSprite);
     expIconSprite->setPosition(upBgSp->getContentSize().width/2-100*scaleFactory,upBgSp->getContentSize().height/2);
     
-    Label *expLabel = Label::createWithBMFont("gameSceneEndGreendLabel.fnt", "+800");
+    Label *expLabel = Label::createWithBMFont("gameSceneEndGreenLabel.fnt", "+800");
     upBgSp->addChild(expLabel);
     expLabel->setPosition(upBgSp->getContentSize().width/2+200*scaleFactory,upBgSp->getContentSize().height/2);
     

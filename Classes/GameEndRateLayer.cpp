@@ -31,7 +31,7 @@ bool GameEndRateLayer::init()
     addChild(rateBg);
     rateBg->setPosition(size.width/2,size.height/2);
     
-    Sprite *rateAvatar = Sprite::create("endPanelAvatar");
+    Sprite *rateAvatar = Sprite::create("endPanelAvatar.png");
     addChild(rateAvatar);
     rateAvatar->setPosition(rateAvatar->getContentSize().width/2,size.height/2);
     

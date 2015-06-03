@@ -28,6 +28,7 @@ private:
     GameScene *gameScene;
     Sprite *knifeIcon;
     Sprite *gunIcon;
+    Layer *tipLayer;
     Layer *hudLayer;
     Sprite *failedTip;
     Sprite *failedTipBg;
