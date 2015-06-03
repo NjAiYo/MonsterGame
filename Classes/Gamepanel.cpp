@@ -237,11 +237,11 @@ void Gamepanel::showbag()
 
 void Gamepanel::additem()
 {
-	ItemCreator::getInstance()->createItem_unique(1,0,1);
-	ItemCreator::getInstance()->createItem_normal("cl001");
-	ItemCreator::getInstance()->createItem_normal("soul001");
+	ItemCreator::getInstance()->createItem_unique(6,0,4);
+	ItemCreator::getInstance()->createItem_normal("dj001");
+	ItemCreator::getInstance()->createItem_normal("cl002");
+	ItemCreator::getInstance()->createItem_normal("cl013");
 	ItemCreator::getInstance()->createItem_normal("xhp001");
-	ItemCreator::getInstance()->createItem_normal("wq001");
 }
 
 void Gamepanel::deleteitem()
