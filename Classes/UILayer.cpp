@@ -310,171 +310,19 @@ bool UILayer::initWithGameScene(GameScene *gs)
     
     
     
-    rateLayer = LayerColor::create(Color4B(0, 0, 0, 170));
+    rateLayer = new GameEndRateLayer();
+    rateLayer->init();
     addChild(rateLayer);
+    rateLayer->release();
     rateLayer->setVisible(false);
-    Sprite *rateBg = Sprite::create("endPanelBg.png");
-    rateLayer->addChild(rateBg);
-    rateBg->setPosition(size.width/2,size.height/2);
     
-    Sprite *rateAvatar = Sprite::create("endPanelAvatar");
-    rateLayer->addChild(rateAvatar);
-    rateAvatar->setPosition(rateAvatar->getContentSize().width/2,size.height/2);
-    
-    Sprite *sp = Sprite::createWithSpriteFrameName("endPanelLabels.png");
-    rateLayer->addChild(sp);
-    sp->setPosition(1070*scaleFactory,size.height-360*scaleFactory);
-    
-    Label *comboLabel = Label::createWithSystemFont("215", "Arial Black", 60);
-    rateLayer->addChild(comboLabel);
-    comboLabel->setPosition(1270*scaleFactory,size.height-260*scaleFactory);
-    
-    Label *lifeLabel = Label::createWithSystemFont("96%", "Arial Black", 60);
-    rateLayer->addChild(lifeLabel);
-    lifeLabel->setPosition(1270*scaleFactory,size.height-360*scaleFactory);
-    
-    Label *timeLabel = Label::createWithSystemFont("02:38", "Arial Black", 60);
-    rateLayer->addChild(timeLabel);
-    timeLabel->setPosition(1270*scaleFactory,size.height-460*scaleFactory);
-    
-    //ss
-    sp = Sprite::createWithSpriteFrameName("endPanelZiMuDi.png");
-    rateLayer->addChild(sp);
-    sp->setPosition(1750*scaleFactory,820*scaleFactory);
-    
-    sp = Sprite::createWithSpriteFrameName("rateAIcon.png");
-    rateLayer->addChild(sp);
-    sp->setPosition(1750*scaleFactory,820*scaleFactory);
-    
-    
-    sp = Sprite::createWithSpriteFrameName("endPanelSpector.png");
-    rateLayer->addChild(sp);
-    sp->setPosition(1270*scaleFactory,size.height-460*scaleFactory);
-    
-    sp = Sprite::createWithSpriteFrameName("endPanelJinYanJinBiFrame.png");
-    rateLayer->addChild(sp);
-    sp->setPosition(1271*scaleFactory,625*scaleFactory);
-    
-    Sprite *expIconSprite = Sprite::createWithSpriteFrameName("EXPLabel.png");
-    sp->addChild(expIconSprite);
-    expIconSprite->setPosition(0,sp->getContentSize().height/2);
-    
-    Label *expLabel = Label::createWithBMFont("gameSceneJiaLifeLabel.fnt", "+800");
-    sp->addChild(expLabel);
-    expLabel->setPosition(sp->getContentSize().width/2,sp->getContentSize().height/2);
-    
-    sp = Sprite::createWithSpriteFrameName("endPanelCoin.png");
-    rateLayer->addChild(sp);
-    sp->setPosition(1750*scaleFactory,625*scaleFactory);
-    Sprite *moneyIconSprite = Sprite::createWithSpriteFrameName("EXPLabel.png");
-    sp->addChild(moneyIconSprite);
-    moneyIconSprite->setPosition(0,sp->getContentSize().height/2);
-    
-    Label *moneyLabel = Label::createWithBMFont("gameSceneJiaLifeLabel.fnt", "+1000");
-    sp->addChild(moneyLabel);
-    moneyLabel->setPosition(sp->getContentSize().width/2,sp->getContentSize().height/2);
-    
-    Label *levelLabel = Label::createWithSystemFont("Lv.2", "Arial Black", 60);
-    rateLayer->addChild(levelLabel);
-    levelLabel->setPosition(1400*scaleFactory,370*scaleFactory);
-    
-    //经验条
-    sp = Sprite::createWithSpriteFrameName("endPanelExpBarFrame.png");
-    rateLayer->addChild(sp);
-    sp->setPosition(1500*scaleFactory,370*scaleFactory);
-    Sprite *expBar = Sprite::createWithSpriteFrameName("endPanelExpBar.png");
-    sp->addChild(expBar);
-    expBar->setPosition(0,0);
-    
-    
-    //物品底图
-    sp = Sprite::createWithSpriteFrameName("endPanelWuPinDi.png");
-    rateLayer->addChild(sp);
-    sp->setPosition(1500*scaleFactory,370*scaleFactory);
-    
-    //menu
-    sprite = Sprite::createWithSpriteFrameName("againButton.png");
-    sprite1 = Sprite::createWithSpriteFrameName("againButton.png");
-    sprite1->setScale(1.1);
-    spriteSize = sprite->getContentSize();
-    sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
-    
-    restartItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::restartCallback, this));
-    
-    
-    sprite = Sprite::createWithSpriteFrameName("sureButton.png");
-    sprite1 = Sprite::createWithSpriteFrameName("sureButton.png");
-    sprite1->setScale(1.1);
-    spriteSize = sprite->getContentSize();
-    sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
-    
-    MenuItemSprite *nextItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::sureCallback, this));
-    
-    menu = Menu::create(restartItem,nextItem,NULL);
-    menu->setPosition(size.width-680*scaleFactory,size.height/2);
-    menu->alignItemsHorizontallyWithPadding(50);
-    rateLayer->addChild(menu, 1);
 
-    
-    
-    upgredLayer = LayerColor::create(Color4B(0, 0, 0, 170));
+    upgredLayer = new GameEndUpgradeLayer();
+    upgredLayer->init();
     addChild(upgredLayer);
+    upgredLayer->release();
     upgredLayer->setVisible(false);
-    sp = Sprite::create("endPanelLight.png");
-    rateLayer->addChild(sp);
-    sp->setPosition(size.width/2,size.height/2);
     
-    Sprite *upBgSp = Sprite::create("upgredBg.png");
-    rateLayer->addChild(upBgSp);
-    upBgSp->setPosition(size.width/2,size.height/2);
-    
-    Sprite *upLabelSp = Sprite::create("upgredLabel.png");
-    upBgSp->addChild(upLabelSp);
-    upLabelSp->setPosition(upBgSp->getContentSize().width/2,upBgSp->getContentSize().height);
-    
-    sp = Sprite::create("upgredTip.png");
-    upBgSp->addChild(sp);
-    sp->setPosition(upBgSp->getContentSize().width/2-100*scaleFactory,upBgSp->getContentSize().height-200*scaleFactory);
-    Label *upLabel = Label::createWithCharMap("upgredHerolLevelLabel", 54, 60, '0');
-    upBgSp->addChild(upLabel);
-    upLabel->setString("36");
-    upLabel->setPosition(upBgSp->getContentSize().width/2+400*scaleFactory,upBgSp->getContentSize().height-200*scaleFactory);
-    
-    lifeLabel = Label::createWithSystemFont("生命: ", "Arial Black", 60);
-    upBgSp->addChild(lifeLabel);
-    lifeLabel->setPosition(upBgSp->getContentSize().width/2,upBgSp->getContentSize().height/2+100*scaleFactory);
-    
-    Label *addLifeLabel = Label::createWithBMFont("gameSceneEndGreendLabel.fnt", "+25");
-    upBgSp->addChild(addLifeLabel);
-    addLifeLabel->setPosition(upBgSp->getContentSize().width/2+200*scaleFactory,upBgSp->getContentSize().height/2+100*scaleFactory);
-    
-    expIconSprite = Sprite::createWithSpriteFrameName("EXPLabel.png");
-    upBgSp->addChild(expIconSprite);
-    expIconSprite->setPosition(upBgSp->getContentSize().width/2-100*scaleFactory,upBgSp->getContentSize().height/2);
-    
-    expLabel = Label::createWithBMFont("gameSceneEndGreendLabel.fnt", "+800");
-    upBgSp->addChild(expLabel);
-    expLabel->setPosition(upBgSp->getContentSize().width/2+200*scaleFactory,upBgSp->getContentSize().height/2);
-    
-    sp = Sprite::createWithSpriteFrameName("endPanelCoin.png");
-    upBgSp->addChild(sp);
-    sp->setPosition(sp->getContentSize().width/2-100*scaleFactory,625*scaleFactory);
-    moneyIconSprite = Sprite::createWithSpriteFrameName("EXPLabel.png");
-    upBgSp->addChild(moneyIconSprite);
-    moneyIconSprite->setPosition(upBgSp->getContentSize().width/2+200*scaleFactory,upBgSp->getContentSize().height/2);
-    
-    
-    sprite = Sprite::createWithSpriteFrameName("awardButton.png");
-    sprite1 = Sprite::createWithSpriteFrameName("awardButton.png");
-    sprite1->setScale(1.1);
-    spriteSize = sprite->getContentSize();
-    sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
-    
-    MenuItemSprite *awardItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::awardCallback, this));
-    
-    menu = Menu::create(awardItem,NULL);
-    menu->setPosition(size.width/2,size.height/2);
-    upgredLayer->addChild(menu, 1);
     
     _eventDispatcher->addCustomEventListener("MonsterHitted", CC_CALLBACK_1(UILayer::monsterHittedHandler,this));
     _eventDispatcher->addCustomEventListener("MonsterShanbi", CC_CALLBACK_1(UILayer::monsterShanbiHandler,this));
@@ -491,9 +339,13 @@ bool UILayer::initWithGameScene(GameScene *gs)
     return true;
 }
 
-void UILayer::awardCallback(Ref* sender)
+void GameEndRateLayer::restartCallback(Ref* sender)
 {
+    //    gameScene->restartGame();
+    //
+    //    enegyProgressBar->setPercentage(0);
     
+    Director::getInstance()->replaceScene(TransitionFade::create(1, GameScene::createSceneWithLevel(0)));
 }
 
 void UILayer::monsterDamagedHandler(EventCustom* event)
@@ -608,29 +460,26 @@ void UILayer::pauseCallback(Ref* sender)
     gameScene->pauseGame();
 }
 
-void UILayer::sureCallback(Ref* sender)
-{
-    gameScene->nextLevel();
-}
+
 
 void UILayer::mainCallback(Ref* sender)
 {
     //Director::getInstance()->replaceScene(TransitionFade::create(1, Gamepanel::createScene()));
 }
 
-void UILayer::restartCallback(Ref* sender)
-{
-//    gameScene->restartGame();
-//    
-//    enegyProgressBar->setPercentage(0);
-    
-    Director::getInstance()->replaceScene(TransitionFade::create(1, GameScene::createSceneWithLevel(0)));
-}
+
 
 void UILayer::gameEnd(bool isWin)
 {
     winLayer->setVisible(isWin);
     failedLayer->setVisible(!isWin);
+    scheduleOnce(CC_SCHEDULE_SELECTOR(UILayer::showEndResult), 1.0);
+}
+
+void UILayer::showEndResult(float t)
+{
+    rateLayer->setVisible(true);
+    rateLayer->showResultWithAnimation();
 }
 
 void UILayer::update(float dt)
