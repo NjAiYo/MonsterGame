@@ -25,13 +25,18 @@ bool BGTWall::initWithWorld(BGTWorld *w){
         return false;
     }
     died = false;
+    Size size = Director::getInstance()->getWinSize();
     AppDelegate *app = (AppDelegate*)Application::getInstance();
     float scaleFactory = app->scaleFactory;
     width = fieldHeight * scaleFactory;
     
     Sprite *stone1 = Sprite::create("stone.png");
     this->addChild(stone1);
-    stone1->setPosition(75,250);
+    stone1->setPosition(40*scaleFactory,205*scaleFactory);
+    
+    Sprite *doormask = Sprite::create("doormask.png");
+    this->addChild(doormask);
+    doormask->setPosition(-60*scaleFactory,250*scaleFactory);
     
     Sprite *rope = Sprite::create("rope.png");
     this->addChild(rope);
@@ -39,7 +44,7 @@ bool BGTWall::initWithWorld(BGTWorld *w){
     
     Sprite *stone2 = Sprite::create("stone.png");
     this->addChild(stone2);
-    stone2->setPosition(-50,-250);
+    stone2->setPosition(-60*scaleFactory,-300*scaleFactory);
     totalLife = 100;
     life = totalLife;
     

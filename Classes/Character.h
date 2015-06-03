@@ -28,6 +28,7 @@
 #include "DefenseState.h"
 #include "FlowState.h"
 #include "MonsterData.h"
+#include "SkillState.h"
 
 class BGTWall;
 
@@ -58,6 +59,7 @@ protected:
     LieDownState *lieDownState;
     FlowState *flowState;
     DefenseState *defenseState;
+    SkillState *skillState;
     
     MessageDispatcher *dispatcher;
     
@@ -66,6 +68,7 @@ protected:
     spine::SkeletonAnimation *skeletonNode;
     MonsterData *monsterData;
     
+    bool defensed;
 //    CharacterType type;
     float life;
 //    //用于碰撞检测
@@ -95,8 +98,16 @@ protected:
     bool  isRemoteSoldier;
     bool paused;
     
+    //多少秒后开始放技能5 - 30
+    float skillBeginTime;
+    
+    //生存了多长时间
+    float lifeTime;
+    bool skilled;
     float showLifeBarTime;
     float characterScaleFactor;
+    bool canfly;
+    
     
     BGTWall *wall;
     
@@ -119,6 +130,8 @@ public:
     
     int lastAttackedId;
     
+    bool canDefense();
+    
     spBoundingBoxAttachment* getHittestPolygon();
     
     StateMachine<Character>* getFSM();
@@ -128,11 +141,11 @@ public:
     float getCharacterScaleFactor();
     Rect getBoundingBox();
     
-    void pauseAnimation();
-    void resumeAnimation();
-    
     bool hittestPoint(Vec2 p);
+    bool canSkill();
+    bool isCanFly();
     
+    void hitted();
     float getFloor();
     void setFloor(float f);
     
@@ -151,8 +164,14 @@ public:
     bool isFlowState();
     bool isDefenseState();
     
+    
+    
     virtual void reset();
     
+    //格挡
+    virtual void parry();
+    
+    //进入防御状态
     virtual void defense();
     virtual void move();
     virtual void attack();
@@ -165,9 +184,15 @@ public:
     virtual void liedown();
     virtual void die();
     virtual void shanbi();
+    virtual void skill();
+    
+    bool isSkilled();
+    
+    void pause();
+    void resume();
     
 
-    virtual void takeDamage(float damage);
+    virtual void takeDamage(float damage,bool isBaoJi=false);
     
     virtual void setDirection(CharacterDirection d);
     CharacterDirection getDirection();

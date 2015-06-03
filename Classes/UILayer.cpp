@@ -35,6 +35,8 @@ bool UILayer::initWithGameScene(GameScene *gs)
     //one.pushBack(GaussianVBlurFilter::create(10));
     one.pushBack(GaussianHBlurFilter::create(10));
     
+    SpriteFrameCache *ccsfc = SpriteFrameCache::getInstance();
+    ccsfc->addSpriteFramesWithFile("GameSceneEndLayer.plist");
     
     gameManager = GameManager::getInstance();
     player = gameManager->getPlayer();
@@ -79,6 +81,9 @@ bool UILayer::initWithGameScene(GameScene *gs)
     comboBar->addChild(s);
     
     comboLayer->setPosition(600,0);
+    
+    tipLayer = Layer::create();
+    addChild(tipLayer);
     
     hudLayer = Layer::create();
     addChild(hudLayer);
@@ -283,71 +288,125 @@ bool UILayer::initWithGameScene(GameScene *gs)
     winLayer = LayerColor::create(Color4B(0, 0, 0, 170));
     addChild(winLayer);
     winLayer->setVisible(false);
-    Label *label = Label::create("赢了！", "Arial", 150*scaleFactory);
-    label->setColor(Color3B(255,255,255));
-    winLayer->addChild(label);
-    label->setPosition(size.width/2,size.height-200);
+    winTipBg = Sprite::createWithSpriteFrameName("winTipBg.png");
+    winLayer->addChild(winTipBg);
+    winTipBg->setPosition(size.width/2,size.height/2);
     
-    sprite = Sprite::createWithSpriteFrameName("restartButton.png");
-    sprite1 = Sprite::createWithSpriteFrameName("restartButton.png");
-    sprite1->setScale(1.1);
-    spriteSize = sprite->getContentSize();
-    sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
+    winTip = Sprite::createWithSpriteFrameName("winTip.png");
+    winLayer->addChild(winTip);
+    winTip->setPosition(size.width/2,size.height/2);
     
-    restartItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::restartCallback, this));
-    
-    
-    sprite = Sprite::createWithSpriteFrameName("nextLevelButton.png");
-    sprite1 = Sprite::createWithSpriteFrameName("nextLevelButton.png");
-    sprite1->setScale(1.1);
-    spriteSize = sprite->getContentSize();
-    sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
-    
-    MenuItemSprite *nextItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::nextLevelCallback, this));
-    
-    menu = Menu::create(restartItem,nextItem,NULL);
-    menu->setPosition(size.width/2,size.height/2);
-    menu->alignItemsHorizontallyWithPadding(50);
-    winLayer->addChild(menu, 1);
 
     failedLayer = LayerColor::create(Color4B(0, 0, 0, 170));
     addChild(failedLayer);
     failedLayer->setVisible(false);
-    label = Label::create("输了！", "Arial", 150*scaleFactory);
-    label->setColor(Color3B(255,255,255));
-    failedLayer->addChild(label);
-    label->setPosition(size.width/2,size.height-200);
     
-    sprite = Sprite::createWithSpriteFrameName("restartButton.png");
-    sprite1 = Sprite::createWithSpriteFrameName("restartButton.png");
-    sprite1->setScale(1.1);
-    spriteSize = sprite->getContentSize();
-    sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
+    failedTipBg = Sprite::createWithSpriteFrameName("failedTipBg.png");
+    failedLayer->addChild(failedTipBg);
+    failedTipBg->setPosition(size.width/2,size.height/2);
     
-    restartItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::restartCallback, this));
+    failedTip = Sprite::createWithSpriteFrameName("failedTip.png");
+    failedLayer->addChild(failedTip);
+    failedTip->setPosition(size.width/2,size.height/2);
     
-    menu = Menu::create(restartItem,NULL);
-    menu->setPosition(size.width/2,size.height/2);
-    failedLayer->addChild(menu, 1);
+    
+    
+    rateLayer = new GameEndRateLayer();
+    rateLayer->init();
+    addChild(rateLayer);
+    rateLayer->release();
+    rateLayer->setVisible(false);
+    
+
+    upgredLayer = new GameEndUpgradeLayer();
+    upgredLayer->init();
+    addChild(upgredLayer);
+    upgredLayer->release();
+    upgredLayer->setVisible(false);
+    
+    //生成icons
+    for(int i = 0; i < 5; i++){
+        Sprite *sprite = Sprite::createWithSpriteFrameName("shanbiLabel.png");
+        tipLayer->addChild(sprite);
+        sprite->setVisible(false);
+        shanbiIconsPool.pushBack(sprite);
+        
+        sprite = Sprite::createWithSpriteFrameName("missLabel.png");
+        tipLayer->addChild(sprite);
+        sprite->setVisible(false);
+        missIconsPool.pushBack(sprite);
+        
+        sprite = Sprite::createWithSpriteFrameName("yunLabel.png");
+        tipLayer->addChild(sprite);
+        sprite->setVisible(false);
+        yunIconsPool.pushBack(sprite);
+
+        
+        sprite = Sprite::createWithSpriteFrameName("daodiLabel.png");
+        tipLayer->addChild(sprite);
+        sprite->setVisible(false);
+        daodiIconsPool.pushBack(sprite);
+        
+        sprite = Sprite::createWithSpriteFrameName("fukongLabel.png");
+        tipLayer->addChild(sprite);
+        sprite->setVisible(false);
+        flowIconsPool.pushBack(sprite);
+        
+        sprite = Sprite::createWithSpriteFrameName("fukongLabel.png");
+        tipLayer->addChild(sprite);
+        sprite->setVisible(false);
+        gedangIconsPool.pushBack(sprite);
+
+        
+        sprite = Sprite::createWithSpriteFrameName("jituiLabel.png");
+        tipLayer->addChild(sprite);
+        sprite->setVisible(false);
+        jiTuiIconsPool.pushBack(sprite);
+    }
+    
     
     _eventDispatcher->addCustomEventListener("MonsterHitted", CC_CALLBACK_1(UILayer::monsterHittedHandler,this));
     _eventDispatcher->addCustomEventListener("MonsterShanbi", CC_CALLBACK_1(UILayer::monsterShanbiHandler,this));
-    _eventDispatcher->addCustomEventListener("MonsterDefense", CC_CALLBACK_1(UILayer::monsterDefenseHandler,this));
+    _eventDispatcher->addCustomEventListener("MonsterParry", CC_CALLBACK_1(UILayer::monsterParryHandler,this));
+    _eventDispatcher->addCustomEventListener("MonsterDamaged", CC_CALLBACK_1(UILayer::monsterDamagedHandler,this));
+    _eventDispatcher->addCustomEventListener("MonsterBaoDamaged", CC_CALLBACK_1(UILayer::monsterBaoDamagedHandler,this));
+    
     
 //    _eventDispatcher->addCustomEventListener("MonsterHitted", [=](EventCustom* event){
 //        monsterHittedHandler(event);
 //    });
+    
+    ccsfc->removeSpriteFramesFromFile("GameSceneEndLayer.plist");
     return true;
 }
 
-void UILayer::monsterDefenseHandler(EventCustom* event)
+void UILayer::restartCallback(Ref* sender)
+{
+    //    gameScene->restartGame();
+    //
+    //    enegyProgressBar->setPercentage(0);
+    
+    Director::getInstance()->replaceScene(TransitionFade::create(1, GameScene::createSceneWithLevel(0)));
+}
+
+void UILayer::monsterDamagedHandler(EventCustom* event)
+{
+    
+}
+
+void UILayer::monsterBaoDamagedHandler(EventCustom* event)
+{
+    
+}
+
+void UILayer::monsterParryHandler(EventCustom* event)
 {
     
 }
 
 void UILayer::monsterShanbiHandler(EventCustom* event)
 {
-
+    
 }
 
 void UILayer::monsterHittedHandler(EventCustom* event)
@@ -442,29 +501,26 @@ void UILayer::pauseCallback(Ref* sender)
     gameScene->pauseGame();
 }
 
-void UILayer::nextLevelCallback(Ref* sender)
-{
-    gameScene->nextLevel();
-}
+
 
 void UILayer::mainCallback(Ref* sender)
 {
     //Director::getInstance()->replaceScene(TransitionFade::create(1, Gamepanel::createScene()));
 }
 
-void UILayer::restartCallback(Ref* sender)
-{
-//    gameScene->restartGame();
-//    
-//    enegyProgressBar->setPercentage(0);
-    
-    Director::getInstance()->replaceScene(TransitionFade::create(1, GameScene::createSceneWithLevel(0)));
-}
+
 
 void UILayer::gameEnd(bool isWin)
 {
     winLayer->setVisible(isWin);
     failedLayer->setVisible(!isWin);
+    scheduleOnce(CC_SCHEDULE_SELECTOR(UILayer::showEndResult), 1.0);
+}
+
+void UILayer::showEndResult(float t)
+{
+    rateLayer->setVisible(true);
+    rateLayer->showResultWithAnimation();
 }
 
 void UILayer::update(float dt)

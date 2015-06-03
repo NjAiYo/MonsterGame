@@ -64,7 +64,9 @@ public:
      */
     unsigned int rarerate;
     
-    
+    /**
+     *物品属性
+     */
     Vector<Dictionary*> properties;
     
     Goods();

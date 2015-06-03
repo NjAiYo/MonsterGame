@@ -261,6 +261,15 @@
 		F154EA8B1B0EDF0F00E6D8F7 /* Y.json in Resources */ = {isa = PBXBuildFile; fileRef = F154EA6E1B0EDF0F00E6D8F7 /* Y.json */; };
 		F154EA8C1B0EDF0F00E6D8F7 /* Z.json in Resources */ = {isa = PBXBuildFile; fileRef = F154EA6F1B0EDF0F00E6D8F7 /* Z.json */; };
 		F18985901B0C854000A330A5 /* GeometricRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F18985871B0C854000A330A5 /* GeometricRecognizer.cpp */; };
+		F190E9641B1DAA8400E634BC /* isusing.png in Resources */ = {isa = PBXBuildFile; fileRef = DE77D92F1B1850C300478DB2 /* isusing.png */; };
+		F190E9651B1DAAAF00E634BC /* pet.csv in Resources */ = {isa = PBXBuildFile; fileRef = DE24B15B1B1813ED00C5C2E8 /* pet.csv */; };
+		F190E9681B1DECF500E634BC /* gameSceneEndGreenLabel.fnt in Resources */ = {isa = PBXBuildFile; fileRef = F190E9661B1DECF500E634BC /* gameSceneEndGreenLabel.fnt */; };
+		F190E9691B1DECF500E634BC /* gameSceneEndGreenLabel.png in Resources */ = {isa = PBXBuildFile; fileRef = F190E9671B1DECF500E634BC /* gameSceneEndGreenLabel.png */; };
+		F190E96B1B1DED2400E634BC /* upgredHerolLevelLabel.png in Resources */ = {isa = PBXBuildFile; fileRef = F190E96A1B1DED2400E634BC /* upgredHerolLevelLabel.png */; };
+		F19535981B1D6D360084239F /* SkillState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F19535961B1D6D360084239F /* SkillState.cpp */; };
+		F19B62B31B1E8D7F00D483CA /* GameEndRateLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F19B62B11B1E8D7F00D483CA /* GameEndRateLayer.cpp */; };
+		F19B62B61B1E8D9C00D483CA /* GameEndUpgradeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F19B62B41B1E8D9C00D483CA /* GameEndUpgradeLayer.cpp */; };
+		F19B62B91B1E92BC00D483CA /* GameResultManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F19B62B71B1E92BC00D483CA /* GameResultManager.cpp */; };
 		F19C337E1AF75DF600367A31 /* QTEMonster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F19C337C1AF75DF600367A31 /* QTEMonster.cpp */; };
 		F19C33811AF75E3900367A31 /* DefenseState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F19C337F1AF75E3900367A31 /* DefenseState.cpp */; };
 		F19C33841AF770CE00367A31 /* gameSceneMissLabel.fnt in Resources */ = {isa = PBXBuildFile; fileRef = F19C33821AF770CE00367A31 /* gameSceneMissLabel.fnt */; };
@@ -681,6 +690,17 @@
 		F189858D1B0C854000A330A5 /* SampleGestures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleGestures.h; sourceTree = "<group>"; };
 		F189858E1B0C854000A330A5 /* SampleMultiStrokeGestures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleMultiStrokeGestures.h; sourceTree = "<group>"; };
 		F189858F1B0C854000A330A5 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
+		F190E9661B1DECF500E634BC /* gameSceneEndGreenLabel.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gameSceneEndGreenLabel.fnt; sourceTree = "<group>"; };
+		F190E9671B1DECF500E634BC /* gameSceneEndGreenLabel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameSceneEndGreenLabel.png; sourceTree = "<group>"; };
+		F190E96A1B1DED2400E634BC /* upgredHerolLevelLabel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = upgredHerolLevelLabel.png; sourceTree = "<group>"; };
+		F19535961B1D6D360084239F /* SkillState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkillState.cpp; sourceTree = "<group>"; };
+		F19535971B1D6D360084239F /* SkillState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillState.h; sourceTree = "<group>"; };
+		F19B62B11B1E8D7F00D483CA /* GameEndRateLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEndRateLayer.cpp; sourceTree = "<group>"; };
+		F19B62B21B1E8D7F00D483CA /* GameEndRateLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEndRateLayer.h; sourceTree = "<group>"; };
+		F19B62B41B1E8D9C00D483CA /* GameEndUpgradeLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEndUpgradeLayer.cpp; sourceTree = "<group>"; };
+		F19B62B51B1E8D9C00D483CA /* GameEndUpgradeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEndUpgradeLayer.h; sourceTree = "<group>"; };
+		F19B62B71B1E92BC00D483CA /* GameResultManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameResultManager.cpp; sourceTree = "<group>"; };
+		F19B62B81B1E92BC00D483CA /* GameResultManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameResultManager.h; sourceTree = "<group>"; };
 		F19C337C1AF75DF600367A31 /* QTEMonster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QTEMonster.cpp; sourceTree = "<group>"; };
 		F19C337D1AF75DF600367A31 /* QTEMonster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QTEMonster.h; sourceTree = "<group>"; };
 		F19C337F1AF75E3900367A31 /* DefenseState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DefenseState.cpp; sourceTree = "<group>"; };
@@ -928,6 +948,8 @@
 				F105A8731AF1F5A10044CCEE /* objs */,
 				F105A8691AF1F58C0044CCEE /* scenes */,
 				F105A8671AF1F5830044CCEE /* Utils.h */,
+				F19B62B71B1E92BC00D483CA /* GameResultManager.cpp */,
+				F19B62B81B1E92BC00D483CA /* GameResultManager.h */,
 				F105A8681AF1F5830044CCEE /* Telegram.h */,
 				F105A8621AF1F5750044CCEE /* json */,
 				F105A84F1AF1F5600044CCEE /* data */,
@@ -1035,6 +1057,7 @@
 		DEDFB1491AFC9B09001FC0C0 /* imgs */ = {
 			isa = PBXGroup;
 			children = (
+				F190E96A1B1DED2400E634BC /* upgredHerolLevelLabel.png */,
 				DE77D9381B18684E00478DB2 /* weapons.csv */,
 				DE77D92F1B1850C300478DB2 /* isusing.png */,
 				DEDFB14A1AFC9B09001FC0C0 /* 3.png */,
@@ -1145,6 +1168,10 @@
 				F105A87E1AF1F5BB0044CCEE /* BGTWorld.h */,
 				F111643B1AF9B9CF001C6582 /* QTELayer.cpp */,
 				F111643C1AF9B9CF001C6582 /* QTELayer.h */,
+				F19B62B11B1E8D7F00D483CA /* GameEndRateLayer.cpp */,
+				F19B62B21B1E8D7F00D483CA /* GameEndRateLayer.h */,
+				F19B62B41B1E8D9C00D483CA /* GameEndUpgradeLayer.cpp */,
+				F19B62B51B1E8D9C00D483CA /* GameEndUpgradeLayer.h */,
 			);
 			name = layers;
 			sourceTree = "<group>";
@@ -1211,6 +1238,8 @@
 				F105A8B61AF1F61C0044CCEE /* FlowState.h */,
 				F19C337F1AF75E3900367A31 /* DefenseState.cpp */,
 				F19C33801AF75E3900367A31 /* DefenseState.h */,
+				F19535961B1D6D360084239F /* SkillState.cpp */,
+				F19535971B1D6D360084239F /* SkillState.h */,
 			);
 			name = states;
 			sourceTree = "<group>";
@@ -1231,6 +1260,8 @@
 		F105A8CD1AF1F6C40044CCEE /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				F190E9661B1DECF500E634BC /* gameSceneEndGreenLabel.fnt */,
+				F190E9671B1DECF500E634BC /* gameSceneEndGreenLabel.png */,
 				DE2C4B491B1C5F3800691331 /* bulletAddLabel.png */,
 				DE2C4B4A1B1C5F3800691331 /* coinNumber.png */,
 				DE2C4B4B1B1C5F3800691331 /* comboNumber.png */,
@@ -1641,7 +1672,9 @@
 				F1FD4F6E1B16BE1E00057013 /* example_MultiTexture.vsh in Resources */,
 				DE2C4B511B1C5F3800691331 /* comboNumber.png in Resources */,
 				F1FD4F751B16BE1F00057013 /* shadertoy_FireBall.fsh in Resources */,
+				F190E9681B1DECF500E634BC /* gameSceneEndGreenLabel.fnt in Resources */,
 				F105A9271AF1F6C40044CCEE /* boss1_daduan1.mp3 in Resources */,
+				F190E9641B1DAA8400E634BC /* isusing.png in Resources */,
 				F105A9291AF1F6C40044CCEE /* boss1_dead.mp3 in Resources */,
 				F154EA7D1B0EDF0F00E6D8F7 /* M.json in Resources */,
 				F105A9361AF1F6C40044CCEE /* cg_gd1.mp3 in Resources */,
@@ -1656,6 +1689,7 @@
 				F105A93E1AF1F6C40044CCEE /* dao_1.mp3 in Resources */,
 				F1FD4F651B16BE1E00057013 /* example_Flower.fsh in Resources */,
 				F105A9491AF1F6C40044CCEE /* game_win.mp3 in Resources */,
+				F190E9651B1DAAAF00E634BC /* pet.csv in Resources */,
 				F19C33841AF770CE00367A31 /* gameSceneMissLabel.fnt in Resources */,
 				DEDFB1961AFC9B09001FC0C0 /* djslhsp.png in Resources */,
 				F1FD4F611B16BE1E00057013 /* example_celShading.fsh in Resources */,
@@ -1744,6 +1778,7 @@
 				F105A9251AF1F6C40044CCEE /* bgm_2.mp3 in Resources */,
 				F105A9651AF2167B0044CCEE /* monster2.json in Resources */,
 				F105A91F1AF1F6C40044CCEE /* gameSceneLevelLabel.png in Resources */,
+				F190E9691B1DECF500E634BC /* gameSceneEndGreenLabel.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				DE24B1601B1813ED00C5C2E8 /* talent.csv in Resources */,
 				DEDFB1CC1AFC9B09001FC0C0 /* xx.png in Resources */,
@@ -1759,6 +1794,7 @@
 				F154EA781B0EDF0F00E6D8F7 /* H.json in Resources */,
 				F105A9391AF1F6C40044CCEE /* d_cg.mp3 in Resources */,
 				F105A94C1AF1F6C40044CCEE /* huoqiu.mp3 in Resources */,
+				F190E96B1B1DED2400E634BC /* upgredHerolLevelLabel.png in Resources */,
 				F105A9411AF1F6C40044CCEE /* door0.mp3 in Resources */,
 				F154EA721B0EDF0F00E6D8F7 /* C.json in Resources */,
 				DEDFB18D1AFC9B09001FC0C0 /* 3.png in Resources */,
@@ -1836,6 +1872,7 @@
 				F1FD4F4C1B16BE1E00057013 /* CCBlurFilter.cpp in Sources */,
 				F1FD4F4E1B16BE1E00057013 /* CCContrastFilter.cpp in Sources */,
 				DE2C4B571B1C609A00691331 /* WTMGlyphTemplate.cpp in Sources */,
+				F19B62B61B1E8D9C00D483CA /* GameEndUpgradeLayer.cpp in Sources */,
 				F1FD4F521B16BE1E00057013 /* CCFilter.cpp in Sources */,
 				DE2C4B581B1C609C00691331 /* WTMDetectionResult.cpp in Sources */,
 				DE2C4B551B1C607B00691331 /* PointObject.cpp in Sources */,
@@ -1859,9 +1896,11 @@
 				F105A8CC1AF1F62E0044CCEE /* Knife.cpp in Sources */,
 				F105A8721AF1F5990044CCEE /* GameScene.cpp in Sources */,
 				DEDFB1471AFC9AA8001FC0C0 /* Mymenu.cpp in Sources */,
+				F19535981B1D6D360084239F /* SkillState.cpp in Sources */,
 				F105A8701AF1F5990044CCEE /* LoadScene.cpp in Sources */,
 				F105A8801AF1F5BB0044CCEE /* BGTWorld.cpp in Sources */,
 				DE24B1531B18038D00C5C2E8 /* Lock.cpp in Sources */,
+				F19B62B31B1E8D7F00D483CA /* GameEndRateLayer.cpp in Sources */,
 				F105A8B91AF1F61C0044CCEE /* AttackState.cpp in Sources */,
 				F1FD4F551B16BE1E00057013 /* CCHazeFilter.cpp in Sources */,
 				F105A8B81AF1F61C0044CCEE /* StandState.cpp in Sources */,
@@ -1894,6 +1933,7 @@
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				DEDFB1431AFC9AA8001FC0C0 /* Hero.cpp in Sources */,
 				F1FD4F511B16BE1E00057013 /* CCExposureFilter.cpp in Sources */,
+				F19B62B91B1E92BC00D483CA /* GameResultManager.cpp in Sources */,
 				DEC64CFC1B0B04C6003244ED /* Pet.cpp in Sources */,
 				F1FD4F501B16BE1E00057013 /* CCDropShadowFilter.cpp in Sources */,
 				DEDFB1481AFC9AA8001FC0C0 /* StringUtil.cpp in Sources */,

@@ -55,16 +55,18 @@ bool StiffState::onMessage(Character* agent, const Telegram& msg)
         //
         //            });
         Weapon *weapon = (Weapon*)GameEntityManager::getInstance()->getEntityFromID(msg.sender);
-        agent->takeDamage(weapon->getDamage());
-        if (agent->getLife() <= 0) {
-            agent->die();
-            return false;
+        //蓄力攻击没有攻击力
+        if (msg.msg == Msg_AttackedByWeapon){
+            agent->takeDamage(weapon->getDamage());
+            if (agent->getLife() <= 0) {
+                agent->die();
+                return false;
+            }
         }
         switch (weapon->getType()) {
+            agent->hitted();
             case WeaponTypeKnife:{
                 //Knife *knife = (Knife*)weapon;
-                
-                
                 KnifeAttackDirection direction = *(KnifeAttackDirection*)msg.extraInfo;
                 if (msg.msg == Msg_AttackedByXuLiWeapon) {
                     if (direction == KnifeAttackDirectionUp) {

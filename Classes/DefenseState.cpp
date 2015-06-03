@@ -14,7 +14,7 @@
 
 void DefenseState::enter(Character* agent)
 {
-    defenseTime = 2;
+    defenseTime = 5;
     ending = false;
     //agent->playAnimation(0,"die", true);
     spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, DefenseAnimationName, false);

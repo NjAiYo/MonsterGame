@@ -39,16 +39,20 @@ bool LieDownState::onMessage(Character* agent, const Telegram& msg)
     if(msg.msg == Msg_AttackedByXuLiWeapon || msg.msg == Msg_AttackedByWeapon){
         log("Character::Msg_AttackedByWeapon");
         Weapon *weapon = (Weapon*)GameEntityManager::getInstance()->getEntityFromID(msg.sender);
-        agent->takeDamage(weapon->getDamage());
-        if (agent->getLife() <= 0) {
-            agent->die();
-            return false;
+        //蓄力攻击没有攻击力
+        if (msg.msg == Msg_AttackedByWeapon){
+            agent->takeDamage(weapon->getDamage());
+            if (agent->getLife() <= 0) {
+                agent->die();
+                return false;
+            }
         }
         spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, PourHurtAnimationName, false);
         agent->getSkeletonNode()->setTrackCompleteListener(entry, [=] (int trackIndex,int loopCount) {
             //agent->getSkeletonNode()->setAnimation(0, "laydown", true);
         });
         switch (weapon->getType()) {
+            agent->hitted();
             case WeaponTypeKnife:{
                 //Knife *knife = (Knife*)weapon;
                 

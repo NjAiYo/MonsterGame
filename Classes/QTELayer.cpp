@@ -34,6 +34,12 @@ bool QTELayer::initWithWorld(BGTWorld *w)
     addChild(bgLayer);
     
     Size size = Director::getInstance()->getWinSize();
+    
+    Sprite *bg = Sprite::create("qteBg.png");
+    addChild(bg);
+    bg->setPosition(size.width/2, size.height/2);
+    
+    
     world = w;
     qteMonster = new QTEMonster();
     qteMonster->initWithQTELayerAndType(this, CharacterTypeSmallWuTouYong);
@@ -41,11 +47,24 @@ bool QTELayer::initWithWorld(BGTWorld *w)
     qteMonster->setPosition(size.width/2, size.height/2);
     qteMonster->release();
     
+    Sprite *avatarBg = Sprite::createWithSpriteFrameName("qteHeroAvatarBg.png");
+    addChild(avatarBg);
+    avatarBg->setPosition(230,size.height-160);
+    Sprite *avatar = Sprite::createWithSpriteFrameName("heroAvatarQTE.png");
+    avatarBg->addChild(avatar);
+    avatar->setPosition(avatarBg->getContentSize().width/2,avatarBg->getContentSize().height/2);
     
+    
+    avatarBg = Sprite::createWithSpriteFrameName("qteMonsterAvatarBg.png");
+    addChild(avatarBg);
+    avatarBg->setPosition(size.width-230,size.height-160);
+    avatar = Sprite::createWithSpriteFrameName("monster2AvatarQTE.png");
+    avatarBg->addChild(avatar);
+    avatar->setPosition(avatarBg->getContentSize().width/2,avatarBg->getContentSize().height/2);
     
     bar = Sprite::createWithSpriteFrameName("qteBarFrame.png");
     addChild(bar);
-    bar->setPosition(size.width/2,100);
+    bar->setPosition(size.width/2,size.height-120);
     
 
     progressBar = ProgressTimer::create(Sprite::createWithSpriteFrameName("qteBar.png"));
@@ -59,7 +78,7 @@ bool QTELayer::initWithWorld(BGTWorld *w)
     
     qteMark = Sprite::createWithSpriteFrameName("qteMark.png");
     bar->addChild(qteMark);
-    qteMark->setAnchorPoint(Vec2(0.5,0));
+    qteMark->setAnchorPoint(Vec2(0.5,0.5));
     
     float rate = progressBar->getPercentage() / 100.0f;
     qteMark->setPosition(bar->getContentSize().width*rate,bar->getContentSize().height);
@@ -75,6 +94,11 @@ bool QTELayer::initWithWorld(BGTWorld *w)
     countDownLabel->setPosition(size.width/2, size.height/2);
     addChild(countDownLabel);
     countDownLabel->setVisible(false);
+    
+    
+    Sprite *barbg = Sprite::createWithSpriteFrameName("qteBarBg.png");
+    bar->addChild(barbg);
+    barbg->setPosition(bar->getContentSize().width/2,bar->getContentSize().height/2);
     return true;
 }
 
