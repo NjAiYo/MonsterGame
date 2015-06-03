@@ -47,7 +47,6 @@ void ItemData::deleteitem(const char *id)
 			{
 				temp->releaseself();
 				Allbagitemvec.erase(i);
-				delete temp;
 				temp=NULL;
                 EventCustom event("itemDeleted");
                 event.setUserData((void*)id);

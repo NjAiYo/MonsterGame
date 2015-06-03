@@ -32,11 +32,22 @@ Item::Item(std::string id)
 	this->issale=1;
 	this->isusing=0;
 	this->isselect=0;
-	pic=MenuItemImage::create(this->picname,this->picname, CC_CALLBACK_1(Item::buttoncallback, this));
+	pic=MenuItemImage::create("","", CC_CALLBACK_1(Item::buttoncallback, this));
+    pic->setNormalImage(Sprite::createWithSpriteFrameName(this->picname));
+    pic->setSelectedImage(Sprite::createWithSpriteFrameName(this->picname));
 	pic->retain();
 }
 Item::Item(int level,int kind,int rarerate)
 {
+    //const char *path="weapons.csv";
+    //CsvUtil::getInstance()->loadFile(path);
+    //char c[10];
+    //sprintf(c,"%d%d%d",kind,level,rarerate);
+    //int line=CsvUtil::getInstance()->findValueInWithLine("031",0,path);
+    //log("%d",line);
+    //Value t1=CsvUtil::getInstance()->getValue(line,2,path);
+    //this->name=t1.asString();
+    this->name="大件";
 	this->level=level;
 	this->kind=kind;
 	this->rarerate=rarerate;
@@ -235,9 +246,18 @@ Item::Item(std::string id,int nothing)
 
 void Item::buttoncallback(Ref* pSender)
 {
-    EventCustom event("itemClicked");
-    event.setUserData(this);
-    _eventDispatcher->dispatchEvent(&event);
+
+    
+    if((kind==0||kind==1)&&isopen==0){
+ 
+        EventCustom event("openCase");
+        event.setUserData(this);
+        _eventDispatcher->dispatchEvent(&event);
+    }else{
+        EventCustom event("itemClicked");
+        event.setUserData(this);
+        _eventDispatcher->dispatchEvent(&event);
+    }
     
 	if(Gamepanel::JueseSysytem==1)
 	{

@@ -11,7 +11,6 @@
 
 #include "cocos2d.h"
 #include "GameManager.h"
-#include "Gamepanel.h"
 #include "cocos-ext.h"
 #include "Hero.h"
 #include "Mymenu.h"
@@ -19,12 +18,14 @@ USING_NS_CC;
 
 USING_NS_CC_EXT;
 class Gamepanel;
-
+class Item;
 class BagLayer : public cocos2d::Layer,public extension::ScrollViewDelegate
 {
 private:
     Gamepanel* gamepanel;
     Hero *hero;
+    Node *bagLayer_A,*bagLayer_B;//a用于开箱子，b用于显示武器装备数据
+    int bagLayerSwitch_A,bagLayerSwitch_B;
     MenuItemImage *bagquanbu;
     MenuItemImage *bagzhuangbei;
     MenuItemImage *bagcailiao;
@@ -65,7 +66,11 @@ public:
     void showequipments();
     void showitems();
     //显示物品信息
-    void showItemDetail(Item* items);
+    void showItemDetail(Item* item);
+    //开箱子
+    void kaixiangzi(Item *item);
+    void xianshijp(CCNode* pSender, void* data);
+    void afteropencase(Item *item);
 };
 
 #endif /* defined(__MonsterGame__BagLayer__) */

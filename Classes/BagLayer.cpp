@@ -10,7 +10,8 @@
 #include "AppDelegate.h"
 #include "ItemData.h"
 #include "Item.h"
-
+#include "Gamepanel.h"
+#include "CsvUtil.h"
 BagLayer::BagLayer()
 :itemIconSprite(nullptr)
 {
@@ -26,6 +27,7 @@ bool BagLayer::initWithGamePanel(Gamepanel *gs)
     totalSalePrice = 0;
     selectedItem = nullptr;
     gamepanel = gs;
+    bagLayerSwitch_A=0;
     hero = GameManager::getInstance()->getPlayer();
     AppDelegate *app = (AppDelegate*)Application::getInstance();
     scaleFactory = app->scaleFactory;
@@ -39,11 +41,6 @@ bool BagLayer::initWithGamePanel(Gamepanel *gs)
     auto bagbg=Sprite::create("beibaobeijing.png");
     bagbg->setPosition(Vec2(visibleSize.width/2,visibleSize.height/2));
     addChild(bagbg);
-    
-    
-
-    
-    
     
     bagquanbu=MenuItemImage::create("","",CC_CALLBACK_1(BagLayer::allbuttoncallback,this));
     bagquanbu->setNormalImage(Sprite::createWithSpriteFrameName("bagquanbu.png"));
@@ -153,7 +150,6 @@ bool BagLayer::initWithGamePanel(Gamepanel *gs)
     addChild(menubag);
     
     glowSprite = Sprite::createWithSpriteFrameName("jinengguang.png");
-    addChild(glowSprite);
     glowSprite->setScale(1.2);
 
     ScrollView *scrollView = ScrollView::create();
@@ -187,23 +183,27 @@ bool BagLayer::initWithGamePanel(Gamepanel *gs)
     menuitem->setAnchorPoint(Vec2::ZERO);
     menuitem->setPosition(Vec2::ZERO);
     continerLayer->addChild(menuitem,4);
+    continerLayer->addChild(glowSprite);
     
     
     
     itemNameLabel = Label::createWithSystemFont("名称", "Arial Rounded MT Bold", 52);
     itemNameLabel->setColor(Color3B(255, 255, 255));
     itemNameLabel->setPosition(Vec2(550*scaleFactory ,1000*scaleFactory));
+    itemNameLabel->setScale(scaleFactory);
     addChild(itemNameLabel);
     
     
     Label *numlabel = Label::createWithSystemFont("拥有数量:", "Arial Rounded MT Bold", 40);
     numlabel->setColor(Color3B(242, 221, 138));
     numlabel->setPosition(Vec2(500*scaleFactory ,940*scaleFactory));
+    numlabel->setScale(scaleFactory);
     addChild(numlabel);
     
     Label *pricelabel = Label::createWithSystemFont("出售单价:", "Arial Rounded MT Bold", 40);
     pricelabel->setColor(Color3B(242, 221, 138));
     pricelabel->setPosition(Vec2(500*scaleFactory ,870*scaleFactory));
+    pricelabel->setScale(scaleFactory);
     addChild(pricelabel);
     
     itemNumLabel = Label::createWithSystemFont("1", "Arial Rounded MT Bold", 40);
@@ -211,6 +211,7 @@ bool BagLayer::initWithGamePanel(Gamepanel *gs)
     itemNumLabel->setAnchorPoint(Vec2(1,0.5));
     itemNumLabel->setAlignment(TextHAlignment::RIGHT);
     itemNumLabel->setPosition(Vec2(680*scaleFactory ,numlabel->getPositionY()));
+    itemNumLabel->setScale(scaleFactory);
     addChild(itemNumLabel);
     
     itemPriceLabel = Label::createWithSystemFont("10", "Arial Rounded MT Bold", 40);
@@ -218,6 +219,7 @@ bool BagLayer::initWithGamePanel(Gamepanel *gs)
     itemPriceLabel->setAnchorPoint(Vec2(1,0.5));
     itemPriceLabel->setAlignment(TextHAlignment::RIGHT);
     itemPriceLabel->setPosition(Vec2(680*scaleFactory ,pricelabel->getPositionY()));
+    itemPriceLabel->setScale(scaleFactory);
     addChild(itemPriceLabel);
     
     Sprite *s = Sprite::createWithSpriteFrameName("xiaojinbi.png");
@@ -227,12 +229,14 @@ bool BagLayer::initWithGamePanel(Gamepanel *gs)
     itemDescriptionLabel = Label::createWithSystemFont(" IOS系统默认字体包,字体是图形用户界面显示文本的基础,对于开发者而言,快速的找到合适的字体库是提高工作效率的利器 IOS系统默认字体包,字体是图形用户界面显示文本的基础,对于开发者而言,快速的找到合适的字体库是提高工作效率的利器", "Arial Rounded MT Bold", 42,Size(490*scaleFactory,154*scaleFactory));
     itemDescriptionLabel->setColor(Color3B(242, 221, 138));
     itemDescriptionLabel->setPosition(Vec2(460*scaleFactory ,700*scaleFactory));
+    itemDescriptionLabel->setScale(scaleFactory);
     addChild(itemDescriptionLabel);
     
     
     itemNumForSaleLabel = Label::createWithSystemFont("1", "Arial Rounded MT Bold", 52);
     itemNumForSaleLabel->setColor(Color3B(255, 255, 255));
     itemNumForSaleLabel->setPosition(Vec2(310*scaleFactory,500*scaleFactory));
+    itemNumForSaleLabel->setScale(scaleFactory);
     addChild(itemNumForSaleLabel);
     
     
@@ -240,6 +244,7 @@ bool BagLayer::initWithGamePanel(Gamepanel *gs)
     totalSalePriceLabel->setAlignment(TextHAlignment::CENTER);
     totalSalePriceLabel->setColor(Color3B(255, 255, 255));
     totalSalePriceLabel->setPosition(Vec2(470*scaleFactory,380*scaleFactory));
+    totalSalePriceLabel->setScale(scaleFactory);
     addChild(totalSalePriceLabel);
     
     
@@ -302,7 +307,7 @@ void BagLayer::updateItemsHandler(EventCustom* event)
 void BagLayer::openCaseHandler(EventCustom* event)
 {
     Item *item = (Item*)event->getUserData();
-    
+    kaixiangzi(item);
 }
 
 void BagLayer::itemClickedHandler(EventCustom* event)
@@ -315,7 +320,7 @@ void BagLayer::itemClickedHandler(EventCustom* event)
 void BagLayer::showItemDetail(Item* item)
 {
     selectedItem = item;
-    glowSprite->setPosition(item->pic->getParent()->convertToWorldSpace(item->pic->getPosition()));
+    glowSprite->setPosition(item->pic->getPosition());
     if (itemIconSprite) {
         itemIconSprite->removeFromParent();
         itemIconSprite = nullptr;
@@ -325,7 +330,7 @@ void BagLayer::showItemDetail(Item* item)
     }else{
         sellButton->setEnabled(true);
     }
-    if (item->kind < 3) {
+    if (item->kind < 5) {
         itemIconSprite = Sprite::createWithSpriteFrameName(String::createWithFormat("k%d_l%d_r%d.png",item->kind,item->level,item->rarerate)->getCString());
     }else{
         itemIconSprite = Sprite::createWithSpriteFrameName(item->picname);
@@ -339,12 +344,196 @@ void BagLayer::showItemDetail(Item* item)
     itemNumLabel->setString(String::createWithFormat("%d",item->number)->getCString());
     itemPriceLabel->setString(String::createWithFormat("%d",item->salegold)->getCString());
     //描述
-    itemDescriptionLabel->setString(item->detail);
-    
+    if(item->kind>5)
+    {
+        itemDescriptionLabel->setString(item->detail);
+        this->removeChild(bagLayer_B);
+    }
+    else if(item->isopen)
+    {
+        itemDescriptionLabel->setString("");
+        const char *path="pn.csv";
+        CsvUtil::getInstance()->loadFile(path);
+        Value v1=CsvUtil::getInstance()->getValue(0,0,path);
+        this->removeChild(bagLayer_B);
+        bagLayer_B=Node::create();
+        this->addChild(bagLayer_B,2);
+        char temp[20];
+        sprintf(temp,":%.2f-%.2f",item->xia_xian_gong_ji_li,item->shang_xian_gong_ji_li);
+        auto lab1=Label::create(v1.asString()+temp,"",15);
+        lab1->setPosition(ccp(250*2*scaleFactory,400*2*scaleFactory));
+        int templine=1;
+        if(item->gong_ji_li_jia_cheng!=0)
+        {
+            sprintf(temp,":+%g%%",item->gong_ji_li_jia_cheng*100);
+            Value v1=CsvUtil::getInstance()->getValue(0,1,path);
+            auto templab=Label::create(v1.asString()+temp,"",15);
+            templab->setPosition(ccp(250*2*scaleFactory,400*2*scaleFactory-20*templine*2*scaleFactory));
+            bagLayer_B->addChild(templab,2);
+            templine++;
+        }
+        if(item->HP_shangxian!=0)
+        {
+            sprintf(temp,":+%g%%",item->HP_shangxian*100);
+            Value v1=CsvUtil::getInstance()->getValue(0,2,path);
+            auto templab1=Label::create(v1.asString()+temp,"",15);
+            templab1->setPosition(ccp(250*2*scaleFactory,400*2*scaleFactory-20*templine*2*scaleFactory));
+            bagLayer_B->addChild(templab1,2);
+            templine++;
+        }
+        if(item->fang_yu_li!=0)
+        {
+            sprintf(temp,":+%d",item->fang_yu_li);
+            Value v1=CsvUtil::getInstance()->getValue(0,3,path);
+            auto templab2=Label::create(v1.asString()+temp,"",15);
+            templab2->setPosition(ccp(250*2*scaleFactory,400*2*scaleFactory-20*templine*2*scaleFactory));
+            bagLayer_B->addChild(templab2,2);
+            templine++;
+        }
+        if(item->bao_ji_lv!=0)
+        {
+            sprintf(temp,":+ %g%%",item->bao_ji_lv*100);
+            Value v1=CsvUtil::getInstance()->getValue(0,4,path);
+            auto templab3=Label::create(v1.asString()+temp,"",15);
+            templab3->setPosition(ccp(250*2*scaleFactory,400*2*scaleFactory-20*templine*2*scaleFactory));
+            bagLayer_B->addChild(templab3,2);
+            templine++;
+        }
+        if(item->bao_ji_shang_hai!=0)
+        {
+            sprintf(temp,":+%g%%",item->bao_ji_shang_hai*100);
+            Value v1=CsvUtil::getInstance()->getValue(0,5,path);
+            auto templab4=Label::create(v1.asString()+temp,"",15);
+            templab4->setPosition(ccp(250*2*scaleFactory,400*2*scaleFactory-20*templine*2*scaleFactory));
+            bagLayer_B->addChild(templab4,2);
+            templine++;
+        }
+        if(item->dan_yao_shang_xian!=0)
+        {
+            sprintf(temp,":+%d",item->dan_yao_shang_xian);
+            Value v1=CsvUtil::getInstance()->getValue(0,6,path);
+            auto templab5=Label::create(v1.asString()+temp,"",15);
+            templab5->setPosition(ccp(250*2*scaleFactory,400*2*scaleFactory-20*templine*2*scaleFactory));
+            bagLayer_B->addChild(templab5,2);
+            templine++;
+        }
+        if(item->nai_jiu_shang_xian!=0)
+        {
+            sprintf(temp,":+%d",item->nai_jiu_shang_xian);
+            Value v1=CsvUtil::getInstance()->getValue(0,7,path);
+            auto templab6=Label::create(v1.asString()+temp,"",15);
+            templab6->setPosition(ccp(250*2*scaleFactory,400*2*scaleFactory-20*templine*2*scaleFactory));
+            bagLayer_B->addChild(templab6,2);
+            templine++;
+        }
+        if(item->qiang_xuan_yun_gai_lv!=0)
+        {
+            sprintf(temp,":+%g%%",item->qiang_xuan_yun_gai_lv*100);
+            Value v1=CsvUtil::getInstance()->getValue(0,8,path);
+            auto templab7=Label::create(v1.asString()+temp,"",15);
+            templab7->setPosition(ccp(250*2*scaleFactory,400*2*scaleFactory-20*templine*2*scaleFactory));
+            bagLayer_B->addChild(templab7,2);
+            templine++;
+        }
+        if(item->shi_qu_xue_qiu_shang_xian!=0)
+        {
+            sprintf(temp,":+%g%%",item->shi_qu_xue_qiu_shang_xian*100);
+            Value v1=CsvUtil::getInstance()->getValue(0,9,path);
+            auto templab8=Label::create(v1.asString()+temp,"",15);
+            templab8->setPosition(ccp(250*2*scaleFactory,400*2*scaleFactory-20*templine*2*scaleFactory));
+            bagLayer_B->addChild(templab8,2);
+            templine++;
+        }
+        if(item->shi_qu_neng_liang_qiu_shang_xian!=0)
+        {
+            sprintf(temp,":+%g%%",item->shi_qu_neng_liang_qiu_shang_xian*100);
+            Value v1=CsvUtil::getInstance()->getValue(0,10,path);
+            auto templab9=Label::create(v1.asString()+temp,"",15);
+            templab9->setPosition(ccp(250*2*scaleFactory,400*2*scaleFactory-20*templine*2*scaleFactory));
+            bagLayer_B->addChild(templab9,2);
+            templine++;
+        }
+        if(item->shi_qu_dan_yao_shang_xian!=0)
+        {
+            sprintf(temp,":+%g%%",item->shi_qu_dan_yao_shang_xian*100);
+            Value v1=CsvUtil::getInstance()->getValue(0,11,path);
+            auto templab10=Label::create(v1.asString()+temp,"",15);
+            templab10->setPosition(ccp(250*2*scaleFactory,400*2*scaleFactory-20*templine*2*scaleFactory));
+            bagLayer_B->addChild(templab10,2);
+            templine++;
+        }
+        if(item->wu_qi_xiang_qian!=0)
+        {
+            sprintf(temp,":+ %d",item->wu_qi_xiang_qian);
+            Value v1=CsvUtil::getInstance()->getValue(0,12,path);
+            auto templab11=Label::create(v1.asString()+temp,"",15);
+            templab11->setPosition(ccp(250*2*scaleFactory,400*2*scaleFactory-20*templine*2*scaleFactory));
+            bagLayer_B->addChild(templab11,2);
+            templine++;
+        }
+        bagLayer_B->addChild(lab1);
+    }
     numForSale = 1;
     totalSalePrice = numForSale * item->salegold;
     itemNumForSaleLabel->setString(String::createWithFormat("%d",numForSale)->getCString());
     totalSalePriceLabel->setString(String::createWithFormat("%d",totalSalePrice)->getCString());
+    
+}
+
+void BagLayer::kaixiangzi(Item *item)
+{
+    if(bagLayerSwitch_A==1)
+        return;
+    selectedItem=item;
+    item->isopen=1;
+    item->randomgetitemdata(item->kind, item->rarerate);
+    bagLayer_A=Node::create();
+    bagLayerSwitch_A=1;
+    this->addChild(bagLayer_A,2);
+    auto mask=Sprite::create("mask.png");
+    mask->setScale(100);
+    auto kaijiangtiao=Sprite::create("tiao.png");
+    kaijiangtiao->setPosition(ccp(Director::getInstance()->getVisibleSize().width/2-250, Director::getInstance()->getVisibleSize().height/2));
+    kaijiangtiao->setAnchorPoint(ccp(0,0));
+    kaijiangtiao->setScaleX(0);
+    FiniteTimeAction* action = Sequence::create(ScaleTo::create(3.0f,1.0f,1.0f),CCCallFuncND::create(this, callfuncND_selector(BagLayer::xianshijp), (void*)true), NULL);
+    kaijiangtiao->runAction(action);
+    
+    bagLayer_A->addChild(mask,1);
+    bagLayer_A->addChild(kaijiangtiao,1);
+}
+
+void BagLayer::xianshijp(CCNode* pSender, void* data)
+{
+    bagLayer_A->removeAllChildrenWithCleanup(true);
+    auto mask=Sprite::create("mask.png");
+    mask->setScale(100);
+    
+    auto wuqi=Sprite::create("wuqi1.png");
+    wuqi->setScale(5);
+    wuqi->setPosition(ccp(Director::getInstance()->getVisibleSize().width/2, Director::getInstance()->getVisibleSize().height/2));
+    ScaleTo *s1=ScaleTo::create(1.0,4.0,4.0);
+    ScaleTo *s2=ScaleTo::create(1.0,5.0,5.0);
+    Sequence *seq=Sequence::create(s1,s2,s1,s2,s1,s2,NULL);
+    wuqi->runAction(seq);
+    
+    auto guanbi=MenuItemImage::create("xx.png","xx.png", CC_CALLBACK_1(BagLayer::allbuttoncallback, this));
+    guanbi->setTag(AFTEROPENCASE);
+    guanbi->setPosition(ccp(Director::getInstance()->getVisibleSize().width/2-300, Director::getInstance()->getVisibleSize().height/2));
+    auto menu=Menu::create(guanbi,NULL);
+    menu->setPosition(ccp(0,0));
+    bagLayer_A->addChild(mask,1);
+    bagLayer_A->addChild(wuqi,1);
+    bagLayer_A->addChild(menu,1);
+}
+
+void BagLayer::afteropencase(Item *item)
+{
+    bagLayer_A->removeAllChildrenWithCleanup(true);
+    bagLayerSwitch_A=0;
+    auto pp=Sprite::createWithSpriteFrameName(String::createWithFormat("k%d_l%d_r%d.png",item->kind,item->level,item->rarerate)->getCString());
+    pp->setPosition(ccp(item->pic->getContentSize().width/2,item->pic->getContentSize().height/2));
+    item->pic->addChild(pp);
 }
 
 void BagLayer::allbuttoncallback(Ref *button)
@@ -400,7 +589,7 @@ void BagLayer::allbuttoncallback(Ref *button)
         case BAGCLOSEBTN:
             this->setVisible(false);
             break;
-        case BAGJIAN:
+        case BAGJIA:
         {
             int num = numForSale + 1;
             if (num > selectedItem->number) {
@@ -412,7 +601,7 @@ void BagLayer::allbuttoncallback(Ref *button)
             totalSalePriceLabel->setString(String::createWithFormat("%d",totalSalePrice)->getCString());
         }
             break;
-        case BAGJIA:
+        case BAGJIAN:
         {
             int num = numForSale - 1;
             if (num < 1) {
@@ -434,9 +623,11 @@ void BagLayer::allbuttoncallback(Ref *button)
             Hero::getInstance()->Money+=totalSalePrice;
             char a[8];
             sprintf(a,"%d",Hero::getInstance()->Money);
-            Gamepanel::gamepanel->moneylab->setString(a);
+            gamepanel->moneylab->setString(a);
             selectedItem->useitem(numForSale);
             break;
+        case AFTEROPENCASE:
+            afteropencase(selectedItem);
         default:
             break;
     }

@@ -12,6 +12,7 @@
 
 #define BAGBTN 1
 #define BAGCLOSEBTN 2
+#define AFTEROPENCASE 7
 #define BAGJIA 0
 #define BAGALL 101
 #define BAGSELL 102
