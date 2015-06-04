@@ -77,11 +77,11 @@ bool GameScene::initWithLevel(unsigned int level)
         animation->addSpriteFrame(frame);
     }
     
-    Animation *bulletAnimation = AnimationCache::getInstance()->getAnimation(String::createWithFormat("m%dbullet",4)->getCString());
-    Sprite *skin = Sprite::create();
-    addChild(skin,100);
-    skin->setPosition(size.width/2,size.height/2);
-    skin->runAction(RepeatForever::create(Animate::create(bulletAnimation)));
+//    Animation *bulletAnimation = AnimationCache::getInstance()->getAnimation(String::createWithFormat("m%dbullet",4)->getCString());
+//    Sprite *skin = Sprite::create();
+//    addChild(skin,100);
+//    skin->setPosition(size.width/2,size.height/2);
+//    skin->runAction(RepeatForever::create(Animate::create(bulletAnimation)));
 
     
     SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("VE.plist");
