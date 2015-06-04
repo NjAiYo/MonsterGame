@@ -119,7 +119,8 @@ bool Character::initWithWorldAndType(BGTWorld *w,CharacterType t)
         label->setVisible(false);
         missLabels.pushBack(label);
     }
-
+    particleSystem = ParticleSystemQuad::create("blood.plist");
+    addChild(particleSystem,1);
     return true;
 }
 
@@ -479,7 +480,7 @@ void Character::shanbi()
     getEventDispatcher()->dispatchEvent(&event);
 }
 
-void Character::takeDamage(float value,bool isBaoJi)
+void Character::takeDamage(float value,Vec2 pos,bool isBaoJi)
 {
     if (life <= 0 || value <= 0) {
         return;
@@ -514,6 +515,10 @@ void Character::takeDamage(float value,bool isBaoJi)
         _eventDispatcher->dispatchEvent(&event);
     }
 
+    particleSystem->setPosition(pos);
+    
+    particleSystem->setPositionType(ParticleSystem::PositionType::GROUPED);
+    
 }
 
 void Character::pause()

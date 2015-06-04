@@ -32,6 +32,7 @@ bool UILayer::initWithGameScene(GameScene *gs)
     if (!Layer::init()) {
         return false;
     }
+    needEatTouch = false;
 //    one.pushBack(GrayFilter::create());
     //one.pushBack(GaussianVBlurFilter::create(10));
     one.pushBack(GaussianHBlurFilter::create(10));
@@ -234,10 +235,10 @@ bool UILayer::initWithGameScene(GameScene *gs)
     
     
     // Register Touch Event
-//    auto listener = EventListenerTouchOneByOne::create();
-//    listener->setSwallowTouches(true);
-//    
-//    listener->onTouchBegan = CC_CALLBACK_2(UILayer::onTouchBegan, this);
+    auto oneTouchlistener = EventListenerTouchOneByOne::create();
+    oneTouchlistener->setSwallowTouches(true);
+    
+    oneTouchlistener->onTouchBegan = CC_CALLBACK_2(UILayer::onTouchBegan, this);
 //    listener->onTouchMoved = CC_CALLBACK_2(UILayer::onTouchMoved, this);
 //    listener->onTouchEnded = CC_CALLBACK_2(UILayer::onTouchEnded, this);
 //    listener->onTouchCancelled = CC_CALLBACK_2(UILayer::onTouchCancelled, this);
@@ -251,45 +252,12 @@ bool UILayer::initWithGameScene(GameScene *gs)
     listener->onTouchesCancelled = CC_CALLBACK_2(UILayer::onTouchesCancelled, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
     
-    pausedLayer = LayerColor::create(Color4B(0, 0, 0, 170));
+    pausedLayer = new PauseLayer();
+    pausedLayer->init();
     addChild(pausedLayer);
     pausedLayer->setVisible(false);
+    pausedLayer->release();
     
-    s = Sprite::createWithSpriteFrameName("pauseUI.png");
-    pausedLayer->addChild(s);
-    s->setPosition(size.width/2, size.height/2);
-    
-    sprite = Sprite::createWithSpriteFrameName("resumeButton.png");
-    sprite1 = Sprite::createWithSpriteFrameName("resumeButton.png");
-    sprite1->setScale(1.1);
-    spriteSize = sprite->getContentSize();
-    sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
-    
-    MenuItemSprite *resumeItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::resumeCallback, this));
-    resumeItem->setPosition(s->getContentSize().width/2,s->getContentSize().height/2+200*scaleFactory);
-    
-    sprite = Sprite::createWithSpriteFrameName("restartButton.png");
-    sprite1 = Sprite::createWithSpriteFrameName("restartButton.png");
-    sprite1->setScale(1.1);
-    spriteSize = sprite->getContentSize();
-    sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
-    
-    MenuItemSprite *restartItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::restartCallback, this));
-    restartItem->setPosition(s->getContentSize().width/2,s->getContentSize().height/2-50*scaleFactory);
-    
-    sprite = Sprite::createWithSpriteFrameName("mainButton.png");
-    sprite1 = Sprite::createWithSpriteFrameName("mainButton.png");
-    sprite1->setScale(1.1);
-    spriteSize = sprite->getContentSize();
-    sprite1->setPosition(Point(-spriteSize.width*0.1/2,-spriteSize.height*0.1/2));
-    
-    MenuItemSprite *mainItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(UILayer::mainCallback, this));
-    mainItem->setPosition(s->getContentSize().width/2,s->getContentSize().height/2-250*scaleFactory);
-    
-    menu = Menu::create(resumeItem,restartItem,mainItem,NULL);
-    menu->setPosition(0,0);
-    //menu->alignItemsVerticallyWithPadding(10);
-    s->addChild(menu, 1);
     
     
     
@@ -394,6 +362,8 @@ bool UILayer::initWithGameScene(GameScene *gs)
     _eventDispatcher->addCustomEventListener("MonsterParry", CC_CALLBACK_1(UILayer::monsterParryHandler,this));
     _eventDispatcher->addCustomEventListener("MonsterDamaged", CC_CALLBACK_1(UILayer::monsterDamagedHandler,this));
     _eventDispatcher->addCustomEventListener("MonsterBaoDamaged", CC_CALLBACK_1(UILayer::monsterBaoDamagedHandler,this));
+    
+    _eventDispatcher->addCustomEventListener("PauseLayerResume", CC_CALLBACK_1(UILayer::pauseLayerResumeHandler,this));
     
     
 //    _eventDispatcher->addCustomEventListener("MonsterHitted", [=](EventCustom* event){
@@ -555,13 +525,14 @@ Sprite* UILayer::getMianyiIconFromPool()
     return label;
 }
 
-void UILayer::restartCallback(Ref* sender)
-{
-    //    gameScene->restartGame();
-    //
-    //    enegyProgressBar->setPercentage(0);
-    
-    Director::getInstance()->replaceScene(TransitionFade::create(1, GameScene::createSceneWithLevel(0)));
+void UILayer::pauseLayerResumeHandler(EventCustom* event){
+    gameScene->resumeGame();
+    pauseMenu->setVisible(true);
+    if (blursprite) {
+        blursprite->removeFromParentAndCleanup(true);
+        blursprite = nullptr;
+    }
+    needEatTouch = false;
 }
 
 void UILayer::monsterDamagedHandler(EventCustom* event)
@@ -680,22 +651,14 @@ void UILayer::skillCallback(Ref* sender)
     gameScene->getWorld()->launchCurrentSkill();
 }
 
-void UILayer::resumeCallback(Ref* sender){
-    pausedLayer->setVisible(false);
-    gameScene->resumeGame();
-    pauseMenu->setVisible(true);
-    if (blursprite) {
-        blursprite->removeFromParentAndCleanup(true);
-        blursprite = nullptr;
-    }
-}
+
 
 void UILayer::pauseCallback(Ref* sender)
 {
     if (gameScene->getState()!=GameStateGaming) {
         return;
     }
-    
+    needEatTouch = true;
     Size size = Director::getInstance()->getWinSize();
     RenderTexture *tex = RenderTexture::create(int(size.width), int(size.height));
     tex->setPosition(Point(size.width/2, size.height/2));
@@ -716,21 +679,13 @@ void UILayer::pauseCallback(Ref* sender)
     pausedLayer->addChild(blursprite,-1);
     
     pauseMenu->setVisible(false);
-    pausedLayer->setVisible(true);
+    pausedLayer->show();
     gameScene->pauseGame();
 }
 
-
-
-void UILayer::mainCallback(Ref* sender)
-{
-    //Director::getInstance()->replaceScene(TransitionFade::create(1, Gamepanel::createScene()));
-}
-
-
-
 void UILayer::gameEnd(bool isWin)
 {
+    needEatTouch = true;
     winLayer->setVisible(isWin);
     failedLayer->setVisible(!isWin);
     scheduleOnce(CC_SCHEDULE_SELECTOR(UILayer::showEndResult), 1.0);
@@ -738,8 +693,13 @@ void UILayer::gameEnd(bool isWin)
 
 void UILayer::showEndResult(float t)
 {
+    winLayer->setVisible(false);
+    failedLayer->setVisible(false);
+    pauseMenu->setVisible(false);
     rateLayer->setVisible(true);
     rateLayer->showResultWithAnimation();
+    upgredLayer->setVisible(true);
+    upgredLayer->showResultWithAnimation();
 }
 
 void UILayer::update(float dt)
@@ -855,8 +815,14 @@ void UILayer::onTouchesCancelled(const std::vector<Touch*>&touches, Event *unuse
     
 }
 
-//bool UILayer::onTouchBegan(Touch* touch, Event* event)
-//{
+bool UILayer::onTouchBegan(Touch* touch, Event* event)
+{
+    if (!needEatTouch) {
+        log("needEatTouch=false");
+    }else{
+        log("needEatTouch=true");
+    }
+    return needEatTouch;
 //    if (gameScene->getState()!=GameStateGaming) {
 //        return false;
 //    }
@@ -878,7 +844,7 @@ void UILayer::onTouchesCancelled(const std::vector<Touch*>&touches, Event *unuse
 //    }
 //    
 //    return false;
-//}
+}
 //
 //void UILayer::onTouchMoved(Touch* touch, Event* event)
 //{

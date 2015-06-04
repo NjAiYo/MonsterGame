@@ -67,7 +67,7 @@ protected:
     //CharacterState state;
     spine::SkeletonAnimation *skeletonNode;
     MonsterData *monsterData;
-    
+    ParticleSystemQuad *particleSystem;
     bool defensed;
 //    CharacterType type;
     float life;
@@ -192,7 +192,7 @@ public:
     void resume();
     
 
-    virtual void takeDamage(float damage,bool isBaoJi=false);
+    virtual void takeDamage(float damage,Vec2 pos,bool isBaoJi=false);
     
     virtual void setDirection(CharacterDirection d);
     CharacterDirection getDirection();

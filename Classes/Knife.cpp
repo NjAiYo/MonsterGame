@@ -619,18 +619,24 @@ void Knife::onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_eve
             if (hitDistance > 300) {
                 hitDistance = 0;
                 //log("damage hit:%d,%f",agent->getID(),moveDistance);
+                Vec2 dp = agent->convertToNodeSpace(pos);
+                AttackInfo info;
+                info.direction = direction;
+                info.x = dp.x;
+                info.y = dp.y;
+                
                 if (isXuliDamage) {
                     MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
                                                                       getID(),           //sender ID
                                                                       agent->getID(),           //receiver ID
                                                                       Msg_AttackedByXuLiWeapon,        //msg
-                                                                      &direction);
+                                                                      &info);
                 }else{
                     MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
                                                                       getID(),           //sender ID
                                                                       agent->getID(),           //receiver ID
                                                                       Msg_AttackedByWeapon,        //msg
-                                                                      &direction);
+                                                                      &info);
                 }
                 
                 if (xuliing) {

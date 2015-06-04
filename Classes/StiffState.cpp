@@ -45,7 +45,7 @@ void StiffState::exit(Character* agent)
 bool StiffState::onMessage(Character* agent, const Telegram& msg)
 {
     if(msg.msg == Msg_AttackedByXuLiWeapon || msg.msg == Msg_AttackedByWeapon){
-        log("Character::Msg_AttackedByWeapon");
+        AttackInfo info = *(AttackInfo*)msg.extraInfo;
         attacked = true;
         
         startTime = millisecondNow();
@@ -57,7 +57,7 @@ bool StiffState::onMessage(Character* agent, const Telegram& msg)
         Weapon *weapon = (Weapon*)GameEntityManager::getInstance()->getEntityFromID(msg.sender);
         //蓄力攻击没有攻击力
         if (msg.msg == Msg_AttackedByWeapon){
-            agent->takeDamage(weapon->getDamage());
+            agent->takeDamage(weapon->getDamage(),Vec2(info.x,info.y));
             if (agent->getLife() <= 0) {
                 agent->die();
                 return false;
@@ -67,13 +67,13 @@ bool StiffState::onMessage(Character* agent, const Telegram& msg)
         switch (weapon->getType()) {
             case WeaponTypeKnife:{
                 //Knife *knife = (Knife*)weapon;
-                KnifeAttackDirection direction = *(KnifeAttackDirection*)msg.extraInfo;
+  
                 if (msg.msg == Msg_AttackedByXuLiWeapon) {
-                    if (direction == KnifeAttackDirectionUp) {
+                    if (info.direction == KnifeAttackDirectionUp) {
                         agent->flowup();
-                    }else if (direction == KnifeAttackDirectionDown) {
+                    }else if (info.direction == KnifeAttackDirectionDown) {
                         agent->falldown();
-                    }else if (direction == KnifeAttackDirectionRight) {
+                    }else if (info.direction == KnifeAttackDirectionRight) {
                         agent->rollback();
                     }else{
                         //agent->stiff();

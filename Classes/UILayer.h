@@ -14,6 +14,7 @@
 #include "cocos2dFilters.h"
 #include "GameEndUpgradeLayer.h"
 #include "GameEndRateLayer.h"
+#include "PauseLayer.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -41,7 +42,7 @@ private:
     
     LayerColor *winLayer;
     LayerColor *failedLayer;
-    LayerColor *pausedLayer;
+    PauseLayer *pausedLayer;
     FilteredSprite* blursprite;
     //Label *scorelabel;
     Layer *comboLayer;
@@ -60,11 +61,11 @@ private:
     ProgressTimer *lifeProgressBar;
     Menu *pauseMenu;
     
-    void restartCallback(Ref* sender);
-    void mainCallback(Ref* sender);
+
     void pauseCallback(Ref* sender);
     void skillCallback(Ref* sender);
-    void resumeCallback(Ref* sender);
+    
+    bool needEatTouch;
     
     Vec2 frontIconPosition,backIconPosition;
     float frontScale,backScale;
@@ -75,6 +76,7 @@ private:
     void monsterParryHandler(EventCustom* event);
     void monsterDamagedHandler(EventCustom* event);
     void monsterBaoDamagedHandler(EventCustom* event);
+    void pauseLayerResumeHandler(EventCustom* event);
     void toggleToGun();
     void toggleToKnife();
     
@@ -131,7 +133,7 @@ public:
     void gameStart();
     void update(float dt);
     
-//    bool onTouchBegan(Touch* touch, Event* event);
+    bool onTouchBegan(Touch* touch, Event* event);
 //    void onTouchMoved(Touch* touch, Event* event);
 //    void onTouchEnded(Touch* touch, Event* event);
 //    void onTouchCancelled(Touch *touch, Event *unused_event);

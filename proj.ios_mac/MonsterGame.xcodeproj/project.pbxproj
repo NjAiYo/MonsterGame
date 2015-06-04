@@ -267,6 +267,8 @@
 		F190E9681B1DECF500E634BC /* gameSceneEndGreenLabel.fnt in Resources */ = {isa = PBXBuildFile; fileRef = F190E9661B1DECF500E634BC /* gameSceneEndGreenLabel.fnt */; };
 		F190E9691B1DECF500E634BC /* gameSceneEndGreenLabel.png in Resources */ = {isa = PBXBuildFile; fileRef = F190E9671B1DECF500E634BC /* gameSceneEndGreenLabel.png */; };
 		F190E96B1B1DED2400E634BC /* upgredHerolLevelLabel.png in Resources */ = {isa = PBXBuildFile; fileRef = F190E96A1B1DED2400E634BC /* upgredHerolLevelLabel.png */; };
+		F195015B1B1FE3F1007DEA8C /* blood.plist in Resources */ = {isa = PBXBuildFile; fileRef = F195015A1B1FE3F1007DEA8C /* blood.plist */; };
+		F195015E1B1FF642007DEA8C /* PauseLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F195015C1B1FF642007DEA8C /* PauseLayer.cpp */; };
 		F19535981B1D6D360084239F /* SkillState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F19535961B1D6D360084239F /* SkillState.cpp */; };
 		F19B62B31B1E8D7F00D483CA /* GameEndRateLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F19B62B11B1E8D7F00D483CA /* GameEndRateLayer.cpp */; };
 		F19B62B61B1E8D9C00D483CA /* GameEndUpgradeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F19B62B41B1E8D9C00D483CA /* GameEndUpgradeLayer.cpp */; };
@@ -696,6 +698,9 @@
 		F190E9661B1DECF500E634BC /* gameSceneEndGreenLabel.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gameSceneEndGreenLabel.fnt; sourceTree = "<group>"; };
 		F190E9671B1DECF500E634BC /* gameSceneEndGreenLabel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameSceneEndGreenLabel.png; sourceTree = "<group>"; };
 		F190E96A1B1DED2400E634BC /* upgredHerolLevelLabel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = upgredHerolLevelLabel.png; sourceTree = "<group>"; };
+		F195015A1B1FE3F1007DEA8C /* blood.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = blood.plist; sourceTree = "<group>"; };
+		F195015C1B1FF642007DEA8C /* PauseLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PauseLayer.cpp; sourceTree = "<group>"; };
+		F195015D1B1FF642007DEA8C /* PauseLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PauseLayer.h; sourceTree = "<group>"; };
 		F19535961B1D6D360084239F /* SkillState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkillState.cpp; sourceTree = "<group>"; };
 		F19535971B1D6D360084239F /* SkillState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillState.h; sourceTree = "<group>"; };
 		F19B62B11B1E8D7F00D483CA /* GameEndRateLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEndRateLayer.cpp; sourceTree = "<group>"; };
@@ -920,6 +925,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F19501591B1FE3F1007DEA8C /* particleeffects */,
 				F154EA521B0EDF0F00E6D8F7 /* gestures */,
 				DEDFB1491AFC9B09001FC0C0 /* imgs */,
 				F105A9581AF1F6CD0044CCEE /* res */,
@@ -1177,6 +1183,8 @@
 				F19B62B21B1E8D7F00D483CA /* GameEndRateLayer.h */,
 				F19B62B41B1E8D9C00D483CA /* GameEndUpgradeLayer.cpp */,
 				F19B62B51B1E8D9C00D483CA /* GameEndUpgradeLayer.h */,
+				F195015C1B1FF642007DEA8C /* PauseLayer.cpp */,
+				F195015D1B1FF642007DEA8C /* PauseLayer.h */,
 			);
 			name = layers;
 			sourceTree = "<group>";
@@ -1436,6 +1444,14 @@
 				F189858F1B0C854000A330A5 /* utils.h */,
 			);
 			path = gesture;
+			sourceTree = "<group>";
+		};
+		F19501591B1FE3F1007DEA8C /* particleeffects */ = {
+			isa = PBXGroup;
+			children = (
+				F195015A1B1FE3F1007DEA8C /* blood.plist */,
+			);
+			path = particleeffects;
 			sourceTree = "<group>";
 		};
 		F1FD4EEB1B16BE1E00057013 /* filters */ = {
@@ -1725,6 +1741,7 @@
 				F154EA751B0EDF0F00E6D8F7 /* E.json in Resources */,
 				F105A9541AF1F6C40044CCEE /* wpupgrade.mp3 in Resources */,
 				F105A9351AF1F6C40044CCEE /* button.mp3 in Resources */,
+				F195015B1B1FE3F1007DEA8C /* blood.plist in Resources */,
 				DEDFB19D1AFC9B09001FC0C0 /* main_hero_button.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
 				F105A92E1AF1F6C40044CCEE /* boss1_zhuazigj.mp3 in Resources */,
@@ -1956,6 +1973,7 @@
 				F1FD4F541B16BE1E00057013 /* CCGrayFilter.cpp in Sources */,
 				DEDFB1451AFC9AA8001FC0C0 /* ItemCreator.cpp in Sources */,
 				F117A8DC1B0DC86C002EE642 /* WTMGlyphDetector.cpp in Sources */,
+				F195015E1B1FF642007DEA8C /* PauseLayer.cpp in Sources */,
 				F105A8971AF1F60C0044CCEE /* Character.cpp in Sources */,
 				F105A8981AF1F60C0044CCEE /* GameEntityManager.cpp in Sources */,
 				F105A8BF1AF1F61C0044CCEE /* RollBackState.cpp in Sources */,

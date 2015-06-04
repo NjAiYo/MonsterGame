@@ -23,7 +23,7 @@ bool GameEndRateLayer::init()
     Size size = Director::getInstance()->getWinSize();
     AppDelegate *app = (AppDelegate*)Application::getInstance();
     float scaleFactory = app->scaleFactory;
-    
+    needEatTouch = false;
     LayerColor *bgLayer = LayerColor::create(Color4B(0, 0, 0, 170));
     addChild(bgLayer);
     
@@ -39,31 +39,37 @@ bool GameEndRateLayer::init()
     addChild(sp);
     sp->setPosition(1070*scaleFactory,size.height-360*scaleFactory);
     
-    Label *comboLabel = Label::createWithSystemFont("215", "Arial Black", 60);
+    comboLabel = Label::createWithSystemFont("215", "Arial Black", 60);
+    comboLabel->setAnchorPoint(Vec2(0,0.5));
+    comboLabel->setAlignment(TextHAlignment::LEFT);
     addChild(comboLabel);
-    comboLabel->setPosition(1270*scaleFactory,size.height-260*scaleFactory);
+    comboLabel->setPosition(1250*scaleFactory,size.height-260*scaleFactory);
     
-    Label *lifeLabel = Label::createWithSystemFont("96%", "Arial Black", 60);
+    lifeLabel = Label::createWithSystemFont("96%", "Arial Black", 60);
     addChild(lifeLabel);
-    lifeLabel->setPosition(1270*scaleFactory,size.height-360*scaleFactory);
+    lifeLabel->setAnchorPoint(Vec2(0,0.5));
+    lifeLabel->setAlignment(TextHAlignment::LEFT);
+    lifeLabel->setPosition(1250*scaleFactory,size.height-360*scaleFactory);
     
-    Label *timeLabel = Label::createWithSystemFont("02:38", "Arial Black", 60);
+    timeLabel = Label::createWithSystemFont("02:38", "Arial Black", 60);
     addChild(timeLabel);
-    timeLabel->setPosition(1270*scaleFactory,size.height-460*scaleFactory);
+    timeLabel->setAnchorPoint(Vec2(0,0.5));
+    timeLabel->setAlignment(TextHAlignment::LEFT);
+    timeLabel->setPosition(1250*scaleFactory,size.height-460*scaleFactory);
     
     //ss
     sp = Sprite::createWithSpriteFrameName("endPanelZiMuDi.png");
     addChild(sp);
-    sp->setPosition(1750*scaleFactory,820*scaleFactory);
+    sp->setPosition(1800*scaleFactory,810*scaleFactory);
     
     sp = Sprite::createWithSpriteFrameName("rateAIcon.png");
     addChild(sp);
-    sp->setPosition(1750*scaleFactory,820*scaleFactory);
+    sp->setPosition(1620*scaleFactory,900*scaleFactory);
     
     
     sp = Sprite::createWithSpriteFrameName("endPanelSpector.png");
     addChild(sp);
-    sp->setPosition(1270*scaleFactory,size.height-460*scaleFactory);
+    sp->setPosition(1470*scaleFactory,size.height-560*scaleFactory);
     
     sp = Sprite::createWithSpriteFrameName("endPanelJinYanJinBiFrame.png");
     addChild(sp);
@@ -73,38 +79,38 @@ bool GameEndRateLayer::init()
     sp->addChild(expIconSprite);
     expIconSprite->setPosition(0,sp->getContentSize().height/2);
     
-    Label *expLabel = Label::createWithBMFont("gameSceneJiaLifeLabel.fnt", "+800");
+    expLabel = Label::createWithBMFont("gameSceneJiaLifeLabel.fnt", "+800");
     sp->addChild(expLabel);
     expLabel->setPosition(sp->getContentSize().width/2,sp->getContentSize().height/2);
     
-    sp = Sprite::createWithSpriteFrameName("endPanelCoin.png");
+    sp = Sprite::createWithSpriteFrameName("endPanelJinYanJinBiFrame.png");
     addChild(sp);
     sp->setPosition(1750*scaleFactory,625*scaleFactory);
-    Sprite *moneyIconSprite = Sprite::createWithSpriteFrameName("EXPLabel.png");
+    Sprite *moneyIconSprite = Sprite::createWithSpriteFrameName("endPanelCoin.png");
     sp->addChild(moneyIconSprite);
     moneyIconSprite->setPosition(0,sp->getContentSize().height/2);
     
-    Label *moneyLabel = Label::createWithBMFont("gameSceneJiaLifeLabel.fnt", "+1000");
+    moneyLabel = Label::createWithBMFont("gameSceneJiaLifeLabel.fnt", "+1000");
     sp->addChild(moneyLabel);
     moneyLabel->setPosition(sp->getContentSize().width/2,sp->getContentSize().height/2);
     
-    Label *levelLabel = Label::createWithSystemFont("Lv.2", "Arial Black", 60);
+    levelLabel = Label::createWithSystemFont("Lv.2", "Arial Black", 60);
     addChild(levelLabel);
-    levelLabel->setPosition(1400*scaleFactory,370*scaleFactory);
+    levelLabel->setPosition(1140*scaleFactory,540*scaleFactory);
     
     //经验条
     sp = Sprite::createWithSpriteFrameName("endPanelExpBarFrame.png");
     addChild(sp);
-    sp->setPosition(1500*scaleFactory,370*scaleFactory);
+    sp->setPosition(1550*scaleFactory,540*scaleFactory);
     Sprite *expBar = Sprite::createWithSpriteFrameName("endPanelExpBar.png");
     sp->addChild(expBar);
-    expBar->setPosition(0,0);
+    expBar->setPosition(sp->getContentSize().width/2,sp->getContentSize().height/2);
     
     
     //物品底图
     sp = Sprite::createWithSpriteFrameName("endPanelWuPinDi.png");
     addChild(sp);
-    sp->setPosition(1500*scaleFactory,370*scaleFactory);
+    sp->setPosition(1500*scaleFactory,365*scaleFactory);
     
     //menu
     Sprite *sprite = Sprite::createWithSpriteFrameName("againButton.png");
@@ -125,11 +131,35 @@ bool GameEndRateLayer::init()
     MenuItemSprite *nextItem = MenuItemSprite::create(sprite,sprite1,CC_CALLBACK_1(GameEndRateLayer::sureCallback, this));
     
     Menu *menu = Menu::create(restartItem,nextItem,NULL);
-    menu->setPosition(size.width-680*scaleFactory,size.height/2);
-    menu->alignItemsHorizontallyWithPadding(50);
+    menu->setPosition(size.width-630*scaleFactory,130);
+    menu->alignItemsHorizontallyWithPadding(80);
     addChild(menu, 1);
     
+    //遮挡底下层的按钮点击事件
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(true);
+    listener->onTouchBegan = CC_CALLBACK_2(GameEndRateLayer::onTouchBegan, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    
     return true;
+}
+
+void GameEndRateLayer::show()
+{
+    this->setVisible(true);
+    needEatTouch = true;
+}
+
+void GameEndRateLayer::hide()
+{
+    this->setVisible(false);
+    needEatTouch = false;
+}
+
+
+bool GameEndRateLayer::onTouchBegan(Touch* touch, Event* event)
+{
+    return needEatTouch;
 }
 
 void GameEndRateLayer::showResultWithAnimation()

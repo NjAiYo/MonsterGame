@@ -114,6 +114,8 @@ typedef enum {
     GoodsPropertiesType_Kong = 21,//孔
 } GoodsPropertiesType;
 
+
+
 //物品属性
 struct GoodsProperty {
     GoodsPropertiesType type;
@@ -198,13 +200,20 @@ typedef enum {
 } KnifeAttackDirection;
 
 
+struct AttackInfo {
+    KnifeAttackDirection direction;
+    float x;
+    float y;
+};
+
+
 typedef enum {
     Goods_Weapon_KNIFE = 0,//刀
     Goods_Weapon_GUN = 1,//枪
     Goods_Weapon_PET = 2,//宠物
     
     Goods_Armor_RING = 100,//戒指
-    Goods_Armo_NECKLACE = 101,//项链
+    Goods_Armor_NECKLACE = 101,//项链
     
     Goods_Stuff = 200,//材料
     
@@ -220,6 +229,7 @@ typedef enum {
     Goods_Consume_WEAPON_UPGRED = 309,//武器进阶
     Goods_Consume_PET_UPGRED = 310,//宠物进阶
     Goods_Consume_DRILL_HOLE = 311,//打洞
+    Goods_Consume_RESET_TIANFU = 312,//天赋重置
  
     Goods_Buff_GEM = 400,//宝石
     

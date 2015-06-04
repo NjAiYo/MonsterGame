@@ -74,13 +74,17 @@ void Pistol::onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_ev
             continue;
         }
         bool hit = agent->hittestPoint(pos);
+        Vec2 dp = agent->convertToNodeSpace(pos);
+        AttackInfo info;
+        info.x = dp.x;
+        info.y = dp.y;
         
         if (hit) {
             MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
                                                               getID(),           //sender ID
                                                               agent->getID(),           //receiver ID
                                                               Msg_AttackedByWeapon,        //msg
-                                                              NULL);
+                                                              &info);
             break;
         }
     }

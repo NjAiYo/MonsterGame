@@ -21,12 +21,20 @@ class GameEndRateLayer : public cocos2d::Layer
 private:
     void restartCallback(Ref* sender);
     void sureCallback(Ref* sender);
-    
+    Label *comboLabel;
+    Label *lifeLabel;
+    Label *timeLabel;
+    Label *expLabel;
+    Label *moneyLabel;
+    Label *levelLabel;
+    bool needEatTouch;
 public:
-    
+    bool onTouchBegan(Touch* touch, Event* event);
     GameEndRateLayer();
     virtual bool init();
     void showResultWithAnimation();
+    void show();
+    void hide();
 };
 
 

@@ -87,10 +87,10 @@ bool MoveState::onMessage(Character* agent, const Telegram& msg)
             agent->defense();
             return false;
         }
-        
+        AttackInfo info = *(AttackInfo*)msg.extraInfo;
         //蓄力攻击没有攻击力
         if (msg.msg == Msg_AttackedByWeapon){
-            agent->takeDamage(weapon->getDamage());
+            agent->takeDamage(weapon->getDamage(),Vec2(info.x,info.y));
             if (agent->getLife() <= 0) {
                 agent->die();
                 return false;
@@ -103,13 +103,13 @@ bool MoveState::onMessage(Character* agent, const Telegram& msg)
 //                agent->flowup();
 //                return false;
                 
-                KnifeAttackDirection direction = *(KnifeAttackDirection*)msg.extraInfo;
+                
                 if (msg.msg == Msg_AttackedByXuLiWeapon) {
-                    if (direction == KnifeAttackDirectionUp) {
+                    if (info.direction == KnifeAttackDirectionUp) {
                         agent->flowup();
-                    }else if (direction == KnifeAttackDirectionDown) {
+                    }else if (info.direction == KnifeAttackDirectionDown) {
                         agent->falldown();
-                    }else if (direction == KnifeAttackDirectionRight) {
+                    }else if (info.direction == KnifeAttackDirectionRight) {
                         agent->rollback();
                     }else{
                         agent->stiff();

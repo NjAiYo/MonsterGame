@@ -23,10 +23,14 @@ private:
     Sprite *upgredTip;
     Sprite *expIconSprite;
     void awardCallback(Ref* sender);
+    bool needEatTouch;
 public:
     void showResultWithAnimation();
     GameEndUpgradeLayer();
     virtual bool init();
+    bool onTouchBegan(Touch* touch, Event* event);
+    void show();
+    void hide();
 };
 
 #endif /* defined(__MonsterGame__GameEndUpgradeLayer__) */
