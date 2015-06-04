@@ -89,6 +89,26 @@ USING_NS_CC;
 #define GESTURE_SCORE_THRESHOLD 0.7f
 
 
+inline std::vector<std::string> splitString(std::string str,std::string pattern)
+{
+    std::string::size_type pos;
+    std::vector<std::string> result;
+    str+=pattern;//扩展字符串以方便操作
+    int size=str.size();
+    
+    for(int i=0; i<size; i++)
+    {
+        pos=str.find(pattern,i);
+        if(pos<size)
+        {
+            std::string s=str.substr(i,pos-i);
+            result.push_back(s);
+            i=pos+pattern.size()-1;
+        }
+    }
+    return result;
+}
+
 typedef enum {
     GoodsPropertiesType_XiXue = 0,//吸血
     GoodsPropertiesType_JiaXue = 1,//加血
@@ -163,6 +183,7 @@ typedef enum {
     CharacterTypeSmallGhost=1,//小幽灵
     CharacterTypeSmallWuTouYong=2,//无头俑
     CharacterTypeBigZombie=3,//大僵尸
+    CharacterTypeSucker=4,//舔食者
 } CharacterType;
 
 typedef enum {
@@ -202,6 +223,12 @@ typedef enum {
 
 struct AttackInfo {
     KnifeAttackDirection direction;
+    float x;
+    float y;
+};
+
+struct ShotInfo {
+    int monsterId;
     float x;
     float y;
 };

@@ -17,6 +17,7 @@
 #include "Pistol.h"
 #include "Knife.h"
 #include "CCShake.h"
+#include "MonsterData.h"
 
 BGTWorld::BGTWorld()
 :currentLevelIndex(-1)
@@ -62,6 +63,16 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
     
     monsterLayer = Layer::create();
     battlefieldLayer->addChild(monsterLayer);
+    
+    for (int i = 0; i < 5; i++) {
+        MonsterBullet *bullet = new MonsterBullet();
+        bullet->initWithWorld(this);
+        monsterLayer->addChild(bullet);
+        bullet->release();
+        bulletsPool.pushBack(bullet);
+        bullet->setVisible(false);
+        entityManager->registerEntity(bullet);
+    }
     
     
     frontBgLayer = Layer::create();
@@ -146,7 +157,10 @@ bool BGTWorld::initWithGameScene(GameScene *gs)
     
     _eventDispatcher->addCustomEventListener("MonsterDied", CC_CALLBACK_1(BGTWorld::monsterDiedHandler,this));
     _eventDispatcher->addCustomEventListener("monsterSkilled", CC_CALLBACK_1(BGTWorld::monsterSkilledHandler,this));
+    _eventDispatcher->addCustomEventListener("MonsterShot", CC_CALLBACK_1(BGTWorld::monsterShotHandler,this));
     
+    
+
     return true;
 }
 
@@ -159,6 +173,24 @@ Sprite* BGTWorld::getShadowByMonster(Character* monster)
         }
     }
     return nullptr;
+}
+
+MonsterBullet* BGTWorld::getIdleBulletFromPool()
+{
+    for (int i = 0; i < bulletsPool.size(); i++) {
+        MonsterBullet* label = bulletsPool.at(i);
+        if (!label->isVisible()) {
+            return label;
+        }
+    }
+    MonsterBullet *bullet = new MonsterBullet();
+    bullet->initWithWorld(this);
+    monsterLayer->addChild(bullet);
+    bullet->release();
+    bulletsPool.pushBack(bullet);
+    bullet->setVisible(false);
+    entityManager->registerEntity(bullet);
+    return bullet;
 }
 
 Sprite* BGTWorld::getIdleShadowFromPool()
@@ -174,6 +206,23 @@ Sprite* BGTWorld::getIdleShadowFromPool()
     sprite->setVisible(false);
     shadowsPool.pushBack(sprite);
     return sprite;
+}
+
+void BGTWorld::monsterShotHandler(EventCustom* event)
+{
+    ShotInfo *info = (ShotInfo*)event->getUserData();
+    Character *monster = (Character*)entityManager->getEntityFromID(info->monsterId);
+    Vec2 startPos = monster->convertToWorldSpace(Vec2(info->x,info->y));
+    //Vec2 startPos = Vec2(info->x+monster->getPositionX(),info->y+monster->getPositionY());
+    MonsterBullet *bullet = getIdleBulletFromPool();
+    bullet->setPosition(startPos);
+    bullet->flyY = startPos.y;
+    bullet->setType(monster->getType());
+    bullet->speed = monster->getMonsterData()->arrowMoveSpeed;
+    bullet->damage = monster->getDamage();
+    bullet->baoji = monster->getMonsterData()->baoji;
+    bullet->fly();
+    bullet->setLocalZOrder(monster->getLocalZOrder());
 }
 
 void BGTWorld::monsterSkilledHandler(EventCustom* event)
@@ -688,6 +737,14 @@ void BGTWorld::update(float dt)
         if (shadow) {
             shadow->setPosition(monster->getPositionX(),monster->getPositionY());
         }
+    }
+    
+    for (int i = 0; i < bulletsPool.size(); i++) {
+        MonsterBullet* bullet = bulletsPool.at(i);
+        if (!bullet->isVisible()) {
+            continue;
+        }
+        bullet->update(dt);
     }
     
     currentWeapon->update(dt);

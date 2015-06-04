@@ -19,27 +19,54 @@ void AttackState::attack(Character* agent)
     attacking = true;
     attackNum++;
     spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, AttackAnimationName, false);
-    agent->getSkeletonNode()->setTrackCompleteListener(entry, [=] (int trackIndex,int loopCount) {
-        //log("attack complete!");
-        BGTWall *wall = agent->getWorld()->getWall();
-        float damage = agent->getDamage();
-        MonsterData *data = agent->getMonsterData();
-        MessageType t = Msg_WallDamaged;
-        if (data->baoji > 0) {
-            float value = CCRANDOM_0_1();
-            if (value <= data->baoji) {
-                //暴击
-                t = Msg_WallBaoDamaged;
-                damage *= 2;
-            }
-        }
-        MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
-                                                          agent->getID(),           //sender ID
-                                                          wall->getID(),           //receiver ID
-                                                          t,        //msg
-                                                          &damage);
-        attacking = false;
 
+    agent->getSkeletonNode()->setTrackCompleteListener(entry, [=] (int trackIndex,int loopCount) {
+        if (!agent->isyuanchen()) {
+            BGTWall *wall = agent->getWorld()->getWall();
+            float damage = agent->getDamage();
+            MonsterData *data = agent->getMonsterData();
+            MessageType t = Msg_WallDamaged;
+            if (data->baoji > 0) {
+                float value = CCRANDOM_0_1();
+                if (value <= data->baoji) {
+                    //暴击
+                    t = Msg_WallBaoDamaged;
+                    damage *= 2;
+                }
+            }
+            MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
+                                                              agent->getID(),           //sender ID
+                                                              wall->getID(),           //receiver ID
+                                                              t,        //msg
+                                                              &damage);
+        }
+        
+        attacking = false;
+        
+    });
+    
+    agent->getSkeletonNode()->setEventListener( [=] (int trackIndex, spEvent* event) {
+//        if (m_pStateMachine->isInState(*attackState)){
+//            log("%d event: %s, %d, %f, %s", trackIndex, event->data->name, event->intValue, event->floatValue, event->stringValue);
+//        }
+        if (strcmp(event->data->name, "shot")==0) {
+            //shot
+            ShotInfo shotInfo;
+            shotInfo.monsterId = agent->getID();
+            
+            const char* str = event->stringValue;
+            std::vector<std::string> posstrings = splitString(str,",");
+            std::string xstr = posstrings[0];
+            std::string ystr = posstrings[1];
+            double x = std::atof(xstr.c_str());
+            double y = std::atof(ystr.c_str());
+            shotInfo.x = x;
+            shotInfo.y = y;
+            
+            EventCustom event("MonsterShot");
+            event.setUserData(&shotInfo);
+            agent->getEventDispatcher()->dispatchEvent(&event);
+        }
     });
 }
 
@@ -49,26 +76,49 @@ void AttackState::bigAttack(Character* agent)
     attackNum++;
     spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, Attack2AnimationName, false);
     agent->getSkeletonNode()->setTrackCompleteListener(entry, [=] (int trackIndex,int loopCount) {
-        //log("attack complete!");
-        
-        BGTWall *wall = agent->getWorld()->getWall();
-        float damage = agent->getDamage()*1.0;
-        MonsterData *data = agent->getMonsterData();
-        MessageType t = Msg_WallDamaged;
-        if (data->baoji > 0) {
-            float value = CCRANDOM_0_1();
-            if (value <= data->baoji) {
-                //暴击
-                t = Msg_WallBaoDamaged;
-                damage *= 2;
+        if (!agent->isyuanchen()) {
+            BGTWall *wall = agent->getWorld()->getWall();
+            float damage = agent->getDamage()*1.0;
+            MonsterData *data = agent->getMonsterData();
+            MessageType t = Msg_WallDamaged;
+            if (data->baoji > 0) {
+                float value = CCRANDOM_0_1();
+                if (value <= data->baoji) {
+                    //暴击
+                    t = Msg_WallBaoDamaged;
+                    damage *= 2;
+                }
             }
+            MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
+                                                              agent->getID(),           //sender ID
+                                                              wall->getID(),           //receiver ID
+                                                              t,        //msg
+                                                              &damage);
         }
-        MessageDispatcher::getInstance()->dispatchMessage(0,                  //time delay 1.5
-                                                          agent->getID(),           //sender ID
-                                                          wall->getID(),           //receiver ID
-                                                          t,        //msg
-                                                          &damage);
         attacking = false;
+    });
+    agent->getSkeletonNode()->setEventListener( [=] (int trackIndex, spEvent* event) {
+        //        if (m_pStateMachine->isInState(*attackState)){
+        //            log("%d event: %s, %d, %f, %s", trackIndex, event->data->name, event->intValue, event->floatValue, event->stringValue);
+        //        }
+        if (strcmp(event->data->name, "shot")==0) {
+            //shot
+            ShotInfo shotInfo;
+            shotInfo.monsterId = agent->getID();
+            
+            const char* str = event->stringValue;
+            std::vector<std::string> posstrings = splitString(str,",");
+            std::string xstr = posstrings[0];
+            std::string ystr = posstrings[1];
+            double x = std::atof(xstr.c_str());
+            double y = std::atof(ystr.c_str());
+            shotInfo.x = x;
+            shotInfo.y = y;
+            
+            EventCustom event("MonsterShot");
+            event.setUserData(&shotInfo);
+            agent->getEventDispatcher()->dispatchEvent(&event);
+        }
     });
 }
 

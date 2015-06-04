@@ -33,6 +33,8 @@ void MoveState::enter(Character* agent)
 
 void MoveState::execute(Character* agent,float dt)
 {
+    AppDelegate *app = (AppDelegate*)Application::getInstance();
+    float scaleFactory = app->scaleFactory;
     //检测是否可以攻击门了
     BGTWall *wall = agent->getWorld()->getWall();
     bool canAttack = intersectCircleLine(agent->getPosition(), agent->getAttackRange(), wall->topPosition, wall->bottomPosition);
@@ -44,9 +46,9 @@ void MoveState::execute(Character* agent,float dt)
     }else{
         float newX = agent->getPositionX();
         if (agent->getDirection() == CharacterDirectionLeft) {
-            newX-=agent->getMoveSpeed()*dt;
+            newX-=agent->getMoveSpeed()*scaleFactory*dt;
         }else{
-            newX+=agent->getMoveSpeed()*dt;
+            newX+=agent->getMoveSpeed()*scaleFactory*dt;
         }
         
         agent->setPositionX(newX);

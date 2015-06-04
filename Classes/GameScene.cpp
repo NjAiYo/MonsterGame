@@ -10,7 +10,18 @@
 #include "BGTWall.h"
 #include "AppDelegate.h"
 
+GameScene::GameScene()
+{
+    
+}
 
+GameScene::~GameScene()
+{
+    AnimationCache::getInstance()->removeAnimation("m4bullet");
+    AnimationCache::getInstance()->removeAnimation("m4bullet_explosion");
+    SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("GameScene.plist");
+    
+}
 
 Scene* GameScene::createSceneWithLevel(unsigned int level)
 {
@@ -36,16 +47,49 @@ bool GameScene::initWithLevel(unsigned int level)
     {
         return false;
     }
-
+    Size size = Director::getInstance()->getWinSize();
+    AppDelegate *app = (AppDelegate*)Application::getInstance();
+    float scaleFactory = app->scaleFactory;
+    
     SpriteFrameCache *ccsfc = SpriteFrameCache::getInstance();
+    
+    ccsfc->addSpriteFramesWithFile("VE.plist");
+    
+    SpriteFrame *frame = nullptr;
+    //create bullets animations
+    Animation *animation = Animation::create();
+    animation->setDelayPerUnit(1.0/25.0);
+    animation->setLoops(true);
+    animation->setRestoreOriginalFrame(true);
+    AnimationCache::getInstance()->addAnimation(animation, "m4bullet");
+    
+    for (int i = 1; i <= 16; i++) {
+        frame = ccsfc->getSpriteFrameByName(String::createWithFormat("m4bullet%d.png",i)->getCString());
+        animation->addSpriteFrame(frame);
+    }
+
+    animation = CCAnimation::create();
+    animation->setDelayPerUnit(1.0/25.0);
+    AnimationCache::getInstance()->addAnimation(animation, "m4bullet_explosion");
+    
+    for (int i = 1; i <= 20; i++) {
+        frame = ccsfc->getSpriteFrameByName(String::createWithFormat("m4bullet_explosion%d.png",i)->getCString());
+        animation->addSpriteFrame(frame);
+    }
+    
+    Animation *bulletAnimation = AnimationCache::getInstance()->getAnimation(String::createWithFormat("m%dbullet",4)->getCString());
+    Sprite *skin = Sprite::create();
+    addChild(skin,100);
+    skin->setPosition(size.width/2,size.height/2);
+    skin->runAction(RepeatForever::create(Animate::create(bulletAnimation)));
+
+    
+    SpriteFrameCache::getInstance()->removeSpriteFramesFromFile("VE.plist");
     ccsfc->addSpriteFramesWithFile("GameScene.plist");
     
     currentLevel = level;
     state = GameStateReady;
-    
-    Size size = Director::getInstance()->getWinSize();
-    AppDelegate *app = (AppDelegate*)Application::getInstance();
-    float scaleFactory = app->scaleFactory;
+
     //log("size:%f,%f,%f",size.width,size.height,scaleFactory);
     
     world = new BGTWorld();
@@ -58,9 +102,8 @@ bool GameScene::initWithLevel(unsigned int level)
     addChild(uiLayer);
     uiLayer->release();
     
-
-    
     setLevel(currentLevel);
+    
     return true;
 }
 

@@ -39,7 +39,7 @@ public:
     
     virtual ~GameEntity(){}
     
-    BGTWorld* getWorld();
+    BGTWorld* getWorld(){return world;}
     
     int          getID()const{return m_ID;}
     

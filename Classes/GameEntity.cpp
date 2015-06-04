@@ -18,11 +18,6 @@ bool GameEntity::initWithWorld(BGTWorld *w)
     return true;
 }
 
-BGTWorld* GameEntity::getWorld()
-{
-    return world;
-}
-
 void GameEntity::setID(int val)
 {
     //make sure the val is equal to or greater than the next available ID

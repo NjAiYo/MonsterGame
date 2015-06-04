@@ -237,6 +237,7 @@
 		F11DA1C71B1ED81B004D35D0 /* GameConfiger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F11DA1C51B1ED81B004D35D0 /* GameConfiger.cpp */; };
 		F14A1CDB1B2030BF0009E00B /* monster4.json in Resources */ = {isa = PBXBuildFile; fileRef = F14A1CDA1B2030BF0009E00B /* monster4.json */; };
 		F14A1CDE1B203B640009E00B /* DropState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F14A1CDC1B203B640009E00B /* DropState.cpp */; };
+		F14A1CE21B2052010009E00B /* MonsterBullet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F14A1CE01B2052010009E00B /* MonsterBullet.cpp */; };
 		F154EA711B0EDF0F00E6D8F7 /* B.json in Resources */ = {isa = PBXBuildFile; fileRef = F154EA541B0EDF0F00E6D8F7 /* B.json */; };
 		F154EA721B0EDF0F00E6D8F7 /* C.json in Resources */ = {isa = PBXBuildFile; fileRef = F154EA551B0EDF0F00E6D8F7 /* C.json */; };
 		F154EA731B0EDF0F00E6D8F7 /* circle.json in Resources */ = {isa = PBXBuildFile; fileRef = F154EA561B0EDF0F00E6D8F7 /* circle.json */; };
@@ -660,6 +661,8 @@
 		F14A1CDA1B2030BF0009E00B /* monster4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = monster4.json; sourceTree = "<group>"; };
 		F14A1CDC1B203B640009E00B /* DropState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DropState.cpp; sourceTree = "<group>"; };
 		F14A1CDD1B203B640009E00B /* DropState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropState.h; sourceTree = "<group>"; };
+		F14A1CE01B2052010009E00B /* MonsterBullet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MonsterBullet.cpp; sourceTree = "<group>"; };
+		F14A1CE11B2052010009E00B /* MonsterBullet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonsterBullet.h; sourceTree = "<group>"; };
 		F154EA531B0EDF0F00E6D8F7 /* A.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = A.json; sourceTree = "<group>"; };
 		F154EA541B0EDF0F00E6D8F7 /* B.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = B.json; sourceTree = "<group>"; };
 		F154EA551B0EDF0F00E6D8F7 /* C.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = C.json; sourceTree = "<group>"; };
@@ -1222,6 +1225,8 @@
 				F105A8921AF1F60C0044CCEE /* MessageDispatcher.h */,
 				F19C337C1AF75DF600367A31 /* QTEMonster.cpp */,
 				F19C337D1AF75DF600367A31 /* QTEMonster.h */,
+				F14A1CE01B2052010009E00B /* MonsterBullet.cpp */,
+				F14A1CE11B2052010009E00B /* MonsterBullet.h */,
 			);
 			name = entities;
 			sourceTree = "<group>";
@@ -1983,6 +1988,7 @@
 				F1FD4F541B16BE1E00057013 /* CCGrayFilter.cpp in Sources */,
 				DEDFB1451AFC9AA8001FC0C0 /* ItemCreator.cpp in Sources */,
 				F117A8DC1B0DC86C002EE642 /* WTMGlyphDetector.cpp in Sources */,
+				F14A1CE21B2052010009E00B /* MonsterBullet.cpp in Sources */,
 				F195015E1B1FF642007DEA8C /* PauseLayer.cpp in Sources */,
 				F105A8971AF1F60C0044CCEE /* Character.cpp in Sources */,
 				F105A8981AF1F60C0044CCEE /* GameEntityManager.cpp in Sources */,

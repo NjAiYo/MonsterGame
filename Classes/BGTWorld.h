@@ -13,7 +13,7 @@
 #include "WaveManager.h"
 #include "QTEMonster.h"
 #include "QTELayer.h"
-
+#include "MonsterBullet.h"
 
 
 class MessageDispatcher;
@@ -65,6 +65,7 @@ private:
     
     Character* getIdleEnemyByTypeFromPoolForInit(int type);
     Character* getIdleEnemyByTypeFromPool(int type);
+    MonsterBullet* getIdleBulletFromPool();
     //这一波过去的时间
     float timePast;
     
@@ -80,6 +81,7 @@ private:
     Character *skillCharacter;
     
     Vector<Sprite*> shadowsPool;
+    Vector<MonsterBullet*> bulletsPool;
 public:
     void enterQTEMode(Character* monster);
     void exitQTEMode(bool playerWin);
@@ -119,6 +121,7 @@ public:
     
     void monsterDiedHandler(EventCustom* event);
     void monsterSkilledHandler(EventCustom* event);
+    void monsterShotHandler(EventCustom* event);
     
     void startGame();
     void endGame(bool isWin);

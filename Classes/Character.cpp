@@ -688,7 +688,7 @@ void Character::setType(CharacterType d)
     spBone *rootbone = skeletonNode->findBone("root");
     spBone *bone = skeletonNode->findBone("lifeBar");
     lifeBar->setPositionY(bone->y*rootbone->scaleX*scaleFactory*characterScaleFactor);
-    log("rootbone->scaleX:%f,bone->y:%f,bone->worldY:%f",rootbone->scaleX,bone->y,bone->worldY);
+    //log("rootbone->scaleX:%f,bone->y:%f,bone->worldY:%f",rootbone->scaleX,bone->y,bone->worldY);
 
     
     //skeletonNode->setDebugBonesEnabled(true);

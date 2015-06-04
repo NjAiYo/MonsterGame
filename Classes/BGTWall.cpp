@@ -10,6 +10,7 @@
 #include "AppDelegate.h"
 #include "Character.h"
 #include "GameEntityManager.h"
+#include "MonsterBullet.h"
 
 BGTWall::BGTWall()
 :totalLife(0)
@@ -131,15 +132,22 @@ float BGTWall::calculateDamage(float sourceDamage)
 bool BGTWall::handleMessage(const Telegram& msg)
 {
     //TODO::计算miss
-    
+    Vec2 p;
+    Character *monster = dynamic_cast<Character*>(GameEntityManager::getInstance()->getEntityFromID(msg.sender));
+    MonsterBullet *bullet;
+    if (!monster) {
+        bullet = dynamic_cast<MonsterBullet*>(GameEntityManager::getInstance()->getEntityFromID(msg.sender));
+        p = this->convertToNodeSpace(bullet->getPosition());
+    }else{
+        p = this->convertToNodeSpace(Vec2(0, monster->getFloor()+monster->getBoundingBox().size.height/2));
+    }
     switch (msg.msg) {
         case Msg_WallDamaged:{
-            Character *monster = (Character*)GameEntityManager::getInstance()->getEntityFromID(msg.sender);
             float damage = *(float*)msg.extraInfo;
-            log("takedamage:%f",damage);
+            //log("takedamage:%f",damage);
             damage = calculateDamage(damage);
             takeDamage(damage);
-            Vec2 p = this->convertToNodeSpace(Vec2(0, monster->getFloor()+monster->getBoundingBox().size.height/2));
+
             Label *label = getDamageLabelFromPool();
             label->setPosition(50, p.y);
             label->setVisible(true);
@@ -153,12 +161,11 @@ bool BGTWall::handleMessage(const Telegram& msg)
         }
             break;
         case Msg_WallBaoDamaged:{
-            Character *monster = (Character*)GameEntityManager::getInstance()->getEntityFromID(msg.sender);
             float damage = *(float*)msg.extraInfo;
-            log("takebaodamage:%f",damage);
+            //log("takebaodamage:%f",damage);
             damage = calculateDamage(damage);
             takeDamage(damage);
-            Vec2 p = this->convertToNodeSpace(Vec2(0, monster->getFloor()+monster->getBoundingBox().size.height/2));
+ 
             //show bao shang
             Label *label = getBaoDamageLabelFromPool();
             label->setPosition(50, p.y);

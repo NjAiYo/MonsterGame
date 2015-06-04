@@ -11,7 +11,7 @@
 
 void StandState::enter(Character* agent)
 {
-    log("StandState::enter");
+    //log("StandState::enter");
     //agent->playAnimation(0,"stand", true);
     spTrackEntry* entry = agent->getSkeletonNode()->setAnimation(0, StandAnimationName, true);
     agent->getSkeletonNode()->setTrackCompleteListener(entry, [] (int trackIndex,int loopCount) {

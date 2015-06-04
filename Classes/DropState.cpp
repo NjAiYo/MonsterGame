@@ -13,7 +13,7 @@
 void DropState::enter(Character* agent)
 {
     Size size = Director::getInstance()->getWinSize();
-    dropSpeed = 100;
+    dropSpeed = 50;
     ay = dropSpeed;
     float value = CCRANDOM_0_1() * 100 + 200;
     targetX = size.width - value;
@@ -36,16 +36,16 @@ void DropState::enter(Character* agent)
 void DropState::execute(Character* agent,float dt)
 {
     bool hitFloor = false;
-    ay += gravity * dt;
+    ay += gravity * dt * -1;
     float x = ay * cosf(radians);
-    float y = ay * sinf(radians);
+    float y = -ay * sinf(radians);
     
     float newY = y + agent->getPositionY();
     if (newY <= agent->getFloor()) {
         newY = agent->getFloor();
         hitFloor = true;
     }
-    float newX = x + agent->getPositionY();
+    float newX = x + agent->getPositionX();
     if (newX < targetX) {
         newX = targetX;
     }

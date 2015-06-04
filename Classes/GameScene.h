@@ -33,7 +33,8 @@ public:
     
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool initWithLevel(unsigned int level);
-    
+    GameScene();
+    ~GameScene();
     GameState getState();
     
     BGTWorld* getWorld();
