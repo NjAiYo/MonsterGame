@@ -16,6 +16,11 @@
 //#include "FilterSprite.h"
 //#include "Gamepanel.h"
 
+UILayer::~UILayer()
+{
+    
+}
+
 UILayer::UILayer()
 :hitCount(0)
 ,currentLifeValue(100)
@@ -24,7 +29,7 @@ UILayer::UILayer()
 ,comboLabel(nullptr)
 ,blursprite(nullptr)
 {
-    
+    AnimationCache::getInstance()->removeAnimation("comboRate");
 }
 
 bool UILayer::initWithGameScene(GameScene *gs)
@@ -54,19 +59,52 @@ bool UILayer::initWithGameScene(GameScene *gs)
     currentEnegyValue = 0;
     currentLifeValue = 100;
     
-    comboLayer = Layer::create();
+    
+
+    //create animations
+    Animation *animation = CCAnimation::create();
+    AnimationCache::getInstance()->addAnimation(animation, "comboRate");
+    SpriteFrame *frame = ccsfc->getSpriteFrameByName("comboA.png");//0
+    animation->addSpriteFrame(frame);
+    frame = ccsfc->getSpriteFrameByName("comboB.png");//1
+    animation->addSpriteFrame(frame);
+    frame = ccsfc->getSpriteFrameByName("comboC.png");//2
+    animation->addSpriteFrame(frame);
+    frame = ccsfc->getSpriteFrameByName("comboD.png");//3
+    animation->addSpriteFrame(frame);
+    frame = ccsfc->getSpriteFrameByName("comboS.png");//4
+    animation->addSpriteFrame(frame);
+    frame = ccsfc->getSpriteFrameByName("comboSS.png");//5
+    animation->addSpriteFrame(frame);
+
+    
+    
+    
+    comboLayer = Sprite::createWithSpriteFrameName("comboDi.png");
+    comboLayer->setPosition(size.width-400*scaleFactory,size.height-320*scaleFactory);
     addChild(comboLayer);
+    
+    comboRateSprite = Sprite::create();
+    comboRateSprite->setPosition(230*scaleFactory,210*scaleFactory);
+    comboLayer->addChild(comboRateSprite);
+    
+    Sprite *comboLabelSprite = Sprite::createWithSpriteFrameName("comboLabel.png");
+    comboLabelSprite->setPosition(460*scaleFactory,65*scaleFactory);
+    comboLayer->addChild(comboLabelSprite);
     
     
     //comboLabel = Label::createWithBMFont("gameSceneComboLabel.fnt", "0");
     comboLabel = Label::createWithCharMap("comboNumber.png", 130, 144, '0');
-    comboLabel->setAlignment(TextHAlignment::LEFT);
+    comboLabel->setAlignment(TextHAlignment::RIGHT);
+    comboLabel->setAdditionalKerning(-40);
     comboLayer->addChild(comboLabel);
-    comboLabel->setPosition(size.width-400*scaleFactory, size.height-270*scaleFactory);
+    comboLabel->setAnchorPoint(Vec2(1,0.5));
+    comboLabel->setPosition(380*scaleFactory, 70*scaleFactory);
     comboLabel->setScale(scaleFactory);
+    comboLabel->setString("1");
     
     comboBar = Sprite::createWithSpriteFrameName("countDownFrameDi.png");
-    comboBar->setPosition(size.width-400*scaleFactory,size.height-200*scaleFactory);
+    comboBar->setPosition(240*scaleFactory,-25*scaleFactory);
     comboLayer->addChild(comboBar);
     
     comboProgressBar = ProgressTimer::create(Sprite::createWithSpriteFrameName("countDownBar.png"));
@@ -77,12 +115,13 @@ bool UILayer::initWithGameScene(GameScene *gs)
     comboProgressBar->setPosition(comboBar->getContentSize().width/2,comboBar->getContentSize().height/2);
     comboBar->addChild(comboProgressBar);
     
+    comboLayer->setPosition(size.width-400*scaleFactory+800*scaleFactory,size.height-320*scaleFactory);
+    
     
     Sprite *s = Sprite::createWithSpriteFrameName("countDownFrame.png");
     s->setPosition(comboBar->getContentSize().width/2,comboBar->getContentSize().height/2);
     comboBar->addChild(s);
     
-    comboLayer->setPosition(600*scaleFactory,0);
     
     tipLayer = Layer::create();
     addChild(tipLayer);
@@ -610,6 +649,11 @@ void UILayer::monsterHittedHandler(EventCustom* event)
     }else if(hitCount > 1){
         //update combo number
     }
+    int index = hitCount/50;
+    if (index > 5) {
+        index = 5;
+    }
+    comboRateSprite->setDisplayFrameWithAnimationName("comboRate", index);
     comboLabel->setString(String::createWithFormat("%d",hitCount)->getCString());
 }
 
@@ -617,7 +661,7 @@ void UILayer::hideComboUI()
 {
     AppDelegate *app = (AppDelegate*)Application::getInstance();
     float scaleFactory = app->scaleFactory;
-    auto action = EaseExponentialIn::create(MoveBy::create(0.3, Vec2(600*scaleFactory,0)));
+    auto action = EaseExponentialIn::create(MoveBy::create(0.2, Vec2(800*scaleFactory,0)));
     comboLayer->runAction(action);
 }
 
@@ -625,7 +669,7 @@ void UILayer::showComboUI()
 {
     AppDelegate *app = (AppDelegate*)Application::getInstance();
     float scaleFactory = app->scaleFactory;
-    auto action = EaseExponentialOut::create(MoveBy::create(0.3, Vec2(-600*scaleFactory,0)));
+    auto action = EaseExponentialOut::create(MoveBy::create(0.2, Vec2(-800*scaleFactory,0)));
     comboLayer->runAction(action);
 }
 
@@ -696,10 +740,10 @@ void UILayer::showEndResult(float t)
     winLayer->setVisible(false);
     failedLayer->setVisible(false);
     pauseMenu->setVisible(false);
-    rateLayer->setVisible(true);
+    rateLayer->show();
     rateLayer->showResultWithAnimation();
-    upgredLayer->setVisible(true);
-    upgredLayer->showResultWithAnimation();
+//    upgredLayer->show();
+//    upgredLayer->showResultWithAnimation();
 }
 
 void UILayer::update(float dt)
@@ -709,7 +753,8 @@ void UILayer::update(float dt)
         if (leftTime <= 0) {
             leftTime = 0;
             hitCount = 0;
-            if (comboLayer->getPositionX() <= 0) {
+            Size size = Director::getInstance()->getWinSize();
+            if (comboLayer->getPositionX() < size.width) {
                 hideComboUI();
             }
         }

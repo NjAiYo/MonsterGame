@@ -45,6 +45,7 @@ Character::~Character()
     flowState->release();
     defenseState->release();
     skillState->release();
+    dropState->release();
     if (monsterData) {
         monsterData->release();
     }
@@ -92,7 +93,7 @@ bool Character::initWithWorldAndType(BGTWorld *w,CharacterType t)
     flowState = new FlowState();
     defenseState = new DefenseState();
     skillState = new SkillState();
-    
+    dropState = new DropState();
     
     hitRectNode = DrawNode::create();
     addChild(hitRectNode,100000);
@@ -177,6 +178,11 @@ Label* Character::getBaoDamageLabelFromPool()
     label->setVisible(false);
     baoDamageLabels.pushBack(label);
     return label;
+}
+
+void Character::drop()
+{
+    m_pStateMachine->changeState(dropState);
 }
 
 float Character::getFloor()
@@ -293,15 +299,26 @@ SkeletonAnimation* Character::getSkeletonNode()
 }
 
 //是否是飞行怪物
-bool Character::isCanFly()
+bool Character::isflyer()
 {
-    return canfly;
+    return monsterData->isflyer;
+}
+
+//是否是远程攻击怪
+bool Character::isyuanchen()
+{
+    return monsterData->isyuanchen;
+}
+
+//是否是从屏幕上方跳出来的怪
+bool Character::isjumper()
+{
+    return monsterData->isjumper;
 }
 
 void Character::reset()
 {
     paused = false;
-    canfly = false;
     defensed = false;
     lifeTime = 0;
     characterScaleFactor = 1;
@@ -830,16 +847,6 @@ float Character::getAttackSpeed()
 float Character::getDamage()
 {
     return (float)monsterData->damage;
-}
-
-void Character::setIsRemoteSoldier(bool d)
-{
-    isRemoteSoldier = d;
-}
-
-bool Character::getIsRemoteSoldier()
-{
-    return isRemoteSoldier;
 }
 
 //void Character::setAttackRange(float d)

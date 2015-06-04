@@ -235,6 +235,8 @@
 		F117A8D91B0DC7E9002EE642 /* WTMGlyphDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F117A8D71B0DC7E9002EE642 /* WTMGlyphDelegate.cpp */; };
 		F117A8DC1B0DC86C002EE642 /* WTMGlyphDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F117A8DA1B0DC86C002EE642 /* WTMGlyphDetector.cpp */; };
 		F11DA1C71B1ED81B004D35D0 /* GameConfiger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F11DA1C51B1ED81B004D35D0 /* GameConfiger.cpp */; };
+		F14A1CDB1B2030BF0009E00B /* monster4.json in Resources */ = {isa = PBXBuildFile; fileRef = F14A1CDA1B2030BF0009E00B /* monster4.json */; };
+		F14A1CDE1B203B640009E00B /* DropState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F14A1CDC1B203B640009E00B /* DropState.cpp */; };
 		F154EA711B0EDF0F00E6D8F7 /* B.json in Resources */ = {isa = PBXBuildFile; fileRef = F154EA541B0EDF0F00E6D8F7 /* B.json */; };
 		F154EA721B0EDF0F00E6D8F7 /* C.json in Resources */ = {isa = PBXBuildFile; fileRef = F154EA551B0EDF0F00E6D8F7 /* C.json */; };
 		F154EA731B0EDF0F00E6D8F7 /* circle.json in Resources */ = {isa = PBXBuildFile; fileRef = F154EA561B0EDF0F00E6D8F7 /* circle.json */; };
@@ -655,6 +657,9 @@
 		F117A8DB1B0DC86C002EE642 /* WTMGlyphDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTMGlyphDetector.h; sourceTree = "<group>"; };
 		F11DA1C51B1ED81B004D35D0 /* GameConfiger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameConfiger.cpp; sourceTree = "<group>"; };
 		F11DA1C61B1ED81B004D35D0 /* GameConfiger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfiger.h; sourceTree = "<group>"; };
+		F14A1CDA1B2030BF0009E00B /* monster4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = monster4.json; sourceTree = "<group>"; };
+		F14A1CDC1B203B640009E00B /* DropState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DropState.cpp; sourceTree = "<group>"; };
+		F14A1CDD1B203B640009E00B /* DropState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropState.h; sourceTree = "<group>"; };
 		F154EA531B0EDF0F00E6D8F7 /* A.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = A.json; sourceTree = "<group>"; };
 		F154EA541B0EDF0F00E6D8F7 /* B.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = B.json; sourceTree = "<group>"; };
 		F154EA551B0EDF0F00E6D8F7 /* C.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = C.json; sourceTree = "<group>"; };
@@ -1253,6 +1258,8 @@
 				F19C33801AF75E3900367A31 /* DefenseState.h */,
 				F19535961B1D6D360084239F /* SkillState.cpp */,
 				F19535971B1D6D360084239F /* SkillState.h */,
+				F14A1CDC1B203B640009E00B /* DropState.cpp */,
+				F14A1CDD1B203B640009E00B /* DropState.h */,
 			);
 			name = states;
 			sourceTree = "<group>";
@@ -1362,6 +1369,7 @@
 		F105A9101AF1F6C40044CCEE /* spine */ = {
 			isa = PBXGroup;
 			children = (
+				F14A1CDA1B2030BF0009E00B /* monster4.json */,
 				F105A96C1AF2362D0044CCEE /* liemoren.json */,
 				F105A9641AF2167B0044CCEE /* monster2.json */,
 				F105A9661AF22A8D0044CCEE /* monster1.json */,
@@ -1814,6 +1822,7 @@
 				F1FD4F671B16BE1E00057013 /* example_Heart.fsh in Resources */,
 				F105A9241AF1F6C40044CCEE /* bgm_1.mp3 in Resources */,
 				F154EA781B0EDF0F00E6D8F7 /* H.json in Resources */,
+				F14A1CDB1B2030BF0009E00B /* monster4.json in Resources */,
 				F105A9391AF1F6C40044CCEE /* d_cg.mp3 in Resources */,
 				F105A94C1AF1F6C40044CCEE /* huoqiu.mp3 in Resources */,
 				F190E96B1B1DED2400E634BC /* upgredHerolLevelLabel.png in Resources */,
@@ -1900,6 +1909,7 @@
 				DE2C4B551B1C607B00691331 /* PointObject.cpp in Sources */,
 				F105A8791AF1F5AA0044CCEE /* BGTMap.cpp in Sources */,
 				F105A8951AF1F60C0044CCEE /* GameEntity.cpp in Sources */,
+				F14A1CDE1B203B640009E00B /* DropState.cpp in Sources */,
 				DE2C4B591B1C60A200691331 /* BagLayer.cpp in Sources */,
 				DE2C4B561B1C608600691331 /* TalentPoint.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,

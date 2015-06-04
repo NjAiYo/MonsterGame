@@ -8,7 +8,7 @@
 
 #include "QTELayer.h"
 #include "BGTWorld.h"
-
+#include "AppDelegate.h"
 
 
 QTELayer::QTELayer()
@@ -34,6 +34,8 @@ bool QTELayer::initWithWorld(BGTWorld *w)
     addChild(bgLayer);
     
     Size size = Director::getInstance()->getWinSize();
+    AppDelegate *app = (AppDelegate*)Application::getInstance();
+    float scaleFactory = app->scaleFactory;
     
     Sprite *bg = Sprite::create("qteBg.png");
     addChild(bg);
@@ -49,7 +51,7 @@ bool QTELayer::initWithWorld(BGTWorld *w)
     
     Sprite *avatarBg = Sprite::createWithSpriteFrameName("qteHeroAvatarBg.png");
     addChild(avatarBg);
-    avatarBg->setPosition(230,size.height-160);
+    avatarBg->setPosition(230*scaleFactory,size.height-160*scaleFactory);
     Sprite *avatar = Sprite::createWithSpriteFrameName("heroAvatarQTE.png");
     avatarBg->addChild(avatar);
     avatar->setPosition(avatarBg->getContentSize().width/2,avatarBg->getContentSize().height/2);
@@ -57,14 +59,14 @@ bool QTELayer::initWithWorld(BGTWorld *w)
     
     avatarBg = Sprite::createWithSpriteFrameName("qteMonsterAvatarBg.png");
     addChild(avatarBg);
-    avatarBg->setPosition(size.width-230,size.height-160);
+    avatarBg->setPosition(size.width-230*scaleFactory,size.height-160*scaleFactory);
     avatar = Sprite::createWithSpriteFrameName("monster2AvatarQTE.png");
     avatarBg->addChild(avatar);
     avatar->setPosition(avatarBg->getContentSize().width/2,avatarBg->getContentSize().height/2);
     
     bar = Sprite::createWithSpriteFrameName("qteBarFrame.png");
     addChild(bar);
-    bar->setPosition(size.width/2,size.height-120);
+    bar->setPosition(size.width/2,size.height-120*scaleFactory);
     
 
     progressBar = ProgressTimer::create(Sprite::createWithSpriteFrameName("qteBar.png"));

@@ -53,6 +53,7 @@ bool WaveManager::init()
         data->type = arrayNotes[i]["type"].asInt();
         data->attackSpeed = arrayNotes[i]["attackSpeed"].asFloat();
         data->moveSpeed = arrayNotes[i]["moveSpeed"].asInt();
+        data->arrowMoveSpeed = arrayNotes[i]["arrowMoveSpeed"].asInt();
         data->defense = arrayNotes[i]["defense"].asInt();
         data->attackRange = arrayNotes[i]["attackRange"].asInt();
         data->damage = arrayNotes[i]["damage"].asInt();
@@ -63,6 +64,9 @@ bool WaveManager::init()
         data->gedang = arrayNotes[i]["gedang"].asFloat();
         data->shanbi = arrayNotes[i]["shanbi"].asFloat();
         data->canQTE = arrayNotes[i]["canQTE"].asBool();
+        data->isflyer = arrayNotes[i]["isflyer"].asBool();
+        data->isyuanchen = arrayNotes[i]["isyuanchen"].asBool();
+        data->isjumper = arrayNotes[i]["isjumper"].asBool();
         
         Json::Value dropItems = arrayNotes[i]["dropItems"];
         for(int j = 0; j < dropItems.size(); j++){

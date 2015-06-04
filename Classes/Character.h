@@ -29,6 +29,7 @@
 #include "FlowState.h"
 #include "MonsterData.h"
 #include "SkillState.h"
+#include "DropState.h"
 
 class BGTWall;
 
@@ -60,6 +61,7 @@ protected:
     FlowState *flowState;
     DefenseState *defenseState;
     SkillState *skillState;
+    DropState *dropState;
     
     MessageDispatcher *dispatcher;
     
@@ -95,7 +97,7 @@ protected:
     Label* getBaoDamageLabelFromPool();
     Label* getMissLabelFromPool();
     
-    bool  isRemoteSoldier;
+    
     bool paused;
     
     //多少秒后开始放技能5 - 30
@@ -106,7 +108,7 @@ protected:
     bool skilled;
     float showLifeBarTime;
     float characterScaleFactor;
-    bool canfly;
+    
     
     
     BGTWall *wall;
@@ -143,7 +145,9 @@ public:
     
     bool hittestPoint(Vec2 p);
     bool canSkill();
-    bool isCanFly();
+    bool isflyer();
+    bool isyuanchen();
+    bool isjumper();
     
     void hitted();
     float getFloor();
@@ -191,6 +195,8 @@ public:
     void pause();
     void resume();
     
+    void drop();
+    
 
     virtual void takeDamage(float damage,Vec2 pos,bool isBaoJi=false);
     
@@ -227,8 +233,6 @@ public:
 //    virtual void setDamage(float d);
     float getDamage();
     
-    virtual void setIsRemoteSoldier(bool d);
-    bool getIsRemoteSoldier();
     
 //    virtual void setAttackRange(float d);
     float getAttackRange();

@@ -1,1 +1,487 @@
-{"monsters":[{"name":"小僵尸","description":"小僵尸","life":100,"type":0,"canQTE":false,"attackSpeed":1,"moveSpeed":30,"defense":0,"damage":1,"gedang":0,"baoshang":2,"attackRange":200,"baoji":0,"shanbi":0,"ep":1,"level":1,"dropItems":["soul001","cl001","cl002","cl004","cl003"],"hitRect":{"x":-91,"y":-22,"width":197,"height":316},"anchorPoint":{"x":0.470873786407767,"y":0.10000000000000012}},{"name":"小幽灵","description":"小幽灵","life":100,"type":1,"canQTE":false,"attackSpeed":1,"moveSpeed":30,"defense":0,"damage":1,"gedang":0,"baoshang":2,"attackRange":200,"baoji":0,"shanbi":0,"ep":1,"level":1,"dropItems":["cl013","soul004"],"hitRect":{"x":-154,"y":52,"width":224,"height":258.7},"anchorPoint":{"x":0.54,"y":-0.02541254125412556}},{"name":"无头俑","description":"无头俑","life":1000,"type":2,"canQTE":true,"attackSpeed":0.5,"moveSpeed":20,"defense":0,"damage":1,"gedang":0,"baoshang":2,"attackRange":200,"baoji":0.1,"shanbi":0,"ep":1,"level":1,"dropItems":["cl010"],"hitRect":{"x":-146,"y":-20,"width":379.5,"height":348},"anchorPoint":{"x":0.5397163120567375,"y":0.135}},{"name":"大僵尸","description":"大僵尸","life":300,"type":3,"canQTE":false,"attackSpeed":1,"moveSpeed":60,"defense":10,"damage":1,"gedang":0,"baoshang":2.5,"attackRange":250,"baoji":0.1,"shanbi":0,"ep":100,"level":5,"dropItems":["cl001","cl002","cl003","cl004","cl017","soul006"],"hitRect":{"x":-210.5,"y":-33,"width":436,"height":509},"anchorPoint":{"x":0.48731501057082455,"y":0.0637065637065637}}],"levels":[{"id":0,"waves":[{"troops":[{"beginTime":1,"endTime":1,"timeMode":0,"positionMode":0,"monsterTypeMode":0,"typesForRandom":[0],"units":[{"isRandomPosition":false,"type":2,"x":182,"y":14}]},{"beginTime":8,"endTime":-8.199999999999994,"timeMode":0,"positionMode":0,"monsterTypeMode":0,"typesForRandom":[],"units":[{"isRandomPosition":false,"type":2,"x":180,"y":376}]},{"beginTime":16.6,"endTime":26.59999999999999,"timeMode":2,"positionMode":1,"monsterTypeMode":0,"typesForRandom":[],"units":[{"isRandomPosition":false,"type":0,"x":380,"y":330},{"isRandomPosition":false,"type":0,"x":186,"y":118}]},{"beginTime":36.1,"endTime":13.400000000000002,"timeMode":0,"positionMode":0,"monsterTypeMode":1,"typesForRandom":[],"units":[{"isRandomPosition":false,"type":0,"x":168,"y":224}]},{"beginTime":47.5,"endTime":57.49999999999999,"timeMode":1,"positionMode":0,"monsterTypeMode":0,"typesForRandom":[],"units":[{"isRandomPosition":false,"type":0,"x":314,"y":252},{"isRandomPosition":false,"type":0,"x":162,"y":92}]},{"beginTime":26.2,"endTime":9.9,"timeMode":0,"positionMode":0,"monsterTypeMode":0,"typesForRandom":[],"units":[{"isRandomPosition":false,"type":3,"x":370,"y":120}]}]},{"troops":[{"beginTime":0.4,"endTime":-0.8999999999999999,"timeMode":0,"positionMode":0,"monsterTypeMode":0,"typesForRandom":[],"units":[{"isRandomPosition":false,"type":0,"x":168,"y":256}]},{"beginTime":8.8,"endTime":2.6000000000000005,"timeMode":0,"positionMode":1,"monsterTypeMode":0,"typesForRandom":[],"units":[{"isRandomPosition":false,"type":0,"x":278,"y":268}]},{"beginTime":20.5,"endTime":9.2,"timeMode":0,"positionMode":1,"monsterTypeMode":0,"typesForRandom":[],"units":[{"isRandomPosition":false,"type":0,"x":384,"y":258}]},{"beginTime":32.2,"endTime":10.900000000000002,"timeMode":0,"positionMode":0,"monsterTypeMode":0,"typesForRandom":[],"units":[{"isRandomPosition":false,"type":0,"x":300,"y":220},{"isRandomPosition":false,"type":0,"x":130,"y":92},{"isRandomPosition":false,"type":0,"x":416,"y":68}]},{"beginTime":45.1,"endTime":4.300000000000004,"timeMode":0,"positionMode":0,"monsterTypeMode":0,"typesForRandom":[],"units":[{"isRandomPosition":false,"type":0,"x":300,"y":220}]}]}]},{"id":1,"waves":[{"troops":[{"beginTime":2.1,"endTime":-1,"timeMode":0,"positionMode":0,"monsterTypeMode":0,"typesForRandom":[],"units":[{"isRandomPosition":false,"type":0,"x":281,"y":229}]},{"beginTime":11.3,"endTime":-1,"timeMode":0,"positionMode":0,"monsterTypeMode":0,"typesForRandom":[],"units":[{"isRandomPosition":false,"type":0,"x":300,"y":220}]}]},{"troops":[{"beginTime":2.6,"endTime":-1,"timeMode":0,"positionMode":0,"monsterTypeMode":0,"typesForRandom":[],"units":[{"isRandomPosition":false,"type":0,"x":184,"y":283}]},{"beginTime":12.4,"endTime":-1,"timeMode":0,"positionMode":0,"monsterTypeMode":0,"typesForRandom":[],"units":[{"isRandomPosition":false,"type":0,"x":278,"y":222}]}]}]}]}
+{
+    "monsters": [
+        {
+            "name": "小僵尸",
+            "description": "小僵尸",
+            "life": 100,
+            "type": 0,
+            "canQTE": false,
+            "isflyer": false,
+            "isjumper": false,
+            "isyuanchen": false,
+            "attackSpeed": 1,
+            "arrowMoveSpeed": 10,
+            "moveSpeed": 30,
+            "defense": 0,
+            "damage": 0,
+            "gedang": 0,
+            "baoshang": 2,
+            "attackRange": 200,
+            "baoji": 0,
+            "shanbi": 0,
+            "ep": 1,
+            "level": 1,
+            "dropItems": [
+                "soul001",
+                "cl001",
+                "cl002",
+                "cl004",
+                "cl003"
+            ],
+            "hitRect": {
+                "x": -91,
+                "y": -22,
+                "width": 197,
+                "height": 316
+            },
+            "anchorPoint": {
+                "x": 0.470873786407767,
+                "y": 0.10000000000000012
+            }
+        },
+        {
+            "name": "小幽灵",
+            "description": "小幽灵",
+            "life": 100,
+            "type": 1,
+            "canQTE": false,
+            "isflyer": false,
+            "isyuanchen": false,
+            "isjumper": false,
+            "attackSpeed": 1,
+            "moveSpeed": 30,
+            "arrowMoveSpeed": 10,
+            "defense": 0,
+            "damage": 0,
+            "gedang": 0,
+            "baoshang": 2,
+            "attackRange": 200,
+            "baoji": 0,
+            "shanbi": 0,
+            "ep": 1,
+            "level": 1,
+            "dropItems": [
+                "cl013",
+                "soul004"
+            ],
+            "hitRect": {
+                "x": -154,
+                "y": 52,
+                "width": 224,
+                "height": 258.7
+            },
+            "anchorPoint": {
+                "x": 0.54,
+                "y": -0.02541254125412556
+            }
+        },
+        {
+            "name": "无头俑",
+            "description": "无头俑",
+            "life": 1000,
+            "type": 2,
+            "canQTE": true,
+            "isflyer": false,
+            "isyuanchen": false,
+            "isjumper": false,
+            "attackSpeed": 0.5,
+            "arrowMoveSpeed": 10,
+            "moveSpeed": 20,
+            "defense": 0,
+            "damage": 0,
+            "gedang": 0,
+            "baoshang": 2,
+            "attackRange": 200,
+            "baoji": 0.1,
+            "shanbi": 0,
+            "ep": 1,
+            "level": 1,
+            "dropItems": [
+                "cl010"
+            ],
+            "hitRect": {
+                "x": -146,
+                "y": -20,
+                "width": 379.5,
+                "height": 348
+            },
+            "anchorPoint": {
+                "x": 0.5397163120567375,
+                "y": 0.135
+            }
+        },
+        {
+            "name": "大僵尸",
+            "description": "大僵尸",
+            "life": 300,
+            "type": 3,
+            "canQTE": false,
+            "isflyer": false,
+            "isyuanchen": false,
+            "isjumper": false,
+            "attackSpeed": 1,
+            "moveSpeed": 60,
+            "arrowMoveSpeed": 10,
+            "defense": 10,
+            "damage": 0,
+            "gedang": 0,
+            "baoshang": 2.5,
+            "attackRange": 250,
+            "baoji": 0.1,
+            "shanbi": 0,
+            "ep": 100,
+            "level": 5,
+            "dropItems": [
+                "cl001",
+                "cl002",
+                "cl003",
+                "cl004",
+                "cl017",
+                "soul006"
+            ],
+            "hitRect": {
+                "x": -210.5,
+                "y": -33,
+                "width": 436,
+                "height": 509
+            },
+            "anchorPoint": {
+                "x": 0.48731501057082455,
+                "y": 0.0637065637065637
+            }
+        },
+        {
+            "name": "舔食者",
+            "description": "舔食者",
+            "life": 100,
+            "type": 4,
+            "canQTE": false,
+            "isflyer": false,
+            "isyuanchen": true,
+            "isjumper": true,
+            "attackSpeed": 1,
+            "arrowMoveSpeed": 100,
+            "moveSpeed": 100,
+            "defense": 0,
+            "damage": 0,
+            "gedang": 0,
+            "baoshang": 2,
+            "attackRange": 2000,
+            "baoji": 0,
+            "shanbi": 0,
+            "ep": 1,
+            "level": 1,
+            "dropItems": [],
+            "hitRect": {
+                "x": -100,
+                "y": -200,
+                "width": 200,
+                "height": 400
+            },
+            "anchorPoint": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    ],
+    "levels": [
+        {
+            "id": 0,
+            "waves": [
+                {
+                    "troops": [
+                        {
+                            "beginTime": 1,
+                            "endTime": 1,
+                            "timeMode": 0,
+                            "positionMode": 0,
+                            "monsterTypeMode": 0,
+                            "typesForRandom": [
+                                0
+                            ],
+                            "units": [
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 2,
+                                    "x": 182,
+                                    "y": 14
+                                }
+                            ]
+                        },
+                        {
+                            "beginTime": 8,
+                            "endTime": -8.199999999999994,
+                            "timeMode": 0,
+                            "positionMode": 0,
+                            "monsterTypeMode": 0,
+                            "typesForRandom": [],
+                            "units": [
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 2,
+                                    "x": 180,
+                                    "y": 376
+                                },
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 4,
+                                    "x": 188,
+                                    "y": 158
+                                }
+                            ]
+                        },
+                        {
+                            "beginTime": 16.6,
+                            "endTime": 26.59999999999999,
+                            "timeMode": 2,
+                            "positionMode": 1,
+                            "monsterTypeMode": 0,
+                            "typesForRandom": [],
+                            "units": [
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 0,
+                                    "x": 380,
+                                    "y": 330
+                                },
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 0,
+                                    "x": 186,
+                                    "y": 118
+                                }
+                            ]
+                        },
+                        {
+                            "beginTime": 36.1,
+                            "endTime": 13.400000000000002,
+                            "timeMode": 0,
+                            "positionMode": 0,
+                            "monsterTypeMode": 1,
+                            "typesForRandom": [],
+                            "units": [
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 0,
+                                    "x": 168,
+                                    "y": 224
+                                }
+                            ]
+                        },
+                        {
+                            "beginTime": 47.5,
+                            "endTime": 57.49999999999999,
+                            "timeMode": 1,
+                            "positionMode": 0,
+                            "monsterTypeMode": 0,
+                            "typesForRandom": [],
+                            "units": [
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 0,
+                                    "x": 314,
+                                    "y": 252
+                                },
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 0,
+                                    "x": 162,
+                                    "y": 92
+                                }
+                            ]
+                        },
+                        {
+                            "beginTime": 26.2,
+                            "endTime": 9.9,
+                            "timeMode": 0,
+                            "positionMode": 0,
+                            "monsterTypeMode": 0,
+                            "typesForRandom": [],
+                            "units": [
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 3,
+                                    "x": 370,
+                                    "y": 120
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "troops": [
+                        {
+                            "beginTime": 0.4,
+                            "endTime": -0.8999999999999999,
+                            "timeMode": 0,
+                            "positionMode": 0,
+                            "monsterTypeMode": 0,
+                            "typesForRandom": [],
+                            "units": [
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 0,
+                                    "x": 168,
+                                    "y": 256
+                                }
+                            ]
+                        },
+                        {
+                            "beginTime": 8.8,
+                            "endTime": 2.6000000000000005,
+                            "timeMode": 0,
+                            "positionMode": 1,
+                            "monsterTypeMode": 0,
+                            "typesForRandom": [],
+                            "units": [
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 0,
+                                    "x": 278,
+                                    "y": 268
+                                }
+                            ]
+                        },
+                        {
+                            "beginTime": 20.5,
+                            "endTime": 9.2,
+                            "timeMode": 0,
+                            "positionMode": 1,
+                            "monsterTypeMode": 0,
+                            "typesForRandom": [],
+                            "units": [
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 0,
+                                    "x": 384,
+                                    "y": 258
+                                }
+                            ]
+                        },
+                        {
+                            "beginTime": 32.2,
+                            "endTime": 10.900000000000002,
+                            "timeMode": 0,
+                            "positionMode": 0,
+                            "monsterTypeMode": 0,
+                            "typesForRandom": [],
+                            "units": [
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 0,
+                                    "x": 300,
+                                    "y": 220
+                                },
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 0,
+                                    "x": 130,
+                                    "y": 92
+                                },
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 0,
+                                    "x": 416,
+                                    "y": 68
+                                }
+                            ]
+                        },
+                        {
+                            "beginTime": 45.1,
+                            "endTime": 4.300000000000004,
+                            "timeMode": 0,
+                            "positionMode": 0,
+                            "monsterTypeMode": 0,
+                            "typesForRandom": [],
+                            "units": [
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 0,
+                                    "x": 300,
+                                    "y": 220
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "waves": [
+                {
+                    "troops": [
+                        {
+                            "beginTime": 2.1,
+                            "endTime": -1,
+                            "timeMode": 0,
+                            "positionMode": 0,
+                            "monsterTypeMode": 0,
+                            "typesForRandom": [],
+                            "units": [
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 0,
+                                    "x": 281,
+                                    "y": 229
+                                }
+                            ]
+                        },
+                        {
+                            "beginTime": 11.3,
+                            "endTime": -1,
+                            "timeMode": 0,
+                            "positionMode": 0,
+                            "monsterTypeMode": 0,
+                            "typesForRandom": [],
+                            "units": [
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 0,
+                                    "x": 300,
+                                    "y": 220
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "troops": [
+                        {
+                            "beginTime": 2.6,
+                            "endTime": -1,
+                            "timeMode": 0,
+                            "positionMode": 0,
+                            "monsterTypeMode": 0,
+                            "typesForRandom": [],
+                            "units": [
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 0,
+                                    "x": 184,
+                                    "y": 283
+                                }
+                            ]
+                        },
+                        {
+                            "beginTime": 12.4,
+                            "endTime": -1,
+                            "timeMode": 0,
+                            "positionMode": 0,
+                            "monsterTypeMode": 0,
+                            "typesForRandom": [],
+                            "units": [
+                                {
+                                    "isRandomPosition": false,
+                                    "type": 0,
+                                    "x": 278,
+                                    "y": 222
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

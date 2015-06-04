@@ -19,6 +19,10 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
+//class ComboLabel : public Node{
+//    
+//};
+
 class GameScene;
 
 class UILayer : public cocos2d::Layer
@@ -45,7 +49,8 @@ private:
     PauseLayer *pausedLayer;
     FilteredSprite* blursprite;
     //Label *scorelabel;
-    Layer *comboLayer;
+    Sprite *comboLayer;
+    Sprite *comboRateSprite;
     Label *playerLevelLabel;
     Label *coinLabel;
     Label *comboLabel;
@@ -123,6 +128,7 @@ public:
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool initWithGameScene(GameScene *gs);
     UILayer();
+    ~UILayer();
 //    // implement the "static create()" method manually
 //    CREATE_FUNC(UILayer);
     

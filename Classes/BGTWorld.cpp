@@ -644,12 +644,21 @@ void BGTWorld::update(float dt)
             if (unit->outTime <= (timePast-1)) {
                 Character *monster = getIdleEnemyByTypeFromPool(unit->outType);
                 float y = bottomPositionYForMonster+unit->outPosition.y;
+                float floorY = y;
+                if (monster->isjumper()) {
+                    y = size.height + 200;
+                }
                 monster->reset();
                 monster->setPosition(Vec2(size.width+unit->outPosition.x+50, y));
-                monster->setFloor(y);
+                monster->setFloor(floorY);
                 monster->setLocalZOrder(9999-y);
                 monster->setVisible(true);
-                monster->move();
+                if (monster->isjumper()) {
+                    monster->drop();
+                }else{
+                    monster->move();
+                }
+                
                 unit->outed = true;
                 waveEnemyNumLeftToBeOut--;
                 if(waveEnemyNumLeftToBeOut<=0){
@@ -659,9 +668,9 @@ void BGTWorld::update(float dt)
                 Sprite *shadow = getIdleShadowFromPool();
                 shadow->setVisible(true);
                 shadow->setTag(monster->getID());
-                shadow->setPosition(monster->getPositionX(),monster->getPositionY());
+                shadow->setPosition(monster->getPositionX(),monster->getFloor());
                 
-                log("put monster to field:type=%d,x=%f,y=%f,time=%f",unit->outType,unit->outPosition.x,unit->outPosition.y,unit->outTime);
+                //log("put monster to field:type=%d,x=%f,y=%f,time=%f",unit->outType,unit->outPosition.x,unit->outPosition.y,unit->outTime);
                 std::sort(monsterPool.begin(), monsterPool.end(), [](Node* a, Node* b){
                     return a->getLocalZOrder() >= b->getLocalZOrder();
                 });

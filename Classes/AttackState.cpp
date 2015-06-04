@@ -120,7 +120,7 @@ bool AttackState::onMessage(Character* agent, const Telegram& msg)
         Weapon *weapon = (Weapon*)GameEntityManager::getInstance()->getEntityFromID(msg.sender);
         MonsterData *data = agent->getMonsterData();
         //刀打空中怪物，枪打地上怪物可能触发闪避
-        if ((data->shanbi > 0 && weapon->getType() == WeaponTypeKnife && agent->isCanFly()) || (data->shanbi > 0 && weapon->getType() == WeaponTypePistol && !agent->isCanFly())) {
+        if ((data->shanbi > 0 && weapon->getType() == WeaponTypeKnife && agent->isflyer()) || (data->shanbi > 0 && weapon->getType() == WeaponTypePistol && !agent->isflyer())) {
             float value = CCRANDOM_0_1();
             if (value <= data->shanbi) {
                 //闪避
